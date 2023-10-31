@@ -1,9 +1,12 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./layouts/Home";
-import Payment from "./layouts/Others/Payment";
-import PetRoutes from "./layouts/pets/PetRoutes";
-import AuthRoutes from "./layouts/pets/AuthRoutes";
-import NotFound from "./layouts/NotFound";
+
+const Home = React.lazy(() => import("./layouts/Home"));
+const PetRoutes = React.lazy(() => import("./layouts/pets/PetRoutes"));
+const NotFound = React.lazy(() => import("./layouts/NotFound"));
+const Payment = React.lazy(() => import("./layouts/Others/Payment"));
+const AuthRoutes = React.lazy(() => import("./layouts/pets/AuthRoutes"));
+
 function App() {
   return (
     <div>

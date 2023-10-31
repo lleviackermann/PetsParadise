@@ -1,8 +1,11 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "../auth/Login";
-import SignUp from "../auth/SignUp";
-import ForgotPassword from "../auth/ForgotPassword";
-import NotFound from "../NotFound";
+
+const Login = React.lazy(() => import("../auth/Login"));
+const SignUp = React.lazy(() => import("../auth/SignUp"));
+const ForgotPassword = React.lazy(() => import("../auth/ForgotPassword"));
+const NotFound = React.lazy(() => import("../NotFound"));
+
 function AuthRoutes() {
   return (
     <Routes>

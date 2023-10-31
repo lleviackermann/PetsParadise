@@ -1,13 +1,16 @@
+import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import Dogs from "./Dogs";
-import Cats from "./Cats";
-import Birds from "./Birds";
-import Fish from "./Fish";
-import Products from "./Products";
-import Services from "./Services";
-import VetCare from "./VetCare";
-import PetFood from "./PetFood";
-import NotFound from "../NotFound";
+
+const Dogs = React.lazy(() => import("./Dogs"));
+const Cats = React.lazy(() => import("./Cats"));
+const Birds = React.lazy(() => import("./Birds"));
+const Fish = React.lazy(() => import("./Fish"));
+const Products = React.lazy(() => import("./Products"));
+const Services = React.lazy(() => import("./Services"));
+const VetCare = React.lazy(() => import("./VetCare"));
+const PetFood = React.lazy(() => import("./PetFood"));
+const NotFound = React.lazy(() => import("../NotFound"));
+
 function PetRoutes() {
   return (
     <div>
