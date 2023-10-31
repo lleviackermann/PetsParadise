@@ -21,7 +21,7 @@ const orderSchema = new Schema(
         type: String,
         default: "Pending",
     },
-    deliveryId: {
+    employeeId: {
         type: Schema.Types.ObjectId,
         ref: "Employee",
     }

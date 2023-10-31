@@ -7,7 +7,6 @@ const productSchema = new mongoose.Schema({
     src: String,
     productType: String,
     petType: String,
-    productDetails: productDetails
 })
 
 module.exports = mongoose.model("Product", productSchema)

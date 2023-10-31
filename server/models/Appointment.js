@@ -12,12 +12,12 @@ const appointmentSchema = new Schema({
     type: String,
     default: "Pending",
   },
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  vet: {
+  vetId: {
     type: Schema.Types.ObjectId,
     ref: 'Employee',
     required: true,
