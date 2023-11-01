@@ -36,4 +36,6 @@ const countSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Count", countSchema);
+const Count = mongoose.model("Count", countSchema);
+
+export default Count;

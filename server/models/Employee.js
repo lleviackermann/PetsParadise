@@ -5,16 +5,36 @@ const employeeSchema = new Schema({
     name: {
         type: String,
         required: true
-    }, userName: {
+    }, userId: {
         type: String,
+        unique: true,
         required: true
+    }, email : {
+        type: String,
+        required: true,
+        max: 50,
+        unique: true,
     }, password: {
         type: String,
         required: true
     }, role: {
         type: String,
         required: true
-    }
+    }, appointments: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Appointment',
+        }],
+        default: [],
+    }, orders: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Order',
+        }],
+        default: [],
+    },
 })
 
-module.exports = mongoose.model('Employee', employeeSchema);
+const Employee = mongoose.model('Employee', employeeSchema);
+
+export default Employee;

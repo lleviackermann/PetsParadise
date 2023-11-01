@@ -12,4 +12,6 @@ const announcement = new Schema({
     }
 })
 
-module.exports = mongoose.model('Announcement', announcement);
+const Announcement = mongoose.model('Announcement', announcement);
+
+export default Announcement;

@@ -27,18 +27,31 @@ const UserSchema = new Schema(
       required: true,
       min: 5,
     },
-    cart: [{
+    picturePath: {
+      type: String,
+      default: "",
+    },
+    cart: {
+      type: [{
         type: Schema.Types.ObjectId,
         ref: 'Product',
-    }],
-    appointments: [{
+      }],
+      default: [],
+    },
+    appointments: {
+      type: [{
         type: Schema.Types.ObjectId,
         ref: 'Appointment',
-    }],
-    orders: [{
+      }],
+      default: [],
+    },
+    orders: {
+      type: [{
         type: Schema.Types.ObjectId,
         ref: 'Order',
-    }],
+      }],
+      default: [],
+    },
   },
   { timestamps: true }
 );

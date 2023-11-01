@@ -18,15 +18,23 @@ const orderSchema = new Schema(
       required: true,
     },
     assigned: {
-        type: String,
-        default: "Pending",
+      type: String,
+      default: "Pending",
     },
     employeeId: {
-        type: Schema.Types.ObjectId,
-        ref: "Employee",
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+    }, amount: {
+      type: Number,
+      required: true,
+    }, quantity: {
+      type: Number,
+      default: 1,
     }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+
+export default Order;
