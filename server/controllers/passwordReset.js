@@ -38,11 +38,8 @@ export const validateAndOtpSender = async (req, res) => {
 
 export const validateOtp = async(req, res) => {
     try {
-        console.log("hi")
         const { email, otpNumber } = req.body;
-        console.log(email, otpNumber);
         const otp = await Otp.findOne({ email: email, otpNumber: otpNumber});
-        console.log(otp);
         if(!otp) return res.status(401).json({ msg: "Invalid Otp! "});
 
         // await Otp.findOneAndDelete({ email: email, otpNumber: otpNumber });
@@ -57,7 +54,6 @@ export const changePassword = async(req, res) => {
     try {
         const { flag, email, password } = req.body;
         let person;
-        console.log(flag, email, password);
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
         if (flag === "Admin") {
@@ -67,7 +63,6 @@ export const changePassword = async(req, res) => {
         } else if (flag === "User") {
             person = await User.findOneAndUpdate({ email: email }, { password: passwordHash});
         }
-        console.log(person);
         return res.status(200).json({ msg: "Password changed successfully! "});
     } catch(error) {
         return res.status(501).json({ error: error });
