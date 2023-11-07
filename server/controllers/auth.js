@@ -30,25 +30,6 @@ export const registerUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
-}
-
-// User Login
-export const loginUser = async (req, res) => {
-    try {
-        const { userId, password } = req.body;
-        console.log(userId);
-        const user = await User.findOne({ email: userId });
-        if (!user) return res.status(400).json({ msg: "User does not exist. " });
-
-        const matched = bcrypt.compareSync(password, user.password);
-        if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        user.password = ""
-        return res.status(200).json({ token, user });
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
 };
 
 // Register Employee
@@ -77,25 +58,6 @@ export const registerEmployee = async (req, res) => {
         return res.status(201).json(savedEmployee);
     } catch (error) {
         return res.status(500).json({ error: error.message });
-    }
-}
-
-// Employee Login
-export const loginEmployee = async (req, res) => {
-    try {
-        const { employeeId, password } = req.body;
-        console.log(employeeId);
-        const employee = await Employee.findOne({ employeeId: employeeId });
-        if (!employee) return res.status(400).json({ msg: "Employee does not exist. " });
-
-        const matched = bcrypt.compareSync(password, employee.password);
-        if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
-
-        const token = jwt.sign({ id: employee._id }, process.env.JWT_SECRET);
-        employee.password = ""
-        return res.status(200).json({ token, employee });
-    } catch (error) {
-        return res.status(500).json({ error: error });
     }
 };
 
@@ -127,23 +89,26 @@ export const registerAdmin = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
-}
+};
 
-// Admin Login 
-export const loginAdmin = async (req, res) => {
-    try {
-        const { adminId, password } = req.body;
-        console.log(adminId);
-        const admin = await Admin.findOne({ adminId: adminId });
-        if (!admin) return res.status(400).json({ msg: "Admin does not exist. " });
+// Login 
+export const login = async (req, res) => {
+    const { flag, userId, password } = req.body;
 
-        const matched = bcrypt.compareSync(password, admin.password);
-        if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
-
-        const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET);
-        admin.password = ""
-        return res.status(200).json({ token, admin });
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
+    let person;
+    if (flag == "Admin") {
+        person = await Admin.findOne({ adminId: userId });
+    } else if (flag == "Employee") {
+        person = await Employee.findOne({ employeeId: userId });
+    } else if (flag == "User") {
+        person = await User.findOne({ email: userId });
     }
+
+    if (!person) return res.status(400).json({ msg: "User does not exist. " });
+    const matched = bcrypt.compareSync(password, person.password);
+    if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
+
+    const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
+    person.password = ""
+    return res.status(200).json({ token, person });
 };
