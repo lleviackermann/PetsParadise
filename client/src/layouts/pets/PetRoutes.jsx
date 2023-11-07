@@ -8,7 +8,7 @@ const Fish = React.lazy(() => import("./Fish"));
 const Products = React.lazy(() => import("./Products"));
 const Services = React.lazy(() => import("./Services"));
 const VetCare = React.lazy(() => import("./VetCare"));
-const PetFood = React.lazy(() => import("./PetFood"));
+const PetFood = React.lazy(() => import("./petsFood/PetFood"));
 const NotFound = React.lazy(() => import("../NotFound"));
 
 function PetRoutes() {
@@ -22,7 +22,7 @@ function PetRoutes() {
         <Route path="/services" element={<Services />} />
         <Route path="/products" element={<Products />} />
         <Route path="/vetcare" element={<VetCare />} />
-        <Route path="/petfoods" element={<PetFood />} />
+        <Route path="/petsFood/petfoods" element={<PetFood />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Outlet></Outlet>
