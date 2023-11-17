@@ -11,14 +11,12 @@ import ServicesSection from './ServicesSection';
 export default function LandingPage() {
   return (
     <div>
-      <Navbar />
       <HomeSection />
       <AboutSection />
       <ServicesSection />
       <PackageSection />
       <AppointmentSection />
       <GallerySection />
-      <Footer />
     </div>
   );
 }

@@ -1,12 +1,12 @@
-import NavBar from "./NavBar";
-import Footer from "../Layout/Footer";
+import NavBar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Layout(props) {
   return (
     <>
-      {/* <NavBar /> */}
+      <NavBar />
       <main>{props.children}</main>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

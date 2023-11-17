@@ -1,36 +1,64 @@
-const Appointment =()=>{
-    return(
-        <section className="appointment" id="appointment">
+import { useState } from "react";
+
+function AppointmentSection() {
+
+const [pack, setPack] = useState('');
+const [num, setNum] = useState('');
+const [date, setDate] = useState('');
+const [time, setTime] = useState('');
+
+const SelectPack = (event) => {
+  setPack(event.target.value);
+}
+const SelectNum = (event) => {
+  setNum(event.target.value);
+}
+const SelectDate = (event) => {
+  setDate(event.target.value);
+}
+const SelectTime = (event) => {
+  setTime(event.target.value);
+}
+const SubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(pack,num,date,time);
+}
+
+  return (
+    <section className="appointment" id="appointment">
       <div className="appointment-content">
         <div className="section-title">
-          <h1 className="app">MAKE An Appointment Here</h1>
-          <span>BOOK An Appointment Of Your Choice</span>
+          <h1>Appointment</h1>
+          <span>book at your convenience</span>
         </div>
         <div className="form-content">
-          <form action="/vet-care/appointment" method="post">
-            <label htmlFor="selpack" className="app-headings">Choose veterinarian<span className="star">*</span>:</label><br />
-            <select name="selpack" id="sel-pack">
-              <option value="Hemanth">Dr k.Hemanth</option>
-              <option value="Ritika">Dr k.Ritika</option>
-              <option value="Ramchander">Dr N.Ramchander Rao</option>
-              <option value="Abhishek">Dr .Abhishek</option>
+          <form action="services/appointment" onSubmit={SubmitHandler}>
+            <label htmlFor="selpack">Select the package you want: </label>
+            <select name="selpack" id="selpack" onChange={SelectPack}>
+              <option value="">Select package</option>
+              <option value="299">BRONZE</option>
+              <option value="499">SILVER</option>
+              <option value="999">GOLD</option>
+              <option value="1299">DIAMOND</option>
             </select>
             <br />
-            <label htmlFor="selnum" className="app-headings">Select the number of pets <span className="star">*</span>:</label><br />
-            <input type="number" name="selmun" id="sel-num" min="1" value="1" />
+            <label htmlFor="selnum">Select the number of pets: </label>
+            <input type="number" name="selnum" id="selnum" min="1" defaultValue="1" onChange={SelectNum}/>
             <br />
-            <label htmlFor="seldate" className="app-headings">Select a date for your appointment <span className="star">*</span>:</label><br />
-            <input type="date" name="seldate" id="sel-date" />
+            <label htmlFor="seldate">Select the date of your appointment: </label>
+            <input type="date" name="seldate" id="seldate" onChange={SelectDate}/>
             <br />
-            <label htmlFor="seltime" className="app-headings">Select the time of your appointment <span className="star">*</span>:</label><br />
-            <input type="time" name="seltime" id="sel-time" />
+            <label htmlFor="seltime">Select the time of your appointment: </label>
+            <input type="time" name="seltime" id="seltime" onChange={SelectTime}/>
             <br />
-            <button type="submit" className="a-app">BOOK Your appointment</button>
+            <button type="submit" className="btn a-app">
+              Confirm appointment
+            </button>
           </form>
         </div>
       </div>
     </section>
-    );
+  );
 }
 
-export default Appointment;
+export default AppointmentSection;

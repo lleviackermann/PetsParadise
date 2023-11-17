@@ -12,11 +12,11 @@ const PackageSection = () => {
         </div>
         <div className="package-cards">
           {servicesImages.packages.map((data,index) => (
-            <div key={index} className="card">
-            <div className="card-title">
+            <div key={index} className="Pack-card">
+            <div className="service-card-title">
               <h1>{data.name}</h1>
             </div>
-            <div className="card-items">
+            <div className="service-card-items">
               {servicesImages.packNames.map((items,itemIndex) => (
                 <div key={itemIndex} className="item">
                 <p>

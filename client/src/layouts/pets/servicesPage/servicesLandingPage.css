@@ -405,33 +405,33 @@ section .container .home-content{
     margin-top: 4rem;
 }
 
-.card{
+.Pack-card{
     background-color: var(--white-color);
     box-shadow: 8px 8px 16px rgba(0,0,0,0.25);
     border-radius: 30px;
     padding: 2.4rem;
     margin: 10px auto;
     transition: all 0.4s ease-in-out;
-
+    width: 320px;
 }
 
-.card:hover{
+.Pack-card:hover{
     transform: scale(1.1);
 }
 
-.card-title{
+.service-card-title{
     text-align: center;
     margin-bottom: 2.4rem;
 }
 
-.card-title h1{
+.service-card-title h1{
     font-weight: bold;
     font-size: var(--h1-font-size);
     line-height: 3.6rem;
     color: var(--first-color);
 }
 
-.card-items{
+.service-card-items{
     margin-bottom: 1.6rem;
 }
 
@@ -440,14 +440,14 @@ section .container .home-content{
     align-items: center;
 }
 
-.card-items .item p{
+.service-card-items .item p{
     font-weight: bold;
     line-height: 2.4rem;
     color:var(--black-color) ;
     margin-left: 0.8rem;
 }
 
-.card-items .item p span{
+.service-card-items .item p span{
     font-size: var(--small-font-size);
     font-weight: 300;
 }
