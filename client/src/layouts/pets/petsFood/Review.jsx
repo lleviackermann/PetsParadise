@@ -1,32 +1,24 @@
-import reviewDetails from './reviewDetails'; 
+import { useState } from 'react';
+import ReviewDisplay from './ReviewDisplay';
+import ReviewSubmit from './ReviewSubmit';
 
 function Review() {
+  const [review, setReview] = useState('');
+
+  const reviewHandler = (event) => {
+    setReview(event.target.value);
+  }
+
+  const submitHandler = (event) => {
+    event.preventHndler()
+    console.log(review);
+  }
+
   return (
     <section className="review" id="review">
       <h1 className="heading">Customer <span>Review</span></h1>
-      <div className="review-slider">
-        {reviewDetails.map((review, index) => (
-          <div key={index} className="box">
-            <h3>{review.Name}</h3>
-            <p>{review.review}</p>
-          </div>
-        ))}
-      </div>
-      <div className="rev-form">
-        <form action="/petsfoods/reviewform" method="post">
-          <h2>Please enter your Review</h2>
-          <label htmlFor="revtext"></label>
-          <textarea
-            name="revtext"
-            id="revtext"
-            cols="90"
-            rows="5"
-            placeholder="Enter your thoughts about our website"
-          ></textarea>
-          <br /><br />
-          <button className="btn rev-sub" id="rev-sub">Submit</button>
-        </form>
-      </div>
+      <ReviewDisplay />
+      <ReviewSubmit submit={submitHandler} review={reviewHandler} />
     </section>
   );
 }
