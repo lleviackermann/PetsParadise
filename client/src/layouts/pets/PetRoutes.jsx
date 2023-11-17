@@ -7,10 +7,12 @@ const Dogs = React.lazy(() => import("./petStore/Dogs"));
 const Cats = React.lazy(() => import("./Cats"));
 const Birds = React.lazy(() => import("./Birds"));
 const Fish = React.lazy(() => import("./Fish"));
-const Products = React.lazy(() => import("./Products"));
-const Services = React.lazy(() => import("./Services"));
-const VetCare = React.lazy(() => import("./VetCare"));
-const PetFood = React.lazy(() => import("./PetFood"));
+const Products = React.lazy(() => import("./Products/Products"));
+const Services = React.lazy(() => import("./servicesPage/Services"));
+
+const VetCare = React.lazy(() => import("./VetCare/VetCare"));
+const PetFood = React.lazy(() => import("./petsFood/PetFood"));
+
 const NotFound = React.lazy(() => import("../NotFound"));
 const PetLandingPage = React.lazy(() =>
   import("../pets/petStore/PetLandingPage")
