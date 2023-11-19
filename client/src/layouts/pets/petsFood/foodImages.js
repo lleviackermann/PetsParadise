@@ -23,7 +23,7 @@ import b6 from "./foodservicesLandingPage/birdFood6.jpg";
 const foodDetails = [
     {
       productType: "food",
-      petType: "dogs",
+      petType: "Dog",
       productDetails: {
         Name: "Pedigree for adult dog",
         price: "449",
@@ -32,7 +32,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "fishes",
+      petType: "Fish",
       productDetails: {
         Name: "Omega One pellets for fish",
         price: "349",
@@ -41,7 +41,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "cats",
+      petType: "Cat",
       productDetails: {
         Name: "Whiskas food for cats",
         price: "649",
@@ -50,7 +50,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "birds",
+      petType: "Bird",
       productDetails: {
         Name: "IuPreem food for parrots",
         price: "349",
@@ -59,7 +59,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "dogs",
+      petType: "Dog",
       productDetails: {
         Name: "Barking Dogs food for dogs",
         price: "349",
@@ -68,7 +68,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "fishes",
+      petType: "Fish",
       productDetails: {
         Name: "Tetra Min flakes for fish",
         price: "349",
@@ -77,7 +77,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "cats",
+      petType: "Cat",
       productDetails: {
         Name: "IAMS food for cats",
         price: "349",
@@ -86,7 +86,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "birds",
+      petType: "Bird",
       productDetails: {
         Name: "Wagner's food for birds",
         price: "349",
@@ -95,7 +95,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "dogs",
+      petType: "Dog",
       productDetails: {
         Name: "Crunch Bites for dogs",
         price: "349",
@@ -104,7 +104,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "fishes",
+      petType: "Fish",
       productDetails: {
         Name: "Discus food mix for fish",
         price: "449",
@@ -113,7 +113,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "cats",
+      petType: "Cat",
       productDetails: {
         Name: "Perfect Bistro for cats",
         price: "349",
@@ -122,7 +122,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "birds",
+      petType: "Bird",
       productDetails: {
         Name: "Wild Harvest for parrots",
         price: "349",
@@ -131,7 +131,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "dogs",
+      petType: "Dog",
       productDetails: {
         Name: "IAMS food for dogs",
         price: "349",
@@ -140,7 +140,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "fishes",
+      petType: "Fish",
       productDetails: {
         Name: "Discovery food for fish",
         price: "349",
@@ -149,7 +149,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "cats",
+      petType: "Cat",
       productDetails: {
         Name: "Kit Cat food for cat",
         price: "649",
@@ -158,7 +158,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "birds",
+      petType: "Bird",
       productDetails: {
         Name: "Meal Worms for birds",
         price: "549",
@@ -167,7 +167,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "dogs",
+      petType: "Dog",
       productDetails: {
         Name: "Wild Earth food for dogs",
         price: "449",
@@ -176,7 +176,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "cats",
+      petType: "Cat",
       productDetails: {
         Name: "Top Cat food for cats",
         price: "399",
@@ -185,7 +185,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "fishes",
+      petType: "Fish",
       productDetails: {
         Name: "Dried worms for fishes",
         price: "549",
@@ -194,7 +194,7 @@ const foodDetails = [
     },
     {
       productType: "food",
-      petType: "birds",
+      petType: "Bird",
       productDetails: {
         Name: "Peckish food for birds",
         price: "599",

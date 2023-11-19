@@ -1,6 +1,7 @@
 import { useState } from "react";
+import servicesImages from "./servicesImages";
 
-function AppointmentSection() {
+function AppointmentSection(props) {
 
 const [pack, setPack] = useState('');
 const [num, setNum] = useState('');
@@ -33,13 +34,11 @@ const SubmitHandler = (event) => {
         </div>
         <div className="form-content">
           <form action="services/appointment" onSubmit={SubmitHandler}>
-            <label htmlFor="selpack">Select the package you want: </label>
+            <label htmlFor="selpack">Select the {props.page===servicesImages ? "package" : "doctor"} you want: </label>
             <select name="selpack" id="selpack" onChange={SelectPack}>
-              <option value="">Select package</option>
-              <option value="299">BRONZE</option>
-              <option value="499">SILVER</option>
-              <option value="999">GOLD</option>
-              <option value="1299">DIAMOND</option>
+            {props.page.appointment.map((data) => (
+                <option key={data.value} value={data.value}>{data.name}</option>
+            ))}
             </select>
             <br />
             <label htmlFor="selnum">Select the number of pets: </label>

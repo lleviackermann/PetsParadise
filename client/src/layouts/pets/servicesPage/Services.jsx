@@ -4,9 +4,8 @@ import AppointmentSection from './Appointment';
 import GallerySection from './GallerySection';
 import HomeSection from './HomeSection';
 import AboutSection from './AboutSection';
-import Footer from '../../components/Footer';
-import Navbar from '../../components/Navbar';
 import ServicesSection from './ServicesSection';
+import servicesImages from './servicesImages';
 
 export default function LandingPage() {
   return (
@@ -15,7 +14,7 @@ export default function LandingPage() {
       <AboutSection />
       <ServicesSection />
       <PackageSection />
-      <AppointmentSection />
+      <AppointmentSection page={servicesImages} />
       <GallerySection />
     </div>
   );

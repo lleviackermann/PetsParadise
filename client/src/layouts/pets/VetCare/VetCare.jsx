@@ -5,7 +5,8 @@ import About from './VetCareAbout';
 import Service from './VetCareSerivces';
 import Gallery from './VetCareGallary';
 import Doctors from './VetCareChose';
-import Appointment from './VetCareAppointment';
+import AppointmentSection from '../servicesPage/Appointment';
+import { vetCareInfo } from './ourDoctors';
 
 const VetCare = () => {
   return (
@@ -15,7 +16,7 @@ const VetCare = () => {
     <Service/>
     <Gallery/>
     <Doctors/>
-    <Appointment/> 
+    <AppointmentSection page={vetCareInfo}/> 
     </div>
       
   );

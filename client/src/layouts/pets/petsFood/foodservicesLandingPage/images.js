@@ -21,7 +21,7 @@ const images = {
     buttons: [
         {
             value: 'all',
-            desc: 'All'
+            desc: 'ALL'
         },
         {
             value: 'dog',

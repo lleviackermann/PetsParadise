@@ -2,7 +2,8 @@
 import i3 from "./images/gal3.jpg"
 import i5 from "./images/gal5.jpg"
 import i6 from "./images/gal6.jpg"
-export const doctors = [
+export const vetCareInfo = { 
+  doctors: [
     {
       name: 'Dr. K . Hemanth',
       qualifications: 'B.V.Sc & A.H, M.V.Sc Veterinary Surgery & Radiology, PhD. Scholar',
@@ -27,4 +28,27 @@ export const doctors = [
       experience: '2+ years of professional experience',
       imgSrc: {i6},
     },
-  ];
+  ],
+  appointment: [
+      {
+        value: "",
+        name: "Select doctor"
+    },
+    {
+        value: "Hemanth",
+        name: "Dr k.Hemanth"
+    },
+    {
+        value: "Ritika",
+        name: "Dr k.Ritika"
+    },
+    {
+        value: "Ramchander",
+        name: "Dr N.Ramchander Rao"
+    },
+    {
+        value: "Abhishek",
+        name: "Dr .Abhishek"
+    }
+  ]
+}
