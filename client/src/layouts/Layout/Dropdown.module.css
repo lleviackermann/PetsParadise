@@ -1,0 +1,45 @@
+.link {
+  /* font-size: 1.5rem;
+  padding: 2rem;
+  color: #fff;
+  cursor: pointer; */
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: #000;
+  padding: 16px;
+}
+
+.btn {
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.dropdownMenu {
+  background: red;
+  width: 200px;
+  position: absolute;
+  top: 20px;
+  left: -100px;
+  list-style: none;
+  /* text-align: start; */
+}
+
+.dropdownMenu li {
+  background: #fff;
+  cursor: pointer;
+}
+
+.dropdownMenu li:hover {
+  background: #4d1601;
+}
+.dropdownMenu li:hover .link {
+  color: #fff;
+}
+
+.clicked {
+  display: none;
+}

@@ -1,12 +1,11 @@
 import React from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
 import ProductDetail from "./petStore/Products/ProductDetail";
-import Comments from "./petStore/Products/Comments";
 
 const Dogs = React.lazy(() => import("./petStore/Dogs"));
-const Cats = React.lazy(() => import("./Cats"));
-const Birds = React.lazy(() => import("./Birds"));
-const Fish = React.lazy(() => import("./Fish"));
+const Cats = React.lazy(() => import("./petStore/Cats"));
+const Birds = React.lazy(() => import("./petStore/Birds"));
+const Fish = React.lazy(() => import("./petStore/Fish"));
 const Products = React.lazy(() => import("./Products/Products"));
 const Services = React.lazy(() => import("./servicesPage/Services"));
 
@@ -20,13 +19,25 @@ const PetLandingPage = React.lazy(() =>
 
 function PetRoutes() {
   const { path } = useRouteMatch();
-  // console.log(path);
   return (
     <div>
       <Switch>
         <Route path="/pets/" exact>
           <PetLandingPage />
         </Route>
+        <Route path="/pets/dogs" exact>
+          <Redirect to="/pets/dogs/1"></Redirect>
+        </Route>
+        <Route path="/pets/dogs/1">
+          <Dogs />
+        </Route>
+        <Route path="/pets/cats" exact>
+          <Redirect to="/pets/cats/1"></Redirect>
+        </Route>
+        <Route path="/pets/cats/1">
+          <Cats />
+        </Route>
+
         <Route path="/pets/dogs/:pnum">
           <Dogs />
         </Route>

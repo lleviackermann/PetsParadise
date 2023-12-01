@@ -33,9 +33,10 @@ const Card = (props) => {
           });
         }}
       >
+        <h3 className="card-title">{props.title}</h3>
+
         <img src={props.img} alt={props.title} className="card-img" />
         <div className="card-details">
-          <h3 className="card-title">{props.title}</h3>
           <section className="card-reviews">{star}</section>
           <section className="card-price">
             <div className="price">

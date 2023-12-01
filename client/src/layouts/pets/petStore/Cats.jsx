@@ -4,7 +4,7 @@ import SideBar from "./SideBar/SideBar";
 import { useState, useEffect, memo } from "react";
 import { useHistory } from "react-router-dom";
 import usePets from "./use-Pets";
-const Dogs = () => {
+const Cats = () => {
   const {
     selectedPrice,
     selectedRating,
@@ -16,13 +16,15 @@ const Dogs = () => {
     handleSelectRating,
     applyFilters,
     isLoading,
-  } = usePets("dogs", [0, 10000]);
+  } = usePets("cats", [0, 10000]);
   const [initialRender, setIntialRender] = useState(true);
   const history = useHistory();
   const [list, setList] = useState([]);
+  console.log(list);
   useEffect(() => {
-    console.log("in useEffect");
+    console.log("useEffect called");
     const timer = setTimeout(() => {
+      console.log("in timer");
       applyFilters((data) => {
         setList(data);
       });
@@ -32,7 +34,7 @@ const Dogs = () => {
         return;
       }
       history.push({
-        pathname: `/pets/dogs/${1}`,
+        pathname: `/pets/cats/${1}`,
       });
     }, 1000);
     return () => clearTimeout(timer);
@@ -53,4 +55,4 @@ const Dogs = () => {
   );
 };
 
-export default memo(Dogs);
+export default memo(Cats);

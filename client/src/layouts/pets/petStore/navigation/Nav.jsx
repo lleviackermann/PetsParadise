@@ -6,7 +6,7 @@ import "./Nav.css";
 const Nav = (props) => {
   return (
     <nav>
-      <div className="nav-container">
+      {/* <div className="nav-container">
         <input
           className="search-input"
           type="text"
@@ -14,8 +14,17 @@ const Nav = (props) => {
           value={props.query}
           placeholder="Enter your pet."
         />
+      </div> */}
+      <div className="input-wrapper">
+        {/* <FaSearch id="search-icon" /> */}
+        <input
+          className="input"
+          placeholder="Type to search..."
+          onChange={props.handleInputChange}
+        />
       </div>
-      <div className="profile-container">
+
+      {/* <div className="profile-container">
         <a href="#">
           <FiHeart className="nav-icons" />
         </a>
@@ -25,7 +34,7 @@ const Nav = (props) => {
         <a href="">
           <AiOutlineUserAdd className="nav-icons" />
         </a>
-      </div>
+      </div> */}
     </nav>
   );
 };
