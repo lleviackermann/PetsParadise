@@ -18,6 +18,28 @@ const images = {
         fishFood5,
         birdFood5
     },
+    buttons: [
+        {
+            value: 'all',
+            desc: 'ALL'
+        },
+        {
+            value: 'dog',
+            desc: 'Dog'
+        },
+        {
+            value: 'cat',
+            desc: 'Cat'
+        },
+        {
+            value: 'fish',
+            desc: 'Fish'
+        },
+        {
+            value: 'bird',
+            desc: 'Bird'
+        },
+    ]
 }
 
 

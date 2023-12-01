@@ -88,6 +88,28 @@ const servicesImages = {
     ],
     gallery: [
         g1,g2,g3,g4,g5,g6,g7,g8
+    ],
+    appointment: [
+        {
+            value: "",
+            name: "Select package"
+        },
+        {
+            value: "299",
+            name: "BRONZE"
+        },
+        {
+            value: "499",
+            name: "SILVER"
+        },
+        {
+            value: "999",
+            name: "GOLD"
+        },
+        {
+            value: "1299",
+            name: "DIAMOND"
+        }
     ]
 }
 

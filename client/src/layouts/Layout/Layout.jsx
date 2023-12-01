@@ -16,7 +16,7 @@ function Layout(props) {
       {showCart && <Cart onClose={hideCartHandler}></Cart>}
       <NavBar showCart={showCartHandler} />
       <main>{props.children}</main>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

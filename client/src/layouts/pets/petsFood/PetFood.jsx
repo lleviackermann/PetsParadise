@@ -1,4 +1,3 @@
-// import React from "react";
 import Home from './Home';
 import Features from './Features';
 import Categories from './Categories';
