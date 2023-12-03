@@ -37,9 +37,6 @@ const Sidebar = (props) => {
   return (
     <>
       <section className="sidebar">
-        <div className="logo-container">
-          <h1>🛒</h1>
-        </div>
         <Category
           category={props.category}
           changeChecked={props.changeChecked}

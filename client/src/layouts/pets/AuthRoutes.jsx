@@ -1,5 +1,6 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import LoginSignUp from "../auth/LoginSignUp";
 
 const Login = React.lazy(() => import("../auth/Login"));
 const SignUp = React.lazy(() => import("../auth/SignUp"));
@@ -8,12 +9,16 @@ const NotFound = React.lazy(() => import("../NotFound"));
 
 function AuthRoutes() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/ForgotPassword" element={<ForgotPassword />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Switch>
+      <Route path="/auth/login" exact>
+        <LoginSignUp />
+      </Route>
+      {/* <Route path="/signup" element={<SignUp />} />
+      <Route path="/ForgotPassword" element={<ForgotPassword />} /> */}
+      <Route path="*">
+        <NotFound />
+      </Route>
+    </Switch>
   );
 }
 

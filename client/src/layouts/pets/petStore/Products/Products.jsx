@@ -34,10 +34,10 @@ const Products = (props) => {
         <Stack spacing={2}>
           <Pagination
             count={products.maxPage}
-            size="large"
+            // size="large"
             page={products.currentPage}
             variant="outlined"
-            shape="rounded"
+            // shape="rounded"
             onChange={handleChange}
             showFirstButton
             showLastButton

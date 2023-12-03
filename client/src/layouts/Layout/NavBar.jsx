@@ -10,7 +10,7 @@ import { DropdownItems, ProfileItems } from "./DropdownItems";
 function NavBar(props) {
   const [stickyNav, setStickyNav] = useState(true);
   const [dropdown, setDropdown] = useState({ pets: false, profile: false });
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
   const onMouseLeave = () => {
     setDropdown(() => {
       return { pets: false, profile: false };
@@ -38,15 +38,13 @@ function NavBar(props) {
   return (
     <>
       <header
-        style={{ position: stickyNav ? "fixed" : "static" }}
+        style={{ position: stickyNav ? "fixed" : "fixed" }}
         className={`${classes.header} ${!stickyNav && classes.position}`}
         onMouseLeave={onMouseLeave.bind(null, "pets")}
       >
         <h1>Pets Paradise</h1>
         <li>
-          <Link className={classes.navLinks} on>
-            Home
-          </Link>
+          <Link className={classes.navLinks}>Home</Link>
         </li>
         <li
           className={classes.navItem}
@@ -82,7 +80,7 @@ function NavBar(props) {
         {login && (
           <li>
             <Link
-              to="/sign-up"
+              to="/auth/login"
               className={`${classes.navLinks} ${classes.link}`}
             >
               Sign Up
@@ -92,10 +90,7 @@ function NavBar(props) {
         {!login && (
           <div className={classes.profile}>
             <HeaderCartButton onClick={props.showCart} />
-            <div
-              onClick={toggleClick.bind(null, "profile")}
-              // onMouseLeave={onMouseLeave.bind(null, "profile")}
-            >
+            <div onClick={toggleClick.bind(null, "profile")}>
               <Avatar sx={{ bgcolor: deepOrange[100] }}>KC</Avatar>
               <li style={{ position: "relative" }}>
                 {dropdown.profile && <Dropdown items={ProfileItems} />}

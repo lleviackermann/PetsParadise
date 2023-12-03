@@ -9,8 +9,8 @@ const catergoryData = {
     { id: 3, checked: false, label: "Working" },
   ],
   cats: [
-    { id: 1, checked: false, label: "Sporting" },
-    { id: 2, checked: false, label: "Hound" },
+    { id: 1, checked: false, label: "Hunting" },
+    { id: 2, checked: false, label: "Herding" },
     { id: 3, checked: false, label: "Working" },
   ],
 };
