@@ -70,6 +70,11 @@
   &:focus {
     outline: none;
   }
+  &:disabled {
+    background-color: #ccc;
+    color: #292929;
+    border-color: #ccc;
+  }
   margin-top: 2rem;
 }
 
