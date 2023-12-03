@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   margin-left: 18.25rem;
   margin-top: 2rem;
-  z-index: -2;
+  /* z-index: -2; */
   border-radius: 10px;
   overflow: hidden;
   /* box-shadow: 2px 2px 5px 0px rgba(0, 64, 128, 0.1); */
@@ -13,10 +13,11 @@
   margin: 20px;
   border-radius: 2px solid;
   /* padding: 20px; */
-  width: 265px;
+  width: 300px;
   height: 350px;
   border-radius: 10px;
   overflow: hidden;
+  background: whitesmoke;
   box-shadow: 2px 2px 5px 0px rgba(0, 64, 128, 0.1);
   /* cursor: pointer; */
 }
@@ -24,10 +25,10 @@
 .card:hover {
   /* border: 1px solid #d0d0d0; */
   border: 1px solid #00838d;
-  box-shadow: 0px 0px 999px 999px rgba(255, 255, 255, 0.5);
-  z-index: 500;
-  transition: all 0.5s ease;
-  opacity: 1;
+  /* box-shadow: 0px 0px 999px 999px rgba(255, 255, 255, 0.5); */
+  /* z-index: 500; */
+  /* transition: all 0.5s ease; */
+  /* opacity: 1; */
 }
 
 .card-img {
@@ -46,8 +47,10 @@
 .card-title {
   display: flex;
   flex-wrap: wrap;
-  padding-left: 10px;
-  margin-bottom: 1rem;
+  /* padding-left: 10px; */
+  margin: 1rem auto;
+  width: 80%;
+  white-space: nowrap;
 }
 
 .card-reviews {
@@ -99,7 +102,7 @@
   letter-spacing: 1.3px;
   color: #fff;
   background-color: #ff3f40;
-  display: none;
+  display: block;
 
   cursor: pointer;
 
@@ -108,7 +111,7 @@
   }
 }
 
-.card:hover .cart--btn {
+/* .card:hover .cart--btn {
   display: block;
   transition: all 10s;
-}
+} */

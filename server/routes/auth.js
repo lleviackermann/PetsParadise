@@ -1,11 +1,15 @@
 import express from "express";
-import { 
-    registerUser, 
-    registerEmployee,
-    registerAdmin,
-    login
+import {
+  registerUser,
+  registerEmployee,
+  registerAdmin,
+  login,
 } from "../controllers/auth.js";
-import { validateAndOtpSender, changePassword, validateOtp } from "../controllers/passwordReset.js";
+import {
+  validateAndOtpSender,
+  changePassword,
+  validateOtp,
+} from "../controllers/passwordReset.js";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Dogs from "../pets/petStore/Dogs";
 const Home = React.lazy(() => import("../Home"));
 const PetRoutes = React.lazy(() => import("../pets/PetRoutes"));
@@ -21,9 +21,6 @@ function MainRoutes() {
           <Switch>
             <Route path="/" exact>
               <Home />
-            </Route>
-            <Route path="/pets/dogs" exact>
-              <Dogs />
             </Route>
             <Route path="/auth/*" exact>
               <AuthRoutes />

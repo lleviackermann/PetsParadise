@@ -3,7 +3,6 @@ import Slider from "@mui/material/Slider";
 import { styled } from "@mui/system";
 
 const StyledSlider = styled(Slider)(({ theme }) => ({
-  // width: "100%",
   height: "10rem",
   margin: "2rem auto",
   color: "#000",

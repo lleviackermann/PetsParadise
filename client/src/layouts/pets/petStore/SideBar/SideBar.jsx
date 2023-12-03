@@ -37,16 +37,11 @@ const Sidebar = (props) => {
   return (
     <>
       <section className="sidebar">
-        <div className="logo-container">
-          <h1>🛒</h1>
-        </div>
         <Category
           category={props.category}
-          // handleChange={props.handleChange}
           changeChecked={props.changeChecked}
         />
         <h2 className="price-filter">Price Filter</h2>
-        {/* <Price handleChange={props.handleChange} /> */}
         <div className="priceSlider">
           <PriceSlider
             value={props.priceValue}
@@ -56,7 +51,6 @@ const Sidebar = (props) => {
 
         <h2 className="price-filter">Star Rating</h2>
         <Rating
-          // handleChange={props.handleChange}
           options={ratingList}
           value={props.selectedRating}
           selectToggle={props.selectRating}

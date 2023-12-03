@@ -1,10 +1,18 @@
 /* eslint-disable react/prop-types */
 import "./Rating.css";
+import React from "react";
 import Input from "../../components/Input";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { styled } from "@mui/system";
 
 const Rating = (props) => {
+  const [alignment, setAlignment] = React.useState();
+  const handleChange = (event, newAlignment) => {
+    console.log("alignment change");
+    setAlignment(newAlignment);
+    props.selectToggle(null, newAlignment);
+  };
+
   const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     // width: "100%",
     justifyContent: "space-between",
@@ -14,11 +22,6 @@ const Rating = (props) => {
     fontSize: ".8rem",
     border: "1px solid rgba(0, 0, 0, 0.12)",
     borderRadius: "10px",
-    // margin: "2rem",
-
-    "&.MuiToggleButtonGroup-groupedHorizontal": {
-      // borderRadius: "10px",
-    },
     "&.MuiToggleButtonGroup-groupedHorizontal": {
       borderRadius: "10px",
       border: "1px solid rgba(0, 0, 0, 0.12)",
@@ -39,10 +42,9 @@ const Rating = (props) => {
   return (
     <>
       <StyledToggleButtonGroup
-        value={props.value}
+        value={alignment}
         exclusive
-        onChange={props.selectToggle}
-        // className={classes.root}
+        onChange={handleChange}
       >
         {props.options.map(({ label, id, value }) => (
           <StyledToggleButton

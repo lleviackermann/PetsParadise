@@ -1,45 +1,51 @@
 /* eslint-disable react/prop-types */
 import "./Products.css";
-import { useState } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import usePagination from "./Pagination";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import ProductsList from "./ProductsList";
+import { useHistory, useParams } from "react-router-dom";
 const Products = (props) => {
-  const productsFound = props.result.length !== 0;
-  let [page, setPage] = useState(1);
+  const { pnum } = useParams();
+  // alert(pnum);
+  const history = useHistory();
+  // let [page, setPage] = useState(pnum === undefined ? 1 : parseInt(pnum));
   const PER_PAGE = 8;
-  const count = Math.ceil(props.result.length / PER_PAGE);
-  const products = usePagination(props.result, PER_PAGE);
-
+  const data = useMemo(() => props.result, [props.result]);
+  const products = usePagination(data, PER_PAGE);
   const handleChange = (e, p) => {
-    setPage(p);
+    // setPage(p);
     products.jump(p);
+    // history.replace({
+    //   pathname: `/pets/dogs/${p}`,
+    // });
   };
-
+  useEffect(() => {
+    // console.log("page changed");
+    products.jump(pnum === undefined ? 1 : parseInt(pnum));
+    // products.jump(1);
+    // setPage(pnum === undefined ? 1 : parseInt(pnum));
+  }, [pnum, products.maxPage]);
+  // console.log(page, pnum === undefined ? 1 : parseInt(pnum));
   return (
     <>
-      <ProductsList data={props.result} />
-      {/* <div className="pagination">
+      <div className="pagination">
         <Stack spacing={2}>
           <Pagination
-            count={count}
-            size="large"
-            page={page}
+            count={products.maxPage}
+            // size="large"
+            page={products.currentPage}
             variant="outlined"
-            shape="rounded"
+            // shape="rounded"
             onChange={handleChange}
             showFirstButton
             showLastButton
           />
         </Stack>
       </div>
-
-      <section className="card-container">
-        {productsFound ? products.currentData() : <h1>No Products Found!!</h1>}
-      </section> */}
+      <ProductsList isLoading={props.isLoading} data={products.currentData()} />
     </>
   );
 };
-
-export default Products;
+export default memo(Products);
