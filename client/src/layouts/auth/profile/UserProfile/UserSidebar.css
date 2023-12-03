@@ -15,28 +15,32 @@
 .usersidebar .s1 svg {
     width: 30px;
     height: 30px;
-    color: gray;
+    color: rgb(0, 0, 0)
 }
 
 .usersidebar .s2 svg {
     width: 30px;
     height: 30px;
-    color: rgb(255, 255, 255);
+    color:rgb(16, 12, 134) ;
 }
 
 .usersidebar .s1:hover{
-    background-color: rgb(246, 246, 246);
+    background-color: rgb(149, 217, 245);
     border-radius: 5px;
     cursor: pointer;
-    color: grey;
+    color: black;
+}
+
+.usersidebar .s1 span{
+    color: rgb(0,0,0);
 }
 
 
 .usersidebar .s2{
-    background-color: var(--col1);
+    background-color: rgb(102, 215, 253);
     border-radius: 5px;
     cursor: pointer;
-    color: white;
+    color: rgb(16, 12, 134);
 }
 @media (max-width: 800px) {
     .usersidebar span{

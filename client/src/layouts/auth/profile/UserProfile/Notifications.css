@@ -1,0 +1,19 @@
+.noti {
+    margin: 20px auto;
+}
+  
+.Hnoti{
+    padding: 20px;
+    color: #333;
+}
+  
+.Pnoti{
+    background-color: rgb(149, 217, 245);
+    padding: 10px;
+    margin: 5px 20px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    white-space: normal;
+  word-wrap: normal;
+}
