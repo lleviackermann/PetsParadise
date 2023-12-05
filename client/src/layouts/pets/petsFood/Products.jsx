@@ -4,6 +4,14 @@ import images from './foodservicesLandingPage/images';
 import { BsCurrencyRupee } from 'react-icons/bs';
 
 function Products() {
+  useEffect(()=>{
+    const fetchFoodDetails = async()=>{
+       const response = await fetch("http://localhost:8000/food")
+       const data = await response.json()
+       console.log(data);
+    }
+    fetchFoodDetails()
+  })
   const [filteredProducts, setFilteredProducts] = useState(foodDetails);
   const [selectedPetType, setSelectedPetType] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
