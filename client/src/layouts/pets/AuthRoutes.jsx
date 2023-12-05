@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import UserProfile from "../auth/profile/UserProfile/UserProfile";
+import { RecoilRoot } from "recoil";
 import LoginSignUp from "../auth/LoginSignUp";
 
 const Login = React.lazy(() => import("../auth/Login"));
@@ -17,8 +18,10 @@ function AuthRoutes() {
       <Route path="/signup">
         <SignUp />
       </Route>
-      <Route path="/auth/user/">
-        <UserProfile />
+      <Route path="/auth/user/:activepage">
+        <RecoilRoot>
+          <UserProfile />
+        </RecoilRoot>
       </Route>
       {/* <Route path="/ForgotPassword" element={<ForgotPassword />} /> */}
       <Route path="*" element={<NotFound />} />
