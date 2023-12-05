@@ -5,37 +5,47 @@ import { BsFillBagFill } from "react-icons/bs";
 const Card = (props) => {
   const history = useHistory();
   let star = "";
-  for (let i = 0; i <= Math.round(props.star); i++) {
+  for (let i = 0; i < Math.round(props.star); i++) {
     star += "⭐";
   }
   return (
     <>
-      {/* {showDetails && (
-        <ProductDetail
-          src={props.img}
-          prevPrice={props.prevPrice}
-          newPrice={props.newPrice}
-        />
-      )} */}
       <section
         className="card"
-        onClick={() => {
-          const params = new URLSearchParams({
-            title: props.title,
-            imgSrc: props.img,
-            stars: star,
-            price: props.newPrice,
-          });
-          // history.push("/pets/A123");
-          history.push({
-            pathname: `/pets/${props.src}`,
-            search: params.toString(),
-          });
-        }}
+        // onClick={() => {
+        //   const params = new URLSearchParams({
+        //     title: props.title,
+        //     imgSrc: props.img,
+        //     stars: star,
+        //     price: props.newPrice,
+        //     lifeSpan: props.span,
+        //   });
+        //   history.push({
+        //     pathname: `/pets/${props.src}`,
+        //     search: params.toString(),
+        //   });
+        // }}
       >
         <h3 className="card-title">{props.title}</h3>
 
-        <img src={props.img} alt={props.title} className="card-img" />
+        <img
+          src={props.img}
+          alt={props.title}
+          className="card-img"
+          onClick={() => {
+            const params = new URLSearchParams({
+              title: props.title,
+              imgSrc: props.img,
+              stars: star,
+              price: props.newPrice,
+              lifeSpan: props.span,
+            });
+            history.push({
+              pathname: `/pets/${props.src}`,
+              search: params.toString(),
+            });
+          }}
+        />
         <div className="card-details">
           <section className="card-reviews">{star}</section>
           <section className="card-price">

@@ -16,7 +16,7 @@ const Dogs = () => {
     handleSelectRating,
     applyFilters,
     isLoading,
-  } = usePets("dogs", [0, 10000]);
+  } = usePets("dog", [0, 10000]);
   const [initialRender, setIntialRender] = useState(true);
   const history = useHistory();
   const [list, setList] = useState([]);

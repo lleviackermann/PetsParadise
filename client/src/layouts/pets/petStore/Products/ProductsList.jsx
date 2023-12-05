@@ -3,19 +3,26 @@ import "./Products.css";
 import Card from "../components/Card";
 function ProductsList(props) {
   const productsFound = props.data.length !== 0;
+  const prev = Math.random() * 5 + 5;
+  const lifeSpan = `${Math.round(prev)}-${Math.round(
+    prev + Math.random() + 1
+  )} years`;
+  // alert(lifeSpan);
+  // console.log(props.data[].rating);
   return (
     <>
       <section className="card-container">
         {productsFound &&
-          props.data.map(({ reference_image_id, name, src }) => (
+          props.data.map(({ name, src, price, rating }) => (
             <Card
               key={Math.random()}
-              img={reference_image_id}
+              img={src}
               title={name}
-              star={3}
+              star={rating}
               reviews={"worst"}
-              prevPrice={100}
-              newPrice={200}
+              prevPrice={price * 1.5}
+              newPrice={price}
+              span={lifeSpan}
               src={src}
             />
           ))}

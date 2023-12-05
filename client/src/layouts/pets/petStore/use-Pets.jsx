@@ -1,14 +1,12 @@
-import React from "react";
 import { useState, useCallback, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { dogData, catData } from "../../../db/data";
 const catergoryData = {
-  dogs: [
+  dog: [
     { id: 1, checked: false, label: "Sporting" },
     { id: 2, checked: false, label: "Hound" },
     { id: 3, checked: false, label: "Working" },
   ],
-  cats: [
+  cat: [
     { id: 1, checked: false, label: "Hunting" },
     { id: 2, checked: false, label: "Herding" },
     { id: 3, checked: false, label: "Working" },
@@ -16,12 +14,28 @@ const catergoryData = {
 };
 
 function usePets(pet, priceRange) {
-  const [initialRender, setIntialRender] = useState(true);
   const [selectedPrice, setSelectedPrice] = useState(priceRange);
   const [searchInput, setSearchInput] = useState("");
   const [category, setCategory] = useState(catergoryData[pet]);
   const [selectedRating, setSelectedRating] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  console.log("pets", category);
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchPets = async () => {
+      const response = await fetch("http://localhost:8000/pets/" + pet);
+      if (!response.ok) {
+        throw new Error(
+          "Something Went Wrong,Please try again after some time "
+        );
+      }
+      const responseData = await response.json();
+      setList(responseData);
+      setIsLoading(false);
+    };
+    fetchPets();
+  }, []);
   const handleChangeChecked = (id) => {
     const categoryList = category;
     const changeCheckedCategory = categoryList.map((item) =>
@@ -44,13 +58,13 @@ function usePets(pet, priceRange) {
     (sendData) => {
       console.log("apply filter called");
       setIsLoading(true);
-      let updatedList = [];
-      if (pet === "dogs") {
-        updatedList = dogData;
-      }
-      if (pet === "cats") {
-        updatedList = catData;
-      }
+      let updatedList = list;
+      // if (pet === "dog") {
+      //   updatedList = dogData;
+      // }
+      // if (pet === "cat") {
+      //   updatedList = catData;
+      // }
 
       console.log("selected rating", selectedRating);
       if (selectedRating) {
@@ -85,8 +99,9 @@ function usePets(pet, priceRange) {
       setIsLoading(false);
       // !updatedList.length ? setResultsFound(false) : setResultsFound(true);
     },
-    [selectedRating, searchInput, selectedPrice, category]
+    [selectedRating, searchInput, selectedPrice, category, list]
   );
+  // applyFilters((list) => {});
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     applyFilters();

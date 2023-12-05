@@ -16,7 +16,7 @@ const Cats = () => {
     handleSelectRating,
     applyFilters,
     isLoading,
-  } = usePets("cats", [0, 10000]);
+  } = usePets("cat", [0, 10000]);
   const [initialRender, setIntialRender] = useState(true);
   const history = useHistory();
   const [list, setList] = useState([]);
