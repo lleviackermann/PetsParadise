@@ -71,7 +71,9 @@ function NavBar(props) {
           <Link className={classes.navLinks}>Services</Link>
         </li>
         <li>
-          <Link to="/pets/petfoods" className={classes.navLinks}>Food</Link>
+          <Link to="/pets/petfoods" className={classes.navLinks}>
+            Food
+          </Link>
         </li>
         <li>
           <Link className={classes.navLinks}>Accessories</Link>

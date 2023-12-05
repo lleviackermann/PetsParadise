@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema({
   petType: String,
   breed_group: {
     type: String,
+    default: "None",
     required: false,
   },
 });

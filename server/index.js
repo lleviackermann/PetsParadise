@@ -11,7 +11,8 @@ import { fileURLToPath } from "url";
 import ejs from "ejs";
 import authRoutes from "./routes/auth.js";
 import dataRoutes from "./routes/data.js";
-import foodRoutes from "./routes/food.js"
+import foodRoutes from "./routes/food.js";
+import petRoutes from "./routes/pets.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,8 +43,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use("/auth", authRoutes);
-app.use("/post",dataRoutes)
-app.use("/food",foodRoutes)
+app.use("/post", dataRoutes);
+app.use("/pets", petRoutes);
+app.use("/food", foodRoutes);
 app.get("/", async (req, res) => {
   console.log("Home request");
   res.render("index.ejs");
