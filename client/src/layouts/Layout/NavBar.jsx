@@ -6,11 +6,19 @@ import Dropdown from "./Dropdown";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import { DropdownItems, ProfileItems } from "./DropdownItems";
+import { useSelector } from "react-redux";
 
 function NavBar(props) {
   const [stickyNav, setStickyNav] = useState(true);
   const [dropdown, setDropdown] = useState({ pets: false, profile: false });
-  const [login, setLogin] = useState(true);
+  // const [login, setLogin] = useState(true);
+  const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
+  let userInfo = useSelector((state) => state.auth.userInfo);
+  if (!!userInfo) {
+    userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  }
+  // const avatar = userInfo.firstName[0] + userInfo.lastName[1];
+
   const onMouseLeave = () => {
     setDropdown(() => {
       return { pets: false, profile: false };
@@ -44,9 +52,11 @@ function NavBar(props) {
       >
         <h1>Pets Paradise</h1>
         <li>
-          <Link className={classes.navLinks}>Home</Link>
+          <Link to="/" className={classes.navLinks}>
+            Home
+          </Link>
         </li>
-        <li
+        <ul
           className={classes.navItem}
           onClick={toggleClick.bind(null, "pets")}
         >
@@ -66,9 +76,11 @@ function NavBar(props) {
           <li style={{ position: "relative" }}>
             {dropdown.pets && <Dropdown items={DropdownItems} />}
           </li>
-        </li>
+        </ul>
         <li>
-          <Link className={classes.navLinks}>Services</Link>
+          <Link to="/pets/services" className={classes.navLinks}>
+            Services
+          </Link>
         </li>
         <li>
           <Link to="/pets/petfoods" className={classes.navLinks}>
@@ -76,24 +88,28 @@ function NavBar(props) {
           </Link>
         </li>
         <li>
-          <Link className={classes.navLinks}>Accessories</Link>
+          <Link to="/" className={classes.navLinks}>
+            Accessories
+          </Link>
         </li>
 
-        {login && (
+        {!userLoggedIn && (
           <li>
             <Link
               to="/auth/login"
               className={`${classes.navLinks} ${classes.link}`}
             >
-              Sign Up
+              Sign In
             </Link>
           </li>
         )}
-        {!login && (
+        {userLoggedIn && (
           <div className={classes.profile}>
             <HeaderCartButton onClick={props.showCart} />
             <div onClick={toggleClick.bind(null, "profile")}>
-              <Avatar sx={{ bgcolor: deepOrange[100] }}>KC</Avatar>
+              <Avatar sx={{ bgcolor: deepOrange[100] }}>
+                {userInfo.firstName[0] + userInfo.lastName[0]}
+              </Avatar>
               <li style={{ position: "relative" }}>
                 {dropdown.profile && <Dropdown items={ProfileItems} />}
               </li>

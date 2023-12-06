@@ -6,6 +6,11 @@ const productSchema = new mongoose.Schema({
   src: String,
   productType: String,
   petType: String,
+  rating: {
+    type: Number,
+    default: 3,
+    required: false,
+  },
   breed_group: {
     type: String,
     default: "None",

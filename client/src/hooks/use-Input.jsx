@@ -6,10 +6,16 @@ const initialInputState = {
 
 const validation = (type, value) => {
   if (type === "email") {
+    if (/^A\d{4}/.test(value)) {
+      return true;
+    }
+    if (/^E\d{3}/.test(value)) {
+      return true;
+    }
     return /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(value);
   }
   if (type === "name") {
-    return /^[A-Z][a-zA-Z0-9]{6,}$/.test(value);
+    return /^[A-Z][a-zA-Z0-9]{2,}$/.test(value);
   }
   if (type === "password") {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(value);
@@ -25,9 +31,6 @@ const inputStateReducer = (state, action) => {
     console.log(action);
     return { value: state.value, checked: true };
   }
-  //   if (action.type === "RESET") {
-  //     return initialInputState;
-  //   }
   return initialInputState;
 };
 

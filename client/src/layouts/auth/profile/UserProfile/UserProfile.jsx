@@ -4,19 +4,21 @@ import AccountSettings from "./AccountSettings";
 import "./UserProfile.css";
 import ChangePassword from "./ChangePassword";
 import YourOrders from "./YourOrders";
-import YourAppointments from './YourAppointments';
+import YourAppointments from "./YourAppointments";
 import Notifications from "./Notifications";
 import UserSidebar from "./UserSidebar";
 import { RecoilRoot } from "recoil";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const { activepage } = useParams();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  console.log(userInfo);
+  // console.log(userInfo);
 
-  
   const [user, setUser] = useState({
-    name: "John Doe",
-    phone: "123-456-7890",
-    email: "john.doe@example.com",
+    name: userInfo.firstName + " " + userInfo.lastName,
+    email: userInfo.email,
   });
 
   return (
@@ -26,9 +28,7 @@ const UserProfile = () => {
           <UserSidebar activepage={activepage} />
         </div>
         <div className="right">
-          {activepage === "accountsettings" && (
-            <AccountSettings user={user} />
-          )}
+          {activepage === "accountsettings" && <AccountSettings user={user} />}
           {activepage === "changepassword" && <ChangePassword />}
           <RecoilRoot>
             {activepage === "orders" && <YourOrders />}

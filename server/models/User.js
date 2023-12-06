@@ -32,24 +32,30 @@ const UserSchema = new Schema(
       default: "",
     },
     cart: {
-      type: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Product',
-      }],
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+        },
+      ],
       default: [],
     },
     appointments: {
-      type: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Appointment',
-      }],
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Appointment",
+        },
+      ],
       default: [],
     },
     orders: {
-      type: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Order',
-      }],
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Order",
+        },
+      ],
       default: [],
     },
   },

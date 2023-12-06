@@ -1,9 +1,11 @@
 import styles from "./Auth.module.css";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import useInput from "../../hooks/use-Input";
-import { Block } from "@mui/icons-material";
+import { verifyUser, registerUser, loginUser } from "../../store/auth-actions";
 function LoginSignUp() {
   const [signIn, setSignIn] = useState(true);
+  const dispatch = useDispatch();
   const {
     value: emailValue,
     isValid: emailValueIsValid,
@@ -13,12 +15,20 @@ function LoginSignUp() {
     reset: resetEmailInput,
   } = useInput("email");
   const {
-    value: enteredName,
-    isValid: enteredNameIsValid,
-    error: NameInputHasError,
-    inputChangeHandler: NameChangedHandler,
-    inputBlurHandler: NameBlurHandler,
-    reset: resetNameInput,
+    value: enteredFirstName,
+    isValid: enteredFirstNameIsValid,
+    error: firstNameInputHasError,
+    inputChangeHandler: firstNameChangedHandler,
+    inputBlurHandler: firstNameBlurHandler,
+    reset: resetFirstNameInput,
+  } = useInput("name");
+  const {
+    value: enteredLastName,
+    isValid: enteredLastNameIsValid,
+    error: LastNameInputHasError,
+    inputChangeHandler: LastNameChangedHandler,
+    inputBlurHandler: LastNameBlurHandler,
+    reset: resetLastNameInput,
   } = useInput("name");
   const {
     value: enteredPassword,
@@ -29,30 +39,45 @@ function LoginSignUp() {
     reset: resetPasswordInput,
   } = useInput("password");
   let formIsValid = false;
-
   if (signIn && emailValueIsValid && enteredPasswordIsValid) {
     formIsValid = true;
   }
 
   if (
     !signIn &&
-    enteredNameIsValid &&
+    enteredFirstNameIsValid &&
+    enteredLastNameIsValid &&
     emailValueIsValid &&
     enteredPasswordIsValid
   ) {
     formIsValid = true;
   }
-  const formSubmitHandler = (type = "none") => {
+  const formSubmitHandler = (event) => {
+    event.preventDefault();
+    if (!signIn) {
+      dispatch(
+        registerUser(
+          enteredFirstName,
+          enteredLastName,
+          emailValue,
+          enteredPassword
+        )
+      );
+    }
+    if (signIn) {
+      dispatch(loginUser(emailValue, enteredPassword));
+    }
+    resetFirstNameInput();
+    resetLastNameInput();
     resetEmailInput();
     resetPasswordInput();
-    resetNameInput();
-    if (type === "signIn") {
-    }
-    if (type === "signUp") {
-    }
   };
+
   useEffect(() => {
-    formSubmitHandler();
+    resetFirstNameInput();
+    resetLastNameInput();
+    resetEmailInput();
+    resetPasswordInput();
   }, [signIn]);
   return (
     <div className={styles.Container}>
@@ -66,29 +91,54 @@ function LoginSignUp() {
       >
         <form
           className={styles.Form}
-          onSubmit={(event) => {
-            event.preventDefault();
-            formSubmitHandler.bind(null, "signUp");
-          }}
+          onSubmit={(event) => formSubmitHandler(event)}
         >
           <h1 className={styles.Title}>Create Account</h1>
           <input
             type="text"
             className={styles.Input}
             style={
-              NameInputHasError
+              firstNameInputHasError
                 ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
                 : null
             }
-            onChange={NameChangedHandler}
-            onBlur={NameBlurHandler}
-            placeholder="Name"
-            value={enteredName}
+            onChange={firstNameChangedHandler}
+            onBlur={firstNameBlurHandler}
+            placeholder="First Name"
+            value={enteredFirstName}
           />
-          <p style={{ display: `${NameInputHasError ? "block" : "none"}` }}>
-            Name must contain atleast 6 letters and should begin with a
+          <p
+            style={{
+              display: `${firstNameInputHasError ? "block" : "none"}`,
+              fontSize: "0.7rem",
+            }}
+          >
+            First Name must contain atleast 2 letters and should begin with a
             Uppercase
           </p>
+          <input
+            type="text"
+            className={styles.Input}
+            style={
+              LastNameInputHasError
+                ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
+                : null
+            }
+            onChange={LastNameChangedHandler}
+            onBlur={LastNameBlurHandler}
+            placeholder="Last Name"
+            value={enteredLastName}
+          />
+          <p
+            style={{
+              display: `${LastNameInputHasError ? "block" : "none"}`,
+              fontSize: "0.7rem",
+            }}
+          >
+            Last Name must contain atleast 2 letters and should begin with a
+            Uppercase
+          </p>
+
           <input
             type="email"
             className={styles.Input}
@@ -118,7 +168,12 @@ function LoginSignUp() {
             onBlur={paswordBlurHandler}
             value={enteredPassword}
           />
-          <p style={{ display: `${PasswordHasError ? "block" : "none"}` }}>
+          <p
+            style={{
+              display: `${PasswordHasError ? "block" : "none"}`,
+              fontSize: "0.7rem",
+            }}
+          >
             password must contain atleast 8 letters and should contain
             uppercase,lowercase,number
           </p>
@@ -135,10 +190,7 @@ function LoginSignUp() {
       >
         <form
           className={styles.Form}
-          onSubmit={(event) => {
-            event.preventDefault();
-            formSubmitHandler.bind(null, "signUp");
-          }}
+          onSubmit={(event) => formSubmitHandler(event)}
         >
           <h1 className={styles.Title}>Sign in </h1>
           <input
@@ -152,8 +204,14 @@ function LoginSignUp() {
             placeholder="Email"
             onChange={emailChangedHandler}
             onBlur={emailBlurHandler}
+            value={emailValue}
           />
-          <p style={{ display: `${emailInputHasError ? "block" : "none"}` }}>
+          <p
+            style={{
+              display: `${emailInputHasError ? "block" : "none"}`,
+              fontSize: "0.7rem",
+            }}
+          >
             email must include @
           </p>
 
@@ -168,8 +226,15 @@ function LoginSignUp() {
             onChange={passwordChangedHandler}
             onBlur={paswordBlurHandler}
             placeholder="Password"
+            value={enteredPassword}
           />
-          <p style={{ display: `${PasswordHasError ? "block" : "none"}` }}>
+          <p
+            style={{
+              display: `${PasswordHasError ? "block" : "none"}`,
+              fontSize: "0.7rem",
+              width: "58%",
+            }}
+          >
             password must contain atleast 8 letters and should contain
             uppercase,lowercase,number
           </p>

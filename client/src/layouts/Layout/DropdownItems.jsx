@@ -21,6 +21,6 @@ export const DropdownItems = [
 ];
 
 export const ProfileItems = [
-  { title: "Profile", path: "/user/profile" },
-  { title: "Log Out", path: "/user/logout" },
+  { title: "Profile", path: "/auth/user/accountsettings" },
+  { title: "Log Out", path: "/" },
 ];

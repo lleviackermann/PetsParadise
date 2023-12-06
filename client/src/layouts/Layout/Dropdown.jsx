@@ -3,9 +3,13 @@ import classes from "./Dropdown.module.css";
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Logout from "@mui/icons-material/Logout";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
 const Dropdown = (props) => {
+  const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
+  const logOut = () => dispatch(authActions.logout());
   return (
     <>
       <ul
@@ -16,7 +20,7 @@ const Dropdown = (props) => {
       >
         {props.items.map((item, index) => {
           return (
-            <li key={index}>
+            <li key={index} onClick={item.title === "Log Out" ? logOut : null}>
               <Link
                 style={{
                   display: "flex",
@@ -25,9 +29,11 @@ const Dropdown = (props) => {
                 }}
                 className={classes.link}
                 to={item.path}
-                onClick={() => setClick(false)}
+                onClick={() => {
+                  setClick(false);
+                }}
               >
-                {item.title === "Profile" && <Avatar />}
+                {item.title === "Profile" && <Avatar sx={{ height: "2rem" }} />}
                 {item.title === "Log Out" && <Logout />}
                 <h3>{item.title}</h3>
               </Link>

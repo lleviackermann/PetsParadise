@@ -41,15 +41,15 @@ function PetRoutes() {
         <Route path="/pets/dogs/:pnum">
           <Dogs />
         </Route>
-        <Route path="/pets/birds">
+        {/* <Route path="/pets/birds">
           <Birds />
-        </Route>
+        </Route> */}
         <Route path="/pets/cats">
           <Cats />
         </Route>
-        <Route path="/pets/Fish">
+        {/* <Route path="/pets/Fish">
           <Fish />
-        </Route>
+        </Route> */}
         <Route path="/pets/services" exact>
           <Services />
         </Route>

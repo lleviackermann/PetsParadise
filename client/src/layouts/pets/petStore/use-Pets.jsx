@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from "react";
-import { dogData, catData } from "../../../db/data";
 const catergoryData = {
   dog: [
     { id: 1, checked: false, label: "Sporting" },
@@ -51,8 +50,9 @@ function usePets(pet, priceRange) {
   const handleInputChange = (event) => {
     setSearchInput(event.target.value);
   };
-  const handleSelectRating = (event, value) =>
+  const handleSelectRating = (event, value) => {
     !value ? setSelectedRating(null) : setSelectedRating(value);
+  };
 
   const applyFilters = useCallback(
     (sendData) => {
@@ -69,6 +69,7 @@ function usePets(pet, priceRange) {
       console.log("selected rating", selectedRating);
       if (selectedRating) {
         updatedList = updatedList.filter((item) => {
+          console.log(item.rating, selectedRating);
           return parseInt(item.rating) === parseInt(selectedRating);
         });
       }
