@@ -25,10 +25,10 @@
 }
 
 html {
-  /* font-size: 62.5%; */
+  font-size: 62.5%;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  /* scroll-padding-top: 7rem; */
 }
 
 body {

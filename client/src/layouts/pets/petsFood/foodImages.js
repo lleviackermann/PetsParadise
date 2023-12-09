@@ -19,188 +19,187 @@ import b3 from "./foodservicesLandingPage/birdFood3.jpg";
 import b4 from "./foodservicesLandingPage/birdFood4.jpg";
 import b6 from "./foodservicesLandingPage/birdFood6.jpg";
 
-
 const foodDetails = [
-    {
-      productType: "food",
-      petType: "Dog",
-      productDetails: {
-        Name: "Pedigree for adult dog",
-        price: "449",
-        src: d1,
-      },
+  {
+    productType: "food",
+    petType: "Dog",
+    productDetails: {
+      Name: "Pedigree for adult dog",
+      price: "449",
+      src: d1,
     },
-    {
-      productType: "food",
-      petType: "Fish",
-      productDetails: {
-        Name: "Omega One pellets for fish",
-        price: "349",
-        src: f1,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Fish",
+    productDetails: {
+      Name: "Omega One pellets for fish",
+      price: "349",
+      src: f1,
     },
-    {
-      productType: "food",
-      petType: "Cat",
-      productDetails: {
-        Name: "Whiskas food for cats",
-        price: "649",
-        src: c1,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Cat",
+    productDetails: {
+      Name: "Whiskas food for cats",
+      price: "649",
+      src: c1,
     },
-    {
-      productType: "food",
-      petType: "Bird",
-      productDetails: {
-        Name: "IuPreem food for parrots",
-        price: "349",
-        src: b1,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Bird",
+    productDetails: {
+      Name: "IuPreem food for parrots",
+      price: "349",
+      src: b1,
     },
-    {
-      productType: "food",
-      petType: "Dog",
-      productDetails: {
-        Name: "Barking Dogs food for dogs",
-        price: "349",
-        src: d2,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Dog",
+    productDetails: {
+      Name: "Barking Dogs food for dogs",
+      price: "349",
+      src: d2,
     },
-    {
-      productType: "food",
-      petType: "Fish",
-      productDetails: {
-        Name: "Tetra Min flakes for fish",
-        price: "349",
-        src: f2,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Fish",
+    productDetails: {
+      Name: "Tetra Min flakes for fish",
+      price: "349",
+      src: f2,
     },
-    {
-      productType: "food",
-      petType: "Cat",
-      productDetails: {
-        Name: "IAMS food for cats",
-        price: "349",
-        src: c2,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Cat",
+    productDetails: {
+      Name: "IAMS food for cats",
+      price: "349",
+      src: c2,
     },
-    {
-      productType: "food",
-      petType: "Bird",
-      productDetails: {
-        Name: "Wagner's food for birds",
-        price: "349",
-        src: b2,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Bird",
+    productDetails: {
+      Name: "Wagner's food for birds",
+      price: "349",
+      src: b2,
     },
-    {
-      productType: "food",
-      petType: "Dog",
-      productDetails: {
-        Name: "Crunch Bites for dogs",
-        price: "349",
-        src: d3,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Dog",
+    productDetails: {
+      Name: "Crunch Bites for dogs",
+      price: "349",
+      src: d3,
     },
-    {
-      productType: "food",
-      petType: "Fish",
-      productDetails: {
-        Name: "Discus food mix for fish",
-        price: "449",
-        src: f3,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Fish",
+    productDetails: {
+      Name: "Discus food mix for fish",
+      price: "449",
+      src: f3,
     },
-    {
-      productType: "food",
-      petType: "Cat",
-      productDetails: {
-        Name: "Perfect Bistro for cats",
-        price: "349",
-        src: c3,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Cat",
+    productDetails: {
+      Name: "Perfect Bistro for cats",
+      price: "349",
+      src: c3,
     },
-    {
-      productType: "food",
-      petType: "Bird",
-      productDetails: {
-        Name: "Wild Harvest for parrots",
-        price: "349",
-        src: b3,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Bird",
+    productDetails: {
+      Name: "Wild Harvest for parrots",
+      price: "349",
+      src: b3,
     },
-    {
-      productType: "food",
-      petType: "Dog",
-      productDetails: {
-        Name: "IAMS food for dogs",
-        price: "349",
-        src: d4,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Dog",
+    productDetails: {
+      Name: "IAMS food for dogs",
+      price: "349",
+      src: d4,
     },
-    {
-      productType: "food",
-      petType: "Fish",
-      productDetails: {
-        Name: "Discovery food for fish",
-        price: "349",
-        src: f4,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Fish",
+    productDetails: {
+      Name: "Discovery food for fish",
+      price: "349",
+      src: f4,
     },
-    {
-      productType: "food",
-      petType: "Cat",
-      productDetails: {
-        Name: "Kit Cat food for cat",
-        price: "649",
-        src: c4,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Cat",
+    productDetails: {
+      Name: "Kit Cat food for cat",
+      price: "649",
+      src: c4,
     },
-    {
-      productType: "food",
-      petType: "Bird",
-      productDetails: {
-        Name: "Meal Worms for birds",
-        price: "549",
-        src: b4,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Bird",
+    productDetails: {
+      Name: "Meal Worms for birds",
+      price: "549",
+      src: b4,
     },
-    {
-      productType: "food",
-      petType: "Dog",
-      productDetails: {
-        Name: "Wild Earth food for dogs",
-        price: "449",
-        src: d5,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Dog",
+    productDetails: {
+      Name: "Wild Earth food for dogs",
+      price: "449",
+      src: d5,
     },
-    {
-      productType: "food",
-      petType: "Cat",
-      productDetails: {
-        Name: "Top Cat food for cats",
-        price: "399",
-        src: c5,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Cat",
+    productDetails: {
+      Name: "Top Cat food for cats",
+      price: "399",
+      src: c5,
     },
-    {
-      productType: "food",
-      petType: "Fish",
-      productDetails: {
-        Name: "Dried worms for fishes",
-        price: "549",
-        src: f6,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Fish",
+    productDetails: {
+      Name: "Dried worms for fishes",
+      price: "549",
+      src: f6,
     },
-    {
-      productType: "food",
-      petType: "Bird",
-      productDetails: {
-        Name: "Peckish food for birds",
-        price: "599",
-        src: b6,
-      },
+  },
+  {
+    productType: "food",
+    petType: "Bird",
+    productDetails: {
+      Name: "Peckish food for birds",
+      price: "599",
+      src: b6,
     },
-  ];
+  },
+];
 
 export default foodDetails;
