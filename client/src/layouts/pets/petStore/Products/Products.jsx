@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import "./Products.css";
-import { useState, useEffect, useMemo, memo } from "react";
+import classes from "./Products.module.css";
+import { useEffect, useMemo, memo } from "react";
 import usePagination from "./Pagination";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -30,7 +30,7 @@ const Products = (props) => {
   // console.log(page, pnum === undefined ? 1 : parseInt(pnum));
   return (
     <>
-      <div className="pagination">
+      <div className={classes.pagination}>
         <Stack spacing={2}>
           <Pagination
             count={products.maxPage}

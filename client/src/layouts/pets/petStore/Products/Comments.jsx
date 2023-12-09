@@ -1,7 +1,7 @@
-import "./Comments.css";
+import classes from "./Comments.module.css";
 function Comments() {
   return (
-    <section className="comments">
+    <section className={classes.comments}>
       <h2>User Comments</h2>
     </section>
   );

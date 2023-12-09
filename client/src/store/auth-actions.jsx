@@ -146,3 +146,93 @@ export const verifyUser = () => {
     dispatch(authActions.login({ token, user }));
   };
 };
+
+export const forgetPass = (mail, otpNo = 0, password = "") => {
+  return async (dispatch) => {
+    let message = "";
+    if (otpNo == 0) {
+      const response = await fetch(
+        `http://localhost:8000/auth/forgotPassword`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            flag: "User",
+            email: mail,
+          }),
+        }
+      );
+      message = await response.json();
+      if (message.status === "success") {
+        dispatch(authActions.otpSent());
+      }
+    } else if (password === "") {
+      const response = await fetch(`http://localhost:8000/auth/validateOtp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          otpNumber: otpNo,
+          email: mail,
+        }),
+      });
+      message = await response.json();
+      if (message.status === "success") {
+        dispatch(authActions.otpVerified());
+      }
+    } else if (password !== "") {
+      const response = await fetch(
+        `http://localhost:8000/auth/changePassword`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            password: password,
+            email: mail,
+            flag: "User",
+          }),
+        }
+      );
+      message = await response.json();
+      if (message.status === "success") {
+        dispatch(authActions.passwordChanged());
+      }
+    }
+    if (message.status === "failure") {
+      dispatch(authActions.otpVerificationFailure());
+    }
+    console.log(message);
+    dispatch(uiActions.showNotification({ notification: message }));
+    setTimeout(() => {
+      dispatch(uiActions.removeNotification());
+    }, 3000);
+  };
+};
+
+export const resetPassword = (mail, oldPassword, newPassword) => {
+  return async (dispatch) => {
+    const response = await fetch(`http://localhost:8000/auth/resetPassword`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        flag: "User",
+        email: mail,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      }),
+    });
+    const message = await response.json();
+    console.log(message);
+    dispatch(uiActions.showNotification({ notification: message }));
+    setTimeout(() => {
+      dispatch(uiActions.removeNotification());
+    }, 3000);
+  };
+};

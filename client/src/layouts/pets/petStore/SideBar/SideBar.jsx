@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import Category from "./Category/Category";
-import Price from "./Price/Price";
 import Rating from "./Rating/Rating";
-import "./Sidebar.css";
+import classes from "./Sidebar.module.css";
 import PriceSlider from "./Price/PriceSlider";
 
 const Sidebar = (props) => {
@@ -36,20 +35,20 @@ const Sidebar = (props) => {
 
   return (
     <>
-      <section className="sidebar">
+      <section className={classes.sidebar}>
         <Category
           category={props.category}
           changeChecked={props.changeChecked}
         />
-        <h2 className="price-filter">Price Filter</h2>
-        <div className="priceSlider">
+        <h2 className={classes.priceFilter}>Price Filter</h2>
+        <div className={classes.priceSlider}>
           <PriceSlider
             value={props.priceValue}
             changePrice={props.handlePriceChange}
           />
         </div>
 
-        <h2 className="price-filter">Star Rating</h2>
+        <h2 className={classes.priceFilter}>Star Rating</h2>
         <Rating
           options={ratingList}
           value={props.selectedRating}

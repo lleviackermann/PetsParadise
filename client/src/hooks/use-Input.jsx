@@ -41,7 +41,6 @@ const useInput = (type) => {
   );
   const validValue = validation(type, initialState.value);
   const error = !validValue && initialState.checked;
-  //   console.log(type, error, validValue);
 
   const inputChangeHandler = (event) => {
     // alert(event.target.value);

@@ -8,13 +8,13 @@ nav {
   margin-left: 2rem;
 }
 
-.nav-icons {
+.navIcons {
   width: 1.5rem;
   height: 1.5rem;
   margin-left: 2rem;
 }
 
-.input-wrapper {
+.inputWrapper {
   width: 100%;
   height: 2.5rem;
   border: none;
@@ -40,6 +40,6 @@ nav {
   outline: none;
 }
 
-#search-icon {
+#searchIcon {
   color: royalblue;
 }

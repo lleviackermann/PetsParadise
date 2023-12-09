@@ -15,7 +15,7 @@ function AuthRoutes() {
   const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
   return (
     <Switch>
-      <Route path="/auth/login">
+      <Route path="/auth/login" exact>
         {userLoggedIn && <Redirect to="/" />}
         {!userLoggedIn && <LoginSignUp />}
       </Route>

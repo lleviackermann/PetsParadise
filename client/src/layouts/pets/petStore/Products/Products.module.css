@@ -1,4 +1,4 @@
-.card-container {
+.cardContainer {
   display: flex;
   flex-wrap: wrap;
   margin-left: 18.25rem;
@@ -31,7 +31,7 @@
   /* opacity: 1; */
 }
 
-.card-img {
+.cardImg {
   width: 100%;
   /* border-radius: 15px; */
   height: 200px;
@@ -44,7 +44,7 @@
   display: inline-block;
 }
 
-.card-title {
+.cardTitle {
   display: flex;
   flex-wrap: wrap;
   /* padding-left: 10px; */
@@ -53,25 +53,25 @@
   white-space: nowrap;
 }
 
-.card-reviews {
+.cardReviews {
   margin-bottom: 1rem;
   padding-left: 10px;
   display: flex;
 }
 
-.card-reviews {
+.cardReviews {
   margin: 0 auto;
   width: 50%;
   color: #d5ab55;
 }
 
-.total-reviews {
+.totalReviews {
   font-size: 0.9rem;
   margin-left: 10px;
   padding-left: 10px;
 }
 
-.card-price {
+.cardPrice {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -82,7 +82,7 @@
   margin-top: 1.25rem;
 }
 
-.bag-icon {
+.bagIcon {
   color: #535353;
 }
 
@@ -91,7 +91,7 @@
   z-index: -100;
 }
 
-.cart--btn {
+.cartBtn {
   padding: 1rem;
   margin: 0.2rem;
   margin-bottom: 0;

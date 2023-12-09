@@ -1,5 +1,5 @@
 import React from "react";
-import "./Products.css";
+import classes from "./Products.module.css";
 import Card from "../components/Card";
 function ProductsList(props) {
   const productsFound = props.data.length !== 0;
@@ -7,11 +7,9 @@ function ProductsList(props) {
   const lifeSpan = `${Math.round(prev)}-${Math.round(
     prev + Math.random() + 1
   )} years`;
-  // alert(lifeSpan);
-  // console.log(props.data[].rating);
   return (
     <>
-      <section className="card-container">
+      <section className={classes.cardContainer}>
         {productsFound &&
           props.data.map(({ name, src, price, rating }) => (
             <Card

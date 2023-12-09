@@ -7,6 +7,7 @@ const authSlice = createSlice({
     userInfo: localStorage.getItem("userInfo"),
     userToken: null,
     expirationTime: null,
+    otpSent: "no",
   },
   reducers: {
     login(state, action) {
@@ -23,6 +24,18 @@ const authSlice = createSlice({
       localStorage.removeItem("lastLoggedIn");
       localStorage.removeItem("userInfo");
       // localStorage.removeItem("expirationTime");
+    },
+    otpSent(state, action) {
+      state.otpSent = "yes";
+    },
+    otpVerified(state, action) {
+      state.otpSent = "verified";
+    },
+    passwordChanged(state, action) {
+      state.otpSent = "no";
+    },
+    otpVerificationFailure(state, action) {
+      state.otpSent = "failure";
     },
     checkAuth(state, action) {
       if (

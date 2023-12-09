@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useHistory } from "react-router-dom";
-import { BsFillBagFill } from "react-icons/bs";
-
+import classes from "../Products/Products.module.css";
 const Card = (props) => {
   const history = useHistory();
   let star = "";
@@ -11,7 +10,7 @@ const Card = (props) => {
   return (
     <>
       <section
-        className="card"
+        className={classes.card}
         // onClick={() => {
         //   const params = new URLSearchParams({
         //     title: props.title,
@@ -26,12 +25,12 @@ const Card = (props) => {
         //   });
         // }}
       >
-        <h3 className="card-title">{props.title}</h3>
+        <h3 className={classes.cardTitle}>{props.title}</h3>
 
         <img
           src={props.img}
           alt={props.title}
-          className="card-img"
+          className={classes.cardImg}
           onClick={() => {
             const params = new URLSearchParams({
               title: props.title,
@@ -46,17 +45,17 @@ const Card = (props) => {
             });
           }}
         />
-        <div className="card-details">
-          <section className="card-reviews">{star}</section>
-          <section className="card-price">
-            <div className="price">
+        <div className={classes.cardDetails}>
+          <section className={classes.cardReviews}>{star}</section>
+          <section className={classes.cardPrice}>
+            <div className={classes.price}>
               <p>
                 <b>
                   $<del>{props.prevPrice}</del> ${props.newPrice}
                 </b>
               </p>
             </div>
-            <button className="cart--btn">ADD TO CART</button>
+            <button className={classes.cartBtn}>ADD TO CART</button>
           </section>
         </div>
       </section>

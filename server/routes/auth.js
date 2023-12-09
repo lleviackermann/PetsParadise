@@ -9,6 +9,7 @@ import {
   validateAndOtpSender,
   changePassword,
   validateOtp,
+  resetPassword,
 } from "../controllers/passwordReset.js";
 
 const router = express.Router();
@@ -20,4 +21,5 @@ router.post("/login", login);
 router.post("/forgotPassword", validateAndOtpSender);
 router.post("/validateOtp", validateOtp);
 router.put("/changePassword", changePassword);
+router.put("/resetPassword", resetPassword);
 export default router;

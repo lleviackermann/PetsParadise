@@ -1,10 +1,19 @@
 import styles from "./Auth.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import useInput from "../../hooks/use-Input";
-import { verifyUser, registerUser, loginUser } from "../../store/auth-actions";
+import { registerUser, loginUser, forgetPass } from "../../store/auth-actions";
 function LoginSignUp() {
   const [signIn, setSignIn] = useState(true);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const otpSent = useSelector((state) => state.auth.otpSent);
+  console.log(otpSent);
+  useEffect(() => {
+    if (otpSent === "no") {
+      setSignIn(true);
+      setForgotPassword(false);
+    }
+  }, [otpSent]);
   const dispatch = useDispatch();
   const {
     value: emailValue,
@@ -38,8 +47,13 @@ function LoginSignUp() {
     inputBlurHandler: paswordBlurHandler,
     reset: resetPasswordInput,
   } = useInput("password");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [otp, setOtp] = useState(0);
   let formIsValid = false;
-  if (signIn && emailValueIsValid && enteredPasswordIsValid) {
+  if (signIn && emailValueIsValid) {
+    // && enteredPasswordIsValid
+    // formIsValid = !forgotPassword || (forgotPassword ? true : false);
+    // && enteredPassword === confirmPasss
     formIsValid = true;
   }
 
@@ -64,7 +78,17 @@ function LoginSignUp() {
         )
       );
     }
-    if (signIn) {
+    if (signIn && forgotPassword) {
+      if (otpSent === "no" || otpSent === "failure") {
+        dispatch(forgetPass(emailValue));
+      } else if (otpSent === "yes") {
+        dispatch(forgetPass(emailValue, otp.trim()));
+      } else if (otpSent === "verified") {
+        dispatch(forgetPass(emailValue, "verified", enteredPassword));
+      }
+      return;
+    }
+    if (signIn && !forgotPassword) {
       dispatch(loginUser(emailValue, enteredPassword));
     }
     resetFirstNameInput();
@@ -78,7 +102,7 @@ function LoginSignUp() {
     resetLastNameInput();
     resetEmailInput();
     resetPasswordInput();
-  }, [signIn]);
+  }, [signIn, forgotPassword]);
   return (
     <div className={styles.Container}>
       <div
@@ -192,11 +216,13 @@ function LoginSignUp() {
           className={styles.Form}
           onSubmit={(event) => formSubmitHandler(event)}
         >
-          <h1 className={styles.Title}>Sign in </h1>
+          <h1 className={styles.Title}>
+            {!forgotPassword ? "Sign in" : "Forgot Password"}
+          </h1>
           <input
             type="email"
             style={
-              emailInputHasError
+              emailInputHasError || otpSent === "failure"
                 ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
                 : null
             }
@@ -206,6 +232,13 @@ function LoginSignUp() {
             onBlur={emailBlurHandler}
             value={emailValue}
           />
+          {forgotPassword && otpSent === "yes" && (
+            <input
+              type="text"
+              className={styles.Input}
+              onChange={(event) => setOtp(event.target.value)}
+            />
+          )}
           <p
             style={{
               display: `${emailInputHasError ? "block" : "none"}`,
@@ -214,20 +247,21 @@ function LoginSignUp() {
           >
             email must include @
           </p>
-
-          <input
-            type="password"
-            className={styles.Input}
-            style={
-              PasswordHasError
-                ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
-                : null
-            }
-            onChange={passwordChangedHandler}
-            onBlur={paswordBlurHandler}
-            placeholder="Password"
-            value={enteredPassword}
-          />
+          {(!forgotPassword || otpSent === "verified") && (
+            <input
+              type="password"
+              className={styles.Input}
+              style={
+                PasswordHasError
+                  ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
+                  : null
+              }
+              onChange={passwordChangedHandler}
+              onBlur={paswordBlurHandler}
+              placeholder={!forgotPassword ? "Password" : "New Password"}
+              value={enteredPassword}
+            />
+          )}
           <p
             style={{
               display: `${PasswordHasError ? "block" : "none"}`,
@@ -238,11 +272,41 @@ function LoginSignUp() {
             password must contain atleast 8 letters and should contain
             uppercase,lowercase,number
           </p>
-          <a href="#" className={styles.Anchor}>
-            Forgot Your Password
-          </a>
+          {otpSent === "verified" && (
+            <input
+              type="password"
+              className={styles.Input}
+              onChange={(event) => {
+                setConfirmPass(event.target.value);
+              }}
+              // onBlur={paswordBlurHandler}
+              style={
+                confirmPass !== enteredPassword
+                  ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
+                  : null
+              }
+              placeholder={"Confirm Password"}
+            />
+          )}
+          {!forgotPassword && (
+            <a
+              onClick={() => setForgotPassword(true)}
+              className={styles.Anchor}
+            >
+              Forgot Your Password
+            </a>
+          )}
+
+          {forgotPassword && (
+            <a
+              onClick={() => setForgotPassword(false)}
+              className={styles.Anchor}
+            >
+              Remeber Details,Sign In
+            </a>
+          )}
           <button disabled={!formIsValid} className={styles.Button}>
-            Sign In
+            {!forgotPassword ? "Sign In" : "Submit"}
           </button>
         </form>
       </div>

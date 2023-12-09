@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/system";
 

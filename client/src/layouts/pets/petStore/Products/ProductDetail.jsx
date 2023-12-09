@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-import "./ProductDetail.css";
+import classes from "./ProductDetail.module.css";
 import {
-  Link,
-  Route,
   useRouteMatch,
   useParams,
   useHistory,
@@ -23,25 +21,25 @@ function ProductDetail() {
   const getParam = (name) => queryParams.get(name);
 
   return (
-    <div className="details">
-      <div className="big-img">
+    <div className={classes.details}>
+      <div className={classes.bigImg}>
         <img src={getParam("imgSrc")} />
       </div>
 
-      <div className="box">
-        <div className="row">
-          <h1 className="heading">Name: {getParam("title")}</h1>
-          <h2 className="heading">Rating: {getParam("stars")}</h2>
-          <h2 className="product-price">
+      <div className={classes.box}>
+        <div className={classes.row}>
+          <h1 className={classes.heading}>Name: {getParam("title")}</h1>
+          <h2 className={classes.heading}>Rating: {getParam("stars")}</h2>
+          <h2 className={classes.productPrice}>
             M.R.P: Rs. $<del>{getParam("price") * 1.5}</del>
             {getParam("price")}
           </h2>
           <h2>Life Span:{getParam("lifeSpan")}</h2>
         </div>
-        <div className="buttons">
-          <button className="cart">Add to cart</button>
+        <div className={classes.buttons}>
+          <button className={classes.cart}>Add to cart</button>
           <button
-            className="cart"
+            className={classes.cart}
             onClick={() => {
               history.goBack();
             }}
