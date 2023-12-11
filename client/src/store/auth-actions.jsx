@@ -21,6 +21,7 @@ export const loginUser = (mail, password) => {
     });
     const data = await response.json();
     const { token, person } = data;
+    console.log("token", token);
     if (data.msg) {
       dispatch(
         uiActions.showNotification({
