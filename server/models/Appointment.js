@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -14,14 +14,14 @@ const appointmentSchema = new Schema({
   },
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
-  vetId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Employee',
-    required: true,
-  }
+  // vetId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Employee",
+  //   required: true,
+  // },
 });
 
 const Appointment = mongoose.model("Appointment", appointmentSchema);

@@ -88,8 +88,13 @@ function NavBar(props) {
           </Link>
         </li>
         <li>
-          <Link to="/" className={classes.navLinks}>
+          <Link to="/pets/products" className={classes.navLinks}>
             Accessories
+          </Link>
+        </li>
+        <li>
+          <Link to="/pets/vetCare" className={classes.navLinks}>
+            vet Care
           </Link>
         </li>
 

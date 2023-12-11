@@ -235,6 +235,7 @@ function LoginSignUp() {
           {forgotPassword && otpSent === "yes" && (
             <input
               type="text"
+              placeholder="Enter otp"
               className={styles.Input}
               onChange={(event) => setOtp(event.target.value)}
             />

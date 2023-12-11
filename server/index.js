@@ -13,6 +13,7 @@ import authRoutes from "./routes/auth.js";
 import dataRoutes from "./routes/data.js";
 import foodRoutes from "./routes/food.js";
 import petRoutes from "./routes/pets.js";
+import appointmentRoutes from "./routes/appointment.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,6 +47,7 @@ app.use("/auth", authRoutes);
 app.use("/post", dataRoutes);
 app.use("/pets", petRoutes);
 app.use("/food", foodRoutes);
+app.use("/appointment", appointmentRoutes);
 app.get("/", async (req, res) => {
   console.log("Home request");
   res.render("index.ejs");

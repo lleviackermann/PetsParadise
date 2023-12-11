@@ -13,6 +13,7 @@ const authSlice = createSlice({
     login(state, action) {
       state.userLoggedIn = true;
       state.userInfo = action.payload.user;
+      state.userToken = action.payload.token;
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       localStorage.setItem("lastLoggedIn", new Date(Date.now()).getTime());
@@ -20,6 +21,7 @@ const authSlice = createSlice({
     logout(state) {
       state.userLoggedIn = false;
       state.userInfo = null;
+      state.userToken = null;
       localStorage.removeItem("token");
       localStorage.removeItem("lastLoggedIn");
       localStorage.removeItem("userInfo");
