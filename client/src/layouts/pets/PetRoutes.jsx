@@ -62,6 +62,9 @@ function PetRoutes() {
         <Route path="/pets/petfoods" exact>
           <PetFood />
         </Route>
+        <Route path="/pets/products">
+          <Products />
+        </Route>
         <Route path={`${path}:petId`}>
           <ProductDetail />
         </Route>
