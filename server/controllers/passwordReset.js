@@ -139,8 +139,8 @@ export const resetPassword = async (req, res) => {
         );
       }
     } else if (flag === "User") {
-      person = await User.findOne({ email: email }, { password: 1 });
-      console.log(person);
+      person = await User.findOne({ email: email });
+      console.log(person, email);
       if (bcrypt.compareSync(oldPassword, person.password)) {
         matched = true;
         person = await User.findOneAndUpdate(
@@ -150,13 +150,13 @@ export const resetPassword = async (req, res) => {
         console.log(await User.find({ email: email }), newPasswordHash);
       }
     }
-    // if (!matched) {
-    //   return res.status(404).json({
-    //     title: "Failure!",
-    //     message: "Old password did not match",
-    //     status: "failure",
-    //   });
-    // }
+    if (!matched) {
+      return res.status(404).json({
+        title: "Failure!",
+        message: "Old password did not match",
+        status: "failure",
+      });
+    }
     return res.status(200).json({
       title: "Success!",
       message: "Password changed successfully! ",

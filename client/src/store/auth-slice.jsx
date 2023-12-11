@@ -4,7 +4,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     userLoggedIn: localStorage.getItem("token") ? true : false,
-    userInfo: localStorage.getItem("userInfo"),
+    userInfo: JSON.parse(localStorage.getItem("userInfo")),
     userToken: null,
     expirationTime: null,
     otpSent: "no",

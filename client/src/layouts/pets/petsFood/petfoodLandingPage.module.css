@@ -1,0 +1,356 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
+
+:root {
+  /* --orange:#ff7800; */
+  --main-hue: 208;
+  --orange: hsl(var(--main-hue), 92%, 54%);
+  --black: #130f40;
+  --light-color: #666;
+  --box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+  --border: 0.2rem solid rgba(0, 0, 0, 0.1);
+  --outline: 0.1rem solid rgba(0, 0, 0, 0.1);
+  --outline-hover: 0.2rem solid var(--black);
+}
+
+.main {
+  /* font-size: 62.5%; */
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  /* text-transform: capitalize; */
+  transition: all 0.2s linear;
+}
+
+.main html {
+  /* font-size: 62.5%; */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  /* scroll-padding-top: 7rem; */
+}
+
+.main body {
+  background: #eee;
+}
+
+.section {
+  padding: 2rem 9%;
+}
+
+.heading {
+  text-align: center;
+  padding: 2rem 0;
+  padding-bottom: 3rem;
+  font-size: 3.5rem;
+  color: var(--black);
+}
+.heading span {
+  background: var(--orange);
+  color: #fff;
+  display: inline-block;
+  padding: 0.5rem 3rem;
+  clip-path: polygon(100% 0, 93% 50%, 100% 99%, 0% 100%, 7% 50%, 0% 0%);
+}
+.btn {
+  margin-top: 1rem;
+  display: inline-block;
+  padding: 0.8rem 3rem;
+  /* font-size: 1.7rem; */
+  border-radius: 0.5rem;
+  border: 0.2rem solid var(--black);
+  color: var(--black);
+  cursor: pointer;
+  background: none;
+}
+
+.btn:hover {
+  background: var(--orange);
+  color: #fff;
+}
+
+/* home start */
+.home {
+  /* font-size: 62.5%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("./foodservicesLandingPage/back5.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-top: 20rem;
+  padding-bottom: 10rem;
+  height: 90vh;
+}
+
+.home .content {
+  text-align: center;
+  width: 100%;
+}
+
+.home .content h3 {
+  color: var(--black);
+  font-size: 1.875rem;
+}
+.home .content h3 span {
+  color: var(--orange);
+}
+.home .content p {
+  color: var(--black);
+  /* font-size: 1.7rem; */
+  padding: 1rem 0;
+  line-height: 1.8rem;
+}
+
+/* home end */
+
+/* features start */
+.features .boxContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: 1.5rem;
+}
+.features .boxContainer .box {
+  padding: 3rem 2rem;
+  background: #fff;
+  outline: var(--outline);
+  outline-offset: -1rem;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+}
+.features .boxContainer .box:hover {
+  outline: var(--outline-hover);
+  outline-offset: 0rem;
+}
+.features .boxContainer .box img {
+  margin: 1rem 0;
+  height: 15rem;
+}
+.features .boxContainer .box h3 {
+  /* font-size: 2.5rem; */
+  line-height: 1.8;
+  color: var(--black);
+}
+.features .boxContainer .box p {
+  /* font-size: 1.5rem; */
+  line-height: 1.8;
+  color: var(--light-color);
+  padding: 1rem 0;
+}
+/* features end */
+
+/* products start */
+.products .productContent {
+  margin-top: 15px;
+  /* height: 1380px; */
+  overflow: hidden;
+}
+.products .viewMore button {
+  margin: 20px 0 10px 0;
+}
+.products .productContent.showMore {
+  height: auto;
+}
+.products .productContent.viewSearch {
+  height: 920px;
+}
+.products .productContent {
+  padding: 1rem;
+}
+.products .productContent {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 20px;
+}
+.products .productContent .items {
+  background: #fff;
+  border-radius: 0.5rem;
+  text-align: center;
+  padding: 3rem 2rem;
+  outline-offset: -1rem;
+  outline: var(--outline);
+  box-shadow: var(--box-shadow);
+  transition: 0.2s linear;
+  max-height: 450px;
+}
+
+.products .productContent .items.inactive {
+  display: none;
+}
+
+.products .productContent .items:hover {
+  outline-offset: 0rem;
+  outline: var(--outline-hover);
+}
+.products .productContent .items img {
+  height: 20rem;
+}
+.products .productContent .items h3 {
+  /* font-size: 2.5rem; */
+  color: var(--black);
+}
+.products .productContent .items .prices {
+  /* font-size: 2rem; */
+  color: var(--black);
+}
+.products .productContent .items .stars i {
+  /* font-size: 1.7rem; */
+  color: var(--orange);
+  padding: 0.5rem 0;
+}
+
+/* products end */
+
+/* products search and filter start*/
+.wrapper {
+  width: 95%;
+  margin: 0 auto;
+}
+.buttonValue {
+  /* font-size: 1.2rem; */
+  border: 2px solid black;
+  padding: 1.5rem 2.5rem;
+  border-radius: 3rem;
+  background-color: transparent;
+  color: var(--orange);
+  cursor: pointer;
+  margin-left: 10px;
+}
+.active {
+  background-color: var(--orange);
+  color: #fff;
+}
+
+/* products search and filter end*/
+
+/*categories start */
+.categories .boxContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+  gap: 1.5rem;
+}
+.categories .boxContainer .box {
+  padding: 3rem 2rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: var(--box-shadow);
+  outline: var(--outline);
+  outline-offset: -1rem;
+  text-align: center;
+}
+.categories .boxContainer .box:hover {
+  outline: var(--outline-hover);
+  outline-offset: 0rem;
+}
+.categories .boxContainer .box img {
+  margin: 1rem 0;
+  height: 15rem;
+}
+.categories .boxContainer .box h3 {
+  /* font-size: 2rem; */
+  color: var(--black);
+  line-height: 1;
+}
+.categories .boxContainer .box p {
+  /* font-size: 1.7rem; */
+  color: var(--light-color);
+  padding: 0;
+}
+
+/*categories end */
+
+/* reviews start */
+.review .reviewSlider {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 20px;
+}
+.review .reviewSlider .box {
+  background: #fff;
+  border-radius: 0.5rem;
+  text-align: center;
+  padding: 3rem 2rem;
+  outline-offset: -1rem;
+  outline: var(--outline);
+  box-shadow: var(--box-shadow);
+  transition: 0.2s linear;
+  margin-bottom: 15px;
+}
+.review .reviewSlider .box:hover {
+  outline-offset: 0rem;
+  outline: var(--outline-hover);
+}
+.review .reviewSlider .box img {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+}
+.review .reviewSlider .box p {
+  padding: 1rem 0;
+  line-height: 1.8;
+  color: var(--light-color);
+  /* font-size: 1.5rem; */
+}
+.review .reviewSlider .box h3 {
+  padding: 1rem 0;
+  color: var(--black);
+  /* font-size: 2.2rem; */
+}
+.review .reviewSlider .box .stars i {
+  color: var(--orange);
+  /* font-size: 1.7rem; */
+}
+.review form {
+  font: 1.8rem sans-serif;
+  border: 2px solid var(--orange);
+}
+.review .revForm {
+  padding: 30px;
+}
+.review form h2 {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  color: var(--black);
+}
+.review form input {
+  width: 600px;
+  height: 40px;
+  display: block;
+  margin: auto;
+  border-radius: 30px;
+  padding-left: 20px;
+}
+.review form textarea {
+  display: block;
+  margin: auto;
+  border-radius: 30px;
+  padding-left: 20px;
+  padding-top: 15px;
+  background-color: #fff;
+}
+.review form button {
+  display: block;
+  margin: 0 auto 20px auto;
+  border-radius: 30px;
+}
+
+/* reviews end */
+
+/* media query */
+@media (max-width: 1020px) {
+  html {
+    /* font-size: 55%; */
+  }
+  .header {
+    padding: 2rem;
+  }
+  section {
+    padding: 2rem 9%;
+  }
+}

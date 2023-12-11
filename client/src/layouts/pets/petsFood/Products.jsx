@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import foodDetails from "./foodImages";
 import images from "./foodservicesLandingPage/images";
 import { BsCurrencyRupee } from "react-icons/bs";
+import classes from "./petfoodLandingPage.module.css";
 
 function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -10,14 +11,6 @@ function Products() {
     const fetchFoodDetails = async () => {
       const response = await fetch("http://localhost:8000/food");
       const data = await response.json();
-      console.log(
-        "/src/layouts/pets/petsFood",
-        data[0].src.substring(
-          data[0].src.indexOf("../../img") + "../../img".length
-        ),
-        foodDetails[0].productDetails.src
-        // data[0].src
-      );
       setFilteredProducts(data);
       setData(data);
     };
@@ -43,8 +36,8 @@ function Products() {
     const term = event.target.value;
     setSearchTerm(term);
 
-    const searchedProducts = foodDetails.filter((product) =>
-      product.productDetails.Name.toLowerCase().includes(term.toLowerCase())
+    const searchedProducts = data.filter((product) =>
+      product.name.toLowerCase().includes(term.toLowerCase())
     );
 
     setFilteredProducts(searchedProducts);
@@ -52,11 +45,11 @@ function Products() {
   };
 
   return (
-    <section className="products" id="products">
-      <h1 className="heading">
+    <section className={`${classes.products} ${classes.section}`} id="products">
+      <h1 className={classes.heading}>
         our <span>products</span>
       </h1>
-      <div className="wrapper">
+      <div className={classes.wrapper}>
         <div id="search-container">
           <input
             type="text"
@@ -71,7 +64,7 @@ function Products() {
             <a
               key={index}
               href="#products"
-              className="button-value"
+              className={classes.buttonValue}
               value={b.value}
               onClick={() => handleButtonClick(b.desc)}
             >
@@ -80,35 +73,41 @@ function Products() {
           ))}
         </div>
       </div>
-      <div className="product-content">
-        {filteredProducts.map((item, index) => (
-          <div key={index} className={`${item.petType} items`}>
-            <img
-              className="imgsrc"
-              src={
-                "/src/layouts/pets/petsFood" +
-                item.src.substring(
-                  item.src.indexOf("../../img") + "../../img".length
-                )
-              }
-              style={{ width: "200px" }}
-            />
-            <div className="des">
-              <h3 className="title">{item.name}</h3>
-              <div className="prices" style={{ fontSize: "1.5rem" }}>
-                <BsCurrencyRupee />
-                {item.price}
+      <div className={classes.productContent}>
+        {filteredProducts.map((item, index) => {
+          console.log(item);
+          return (
+            <div key={index} className={`${item.petType} ${classes.items}`}>
+              <img
+                className={classes.imgsrc}
+                src={
+                  "/src/layouts/pets/petsFood" +
+                  item.src.substring(
+                    item.src.indexOf("../../img") + "../../img".length
+                  )
+                }
+                style={{ width: "200px" }}
+              />
+              <div className={classes.des}>
+                <h3 className={classes.title}>{item.name}</h3>
+                <div className={classes.prices} style={{ fontSize: "1.5rem" }}>
+                  <BsCurrencyRupee />
+                  {item.price}
+                </div>
+              </div>
+              <div className={classes.productCart}>
+                <a className={classes.btn}>Add to cart</a>
               </div>
             </div>
-            <div className="product-cart">
-              <a className="btn">Add to cart</a>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-      <div className="view-more">
+      <div className={classes.viewMore}>
         <center>
-          <button href="#products" className="btn viewbtn">
+          <button
+            href="#products"
+            className={`${classes.btn} ${classes.viewbtn}`}
+          >
             View more
           </button>
         </center>

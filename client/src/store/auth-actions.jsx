@@ -215,6 +215,7 @@ export const forgetPass = (mail, otpNo = 0, password = "") => {
 };
 
 export const resetPassword = (mail, oldPassword, newPassword) => {
+  console.log(mail);
   return async (dispatch) => {
     const response = await fetch(`http://localhost:8000/auth/resetPassword`, {
       method: "PUT",
