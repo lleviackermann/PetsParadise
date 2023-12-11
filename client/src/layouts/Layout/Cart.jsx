@@ -2,28 +2,12 @@ import React from "react";
 import classes from "./Cart.module.css";
 import Modal from "../Ui/Modal";
 import CartItem from "./CartItem";
+import { useSelector } from "react-redux";
 
 const Cart = (props) => {
   const totalAmount = 0;
   const hasProducts = false;
-  const products = [
-    {
-      id: Math.random(),
-      name: "Golden Retriever",
-      amount: 1,
-      price: 1000,
-      productType: "pet",
-      petType: "dog",
-    },
-    {
-      id: Math.random(),
-      name: "Golden Retriever",
-      amount: 1,
-      price: 1000,
-      productType: "pet",
-      petType: "dog",
-    },
-  ];
+  const products = useSelector((state) => state.cart)
 
   const cartProducts = (
     <ul className={classes["cart-Products"]}>
@@ -31,7 +15,7 @@ const Cart = (props) => {
         <CartItem
           key={item.id}
           name={item.name}
-          amount={item.amount}
+          quantity={item.amount}
           price={item.price}
           productType={item.productType}
           petType={item.petType}

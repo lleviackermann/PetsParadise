@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Category from "./Category/Category";
 import Rating from "./Rating/Rating";
-import classes from "./Sidebar.module.css";
+import classes from "./SideBar.module.css";
 import PriceSlider from "./Price/PriceSlider";
 
 const Sidebar = (props) => {

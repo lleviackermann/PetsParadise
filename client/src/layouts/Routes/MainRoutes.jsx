@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-const Home = React.lazy(() => import("../Home"));
+const Home = React.lazy(() => import("../Home/HomePage"));
 const PetRoutes = React.lazy(() => import("../pets/PetRoutes"));
 const NotFound = React.lazy(() => import("../NotFound"));
 const Payment = React.lazy(() => import("../Others/Payment"));

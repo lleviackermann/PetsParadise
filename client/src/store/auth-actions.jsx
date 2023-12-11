@@ -1,7 +1,7 @@
 import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
-const adminMailId = "";
-const adminMailPassword = "";
+const adminMailId = "admin123";
+const adminMailPassword = "Admin@123";
 export const loginUser = (mail, password) => {
   let flag = "User";
   return async (dispatch) => {
@@ -20,7 +20,7 @@ export const loginUser = (mail, password) => {
       }),
     });
     const data = await response.json();
-    const { token, person } = data;
+    const { token, person, cart } = data;
     console.log("token", token);
     if (data.msg) {
       dispatch(

@@ -7,6 +7,8 @@ const Card = (props) => {
   for (let i = 0; i < Math.round(props.star); i++) {
     star += "⭐";
   }
+
+
   return (
     <>
       <section
@@ -55,7 +57,7 @@ const Card = (props) => {
                 </b>
               </p>
             </div>
-            <button className={classes.cartBtn}>ADD TO CART</button>
+            <button className={classes.cartBtn} >ADD TO CART</button>
           </section>
         </div>
       </section>

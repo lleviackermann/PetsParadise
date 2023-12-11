@@ -14,9 +14,7 @@ function NavBar(props) {
   // const [login, setLogin] = useState(true);
   const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
   let userInfo = useSelector((state) => state.auth.userInfo);
-  if (!!userInfo) {
-    userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  }
+  console.log(userInfo)
   // const avatar = userInfo.firstName[0] + userInfo.lastName[1];
 
   const onMouseLeave = () => {
@@ -43,6 +41,7 @@ function NavBar(props) {
       window.removeEventListener("scroll", toggleNavBar);
     };
   }, []);
+  console.log(userInfo)
   return (
     <>
       <header
