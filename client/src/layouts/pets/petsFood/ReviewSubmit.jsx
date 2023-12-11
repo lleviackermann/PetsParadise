@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types*/
 import classes from "./petfoodLandingPage.module.css";
 
 function ReviewSubmit(props) {

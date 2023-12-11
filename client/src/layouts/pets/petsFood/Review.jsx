@@ -11,7 +11,8 @@ function Review() {
   };
 
   const submitHandler = (event) => {
-    event.preventHndler();
+    event.preventDefault();
+    window.alert('review has been submitted');
   };
 
   return (

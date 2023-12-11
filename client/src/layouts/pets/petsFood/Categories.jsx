@@ -14,7 +14,7 @@ const Categories = () => {
         <div className={classes.box}>
           <img
             src={images.categories.dogFood6}
-            style={{ width: "200px" }}
+            style={{ width: "190px", height: "190px" }}
             alt="Dog Food"
           />
           <h3>Dog food</h3>
@@ -26,7 +26,7 @@ const Categories = () => {
         <div className={classes.box}>
           <img
             src={images.categories.catFood6}
-            style={{ width: "200px" }}
+            style={{ width: "190px", height: "190px" }}
             alt="Cat Food"
           />
           <h3>Cat food</h3>
@@ -38,7 +38,7 @@ const Categories = () => {
         <div className={classes.box}>
           <img
             src={images.categories.birdFood5}
-            style={{ width: "200px" }}
+            style={{ width: "190px", height: "190px" }}
             alt="Bird Food"
           />
           <h3>Bird food</h3>
@@ -50,7 +50,7 @@ const Categories = () => {
         <div className={classes.box}>
           <img
             src={images.categories.fishFood5}
-            style={{ width: "200px" }}
+            style={{ width: "190px", height: "190px" }}
             alt="Fish Food"
           />
           <h3>Fish food</h3>
