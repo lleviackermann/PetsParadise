@@ -5,22 +5,17 @@ import Products from "./Products";
 import Review from "./Review";
 import classes from "./petfoodLandingPage.module.css";
 import styled from "styled-components";
-// import "./food.css";
-const StyledComponent = styled.div`
-  html {
-    font-size: 62.5%;
-  }
-`;
+import "./food.css";
 
 const PetFood = () => {
   return (
-    <StyledComponent className={classes.main}>
+    <div className={classes.main}>
       <Home />
       <Features />
       <Categories />
       <Products />
       <Review />
-    </StyledComponent>
+    </div>
   );
 };
 
