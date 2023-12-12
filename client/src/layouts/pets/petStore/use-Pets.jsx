@@ -69,7 +69,7 @@ function usePets(pet, priceRange) {
       console.log("selected rating", selectedRating);
       if (selectedRating) {
         updatedList = updatedList.filter((item) => {
-          console.log(item.rating, selectedRating);
+          console.log(item);
           return parseInt(item.rating) === parseInt(selectedRating);
         });
       }

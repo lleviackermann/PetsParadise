@@ -7,13 +7,14 @@ function ProductsList(props) {
   const lifeSpan = `${Math.round(prev)}-${Math.round(
     prev + Math.random() + 1
   )} years`;
+  console.log(props.data[0]);
   return (
     <>
       <section className={classes.cardContainer}>
         {productsFound &&
-          props.data.map(({ name, src, price, rating }) => (
+          props.data.map(({ _id, name, src, price, rating }) => (
             <Card
-              key={Math.random()}
+              key={_id}
               img={src}
               title={name}
               star={rating}
