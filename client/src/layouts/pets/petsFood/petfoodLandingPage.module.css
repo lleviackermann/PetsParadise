@@ -109,11 +109,14 @@
 /* features start */
 .features .boxContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, minmax(25rem, 1fr));
+  gap: 20px;
 }
 .features .boxContainer .box {
-  padding: 3rem 2rem;
+  font-size: 1rem;
+  max-width: 500px;
+  height: auto;
+  padding: 2rem 2rem;
   background: #fff;
   outline: var(--outline);
   outline-offset: -1rem;
@@ -144,7 +147,7 @@
 /* products start */
 .products .productContent {
   margin-top: 15px;
-  /* height: 1380px; */
+  height: 1370px;
   overflow: hidden;
 }
 .products .viewMore button {
@@ -168,12 +171,12 @@
   background: #fff;
   border-radius: 0.5rem;
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem;
   outline-offset: -1rem;
   outline: var(--outline);
   box-shadow: var(--box-shadow);
   transition: 0.2s linear;
-  max-height: 450px;
+  max-height: 600px;
 }
 
 .products .productContent .items.inactive {
@@ -228,11 +231,11 @@
 /*categories start */
 .categories .boxContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, minmax(15rem, 1fr));
+  gap: 20px;
 }
 .categories .boxContainer .box {
-  padding: 3rem 2rem;
+  padding: 2rem 1rem;
   border-radius: 0.5rem;
   background: #fff;
   box-shadow: var(--box-shadow);

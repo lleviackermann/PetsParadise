@@ -2,6 +2,18 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+const cartSchema = new Schema({
+  productId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    default: 1,
+  },
+});
+
 const UserSchema = new Schema(
   {
     firstName: {
@@ -31,15 +43,7 @@ const UserSchema = new Schema(
       type: String,
       default: "",
     },
-    cart: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "Product",
-        },
-      ],
-      default: [],
-    },
+    cart: [cartSchema],
     appointments: {
       type: [
         {

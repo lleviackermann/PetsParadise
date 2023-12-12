@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Employee from "../models/Employee.js";
 import Admin from "../models/Admin.js";
-
+import Product from "../models/Product.js";
 // User Register
 export const registerUser = async (req, res) => {
   try {
@@ -103,6 +103,61 @@ export const login = async (req, res) => {
   if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
 
   const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
+  await person.populate('cart.productId');
+  const cart = person.cart;
   person.password = "";
-  return res.status(200).json({ token, person });
+  person.cart = [];
+  console.log(person, cart);
+  return res.status(200).json({ token, person, cart });
 };
+
+
+// add to cart
+export const addToCart = async (req, res) => {
+  const { productId, quantity, email } = req.body;
+
+  try {
+    // Find the logged-in user
+    const user = await User.findOne({ email: email});
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the product by ID
+    const product = await Product.findById(productId);
+
+    // If the product does not exist, return an error
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Check if the product is already in the user's cart
+    const existingCartItem = user.cart.find(item => item.productId.equals(productId));
+
+    if (existingCartItem) {
+      // If the product is already in the cart, update the quantity
+      existingCartItem.quantity += quantity || 1;
+    } else {
+      // If the product is not in the cart, add a new item
+      user.cart.push({
+        productId,
+        quantity: quantity || 1,
+      });
+    }
+
+    // Save the updated user object
+    await user.save();
+
+    // Populate the cart field before sending the response
+    await user.populate('cart.productId');
+
+    const cart = user.cart;
+
+    // Return the updated user object with the populated cart
+    res.json({ cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
