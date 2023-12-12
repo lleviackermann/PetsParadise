@@ -103,7 +103,7 @@ export const login = async (req, res) => {
   if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
 
   const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
-  await person.populate('cart.productId');
+  await person.populate("cart.productId");
   const cart = person.cart;
   person.password = "";
   person.cart = [];
@@ -111,29 +111,33 @@ export const login = async (req, res) => {
   return res.status(200).json({ token, person, cart });
 };
 
-
 // add to cart
 export const addToCart = async (req, res) => {
-  const { productId, quantity, email } = req.body;
-
+  const { productId, quantity } = req.body;
   try {
+    const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+
     // Find the logged-in user
-    const user = await User.findOne({ email: email});
+    const user = await User.findById(token.id);
+    console.log(user);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Find the product by ID
+    console.log(productId);
     const product = await Product.findById(productId);
 
     // If the product does not exist, return an error
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
 
     // Check if the product is already in the user's cart
-    const existingCartItem = user.cart.find(item => item.productId.equals(productId));
+    const existingCartItem = user.cart.find((item) =>
+      item.productId.equals(productId)
+    );
 
     if (existingCartItem) {
       // If the product is already in the cart, update the quantity
@@ -150,14 +154,61 @@ export const addToCart = async (req, res) => {
     await user.save();
 
     // Populate the cart field before sending the response
-    await user.populate('cart.productId');
+    await user.populate("cart.productId");
 
     const cart = user.cart;
+    console.log(cart);
 
     // Return the updated user object with the populated cart
     res.json({ cart });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
+export const removeFromCart = async (req, res) => {
+  const { productId } = req.body;
+  try {
+    const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+    const user = await User.findById(token.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const existingCartItem = user.cart.find((item) =>
+      item.productId.equals(productId)
+    );
+    console.log(user.cart, productId);
+
+    if (existingCartItem) {
+      if (existingCartItem.quantity === 1) {
+        user.cart = user.cart.filter(
+          (item) => !item.productId.equals(productId)
+        );
+      } else {
+        existingCartItem.quantity -= 1;
+      }
+    } else {
+      return res.status(404).json({ message: "product not found in userCart" });
+    }
+
+    // Save the updated user object
+    await user.save();
+
+    // Populate the cart field before sending the response
+    await user.populate("cart.productId");
+
+    const cart = user.cart;
+    // console.log(cart);
+
+    // Return the updated user object with the populated cart
+    res.json({ cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

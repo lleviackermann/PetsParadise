@@ -7,6 +7,7 @@ export const loginUser = (mail, password) => {
   return async (dispatch) => {
     if (mail === adminMailId && password === adminMailPassword) {
       flag = "Admin";
+      return;
     }
     const response = await fetch("http://localhost:8000/auth/login", {
       method: "POST",
@@ -21,7 +22,7 @@ export const loginUser = (mail, password) => {
     });
     const data = await response.json();
     const { token, person, cart } = data;
-    console.log("token", token);
+
     if (data.msg) {
       dispatch(
         uiActions.showNotification({
@@ -47,7 +48,7 @@ export const loginUser = (mail, password) => {
           },
         })
       );
-      dispatch(authActions.login({ token, user }));
+      dispatch(authActions.login({ token, user, cart }));
     }
     setTimeout(() => {
       dispatch(uiActions.removeNotification());

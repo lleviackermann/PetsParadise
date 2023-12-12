@@ -952,8 +952,6 @@ const catData = [
 ];
 
 router.get("/", (request, response) => {
-  // Product.insertMany(foodDetails);
-  // console.log(request);
   return response.status(234).send("Welcome To MERN Stack Tutorial");
 });
 

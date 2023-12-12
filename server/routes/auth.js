@@ -4,7 +4,8 @@ import {
   registerEmployee,
   registerAdmin,
   login,
-  addToCart
+  addToCart,
+  removeFromCart,
 } from "../controllers/auth.js";
 import {
   validateAndOtpSender,
@@ -23,5 +24,6 @@ router.post("/forgotPassword", validateAndOtpSender);
 router.post("/validateOtp", validateOtp);
 router.put("/changePassword", changePassword);
 router.put("/resetPassword", resetPassword);
-router.post("/addToCart", addToCart)
+router.post("/addToCart", addToCart);
+router.post("/removeFromCart", removeFromCart);
 export default router;
