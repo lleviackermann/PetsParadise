@@ -14,6 +14,7 @@ const Card = (props) => {
 
   const dispatch = useDispatch();
   const addToCart = () => {
+    console.log("Adding to cart");
     dispatch(addItemToCart(props.id, token));
   };
 

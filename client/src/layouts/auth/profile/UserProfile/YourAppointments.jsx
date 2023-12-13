@@ -6,17 +6,8 @@ import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 
 const YourAppointments = () => {
-  const [data, setData] = useState([
-    {
-      id: 112345,
-      date: "12/12/2021",
-      type: "salon",
-      status: "Delivered",
-      total: 1000,
-    },
-  ]);
+  const [data, setData] = useState([]);
   const token = useSelector((state) => state.auth.userToken);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -33,87 +24,6 @@ const YourAppointments = () => {
     sendRequest();
   }, []);
 
-  // const dajhta = [appointmentType
-  //   :
-  //   "services"
-  //   date
-  //   :
-  //   "2023-12-29"
-  //   number
-  //   :
-  //   ""
-  //   package
-  //   :
-  //   "499"
-  //   status
-  //   :
-  //   "Pending"
-  //   time
-  //   :
-  //   "15:45"
-  //   userId
-  //   :
-  //   "6572ffb1d0be4357fbb96b66"
-  //   ]
-
-  const appointmentdata = [
-    {
-      id: 112345,
-      date: "12/12/2021",
-      type: "salon",
-      status: "Delivered",
-      total: 1000,
-    },
-    {
-      id: 112346,
-      date: "12/12/2021",
-      type: "doctor",
-      status: "On the way",
-      total: 1600,
-    },
-    {
-      id: 112347,
-      date: "12/12/2021",
-      type: "salon",
-      status: "Delivered",
-      total: 2000,
-    },
-    {
-      id: 112348,
-      date: "12/12/2021",
-      type: "doctor",
-      status: "Cancelled",
-      total: 100,
-    },
-    {
-      id: 112345,
-      date: "12/12/2021",
-      type: "salon",
-      status: "Delivered",
-      total: 1000,
-    },
-    {
-      id: 112346,
-      date: "12/12/2021",
-      type: "doctor",
-      status: "On the way",
-      total: 1600,
-    },
-    {
-      id: 112347,
-      date: "12/12/2021",
-      type: "salon",
-      status: "Delivered",
-      total: 2000,
-    },
-    {
-      id: 112348,
-      date: "12/12/2021",
-      type: "doctor",
-      status: "Cancelled",
-      total: 100,
-    },
-  ];
   const [selectedappointment, setselectedappointmentid] = useState(0);
   const [appointmentsuccesscount, setappointmentsuccesscount] = useRecoilState(
     orderSuccessfulProvider

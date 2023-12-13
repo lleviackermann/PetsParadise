@@ -1,61 +1,81 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./YourOrders.css";
 import OrderSuccessful from "./Order/OrderSuccessful";
 // import { useRecoilState } from "recoil";
 import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
+import { useSelector, useDispatch } from "react-redux";
 
 const YourOrders = () => {
-  const data = [
-    {
-      id: 112345,
-      date: "12/12/2021",
-      status: "Delivered",
-      total: 1000,
-    },
-    {
-      id: 112346,
-      date: "12/12/2021",
-      status: "On the way",
-      total: 1600,
-    },
-    {
-      id: 112347,
-      date: "12/12/2021",
-      status: "Delivered",
-      total: 2000,
-    },
-    {
-      id: 112348,
-      date: "12/12/2021",
-      status: "Cancelled",
-      total: 100,
-    },
-    {
-      id: 112345,
-      date: "12/12/2021",
-      status: "Delivered",
-      total: 1000,
-    },
-    {
-      id: 112346,
-      date: "12/12/2021",
-      status: "On the way",
-      total: 1600,
-    },
-    {
-      id: 112347,
-      date: "12/12/2021",
-      status: "Delivered",
-      total: 2000,
-    },
-    {
-      id: 112348,
-      date: "12/12/2021",
-      status: "Cancelled",
-      total: 100,
-    },
-  ];
+  const token = useSelector((state) => state.auth.userToken);
+  const [data, setData] = useState([]);
+  // const data = [
+  //   {
+  //     id: 112345,
+  //     date: "12/12/2021",
+  //     status: "Delivered",
+  //     total: 1000,
+  //   },
+  //   {
+  //     id: 112346,
+  //     date: "12/12/2021",
+  //     status: "On the way",
+  //     total: 1600,
+  //   },
+  //   {
+  //     id: 112347,
+  //     date: "12/12/2021",
+  //     status: "Delivered",
+  //     total: 2000,
+  //   },
+  //   {
+  //     id: 112348,
+  //     date: "12/12/2021",
+  //     status: "Cancelled",
+  //     total: 100,
+  //   },
+  //   {
+  //     id: 112345,
+  //     date: "12/12/2021",
+  //     status: "Delivered",
+  //     total: 1000,
+  //   },
+  //   {
+  //     id: 112346,
+  //     date: "12/12/2021",
+  //     status: "On the way",
+  //     total: 1600,
+  //   },
+  //   {
+  //     id: 112347,
+  //     date: "12/12/2021",
+  //     status: "Delivered",
+  //     total: 2000,
+  //   },
+  //   {
+  //     id: 112348,
+  //     date: "12/12/2021",
+  //     status: "Cancelled",
+  //     total: 100,
+  //   },
+  // ];
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      const response = await fetch("http://localhost:8000/auth/order", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      const orderData = await response.json();
+      console.log(orderData);
+      setData(orderData);
+    };
+    sendRequest();
+  }, []);
+
   const [selectedorderid, setselectedorderid] = useState(0);
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
     orderSuccessfulProvider
@@ -84,8 +104,10 @@ const YourOrders = () => {
           {data.map((item, index) => {
             return (
               <tr key={index}>
-                <td data-label="OrderID">{item.id}</td>
-                <td data-label="OrderDate">{item.date}</td>
+                <td data-label="OrderID">{item._id}</td>
+                <td data-label="OrderDate">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </td>
                 <td data-label="Delivery Status">
                   <div>
                     {item.status === "Delivered" && (
@@ -100,7 +122,7 @@ const YourOrders = () => {
                     {item.status}
                   </div>
                 </td>
-                <td data-label="Total">${item.total}</td>
+                <td data-label="Total">${item.amount * item.quantity}</td>
                 {/* <td data-label="Invoice">
                   <button
                     className="mainbutton1"

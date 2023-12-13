@@ -2,10 +2,11 @@ import { useState } from "react";
 import servicesImages from "./servicesImages";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
+import { authActions } from "../../../store/auth-slice";
 
 function AppointmentSection(props) {
   const [pack, setPack] = useState("");
-  const [num, setNum] = useState("");
+  const [num, setNum] = useState(1);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const token = useSelector((state) => state.auth.userToken);
@@ -41,8 +42,21 @@ function AppointmentSection(props) {
       }, 3000);
       return;
     }
-    if (num === " ") {
-      setNum(1);
+
+    if (pack === "" || num === "" || date === "" || time === "") {
+      dispatch(
+        uiActions.showNotification({
+          notification: {
+            status: "failure",
+            title: "Incorrect format",
+            message: "All fields are required",
+          },
+        })
+      );
+      setTimeout(() => {
+        dispatch(uiActions.removeNotification());
+      }, 3000);
+      return;
     }
     const sendRequest = async () => {
       const response = await fetch(
@@ -64,6 +78,18 @@ function AppointmentSection(props) {
       );
     };
     sendRequest();
+    dispatch(
+      uiActions.showNotification({
+        notification: {
+          status: "success",
+          title: "Success",
+          message: "Appointment is booked successfully",
+        },
+      })
+    );
+    setTimeout(() => {
+      dispatch(uiActions.removeNotification());
+    }, 3000);
   };
 
   return (
@@ -92,8 +118,8 @@ function AppointmentSection(props) {
               type="number"
               name="selnum"
               id="selnum"
-              min={1}
-              defaultValue={1}
+              min="1"
+              defaultValue="1"
               onChange={SelectNum}
             />
             <br />

@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 const UserProfile = () => {
   const { activepage } = useParams();
   const userInfo = useSelector((state) => state.auth.userInfo);
-  console.log(userInfo);
   // console.log(userInfo);
 
   const [user, setUser] = useState({

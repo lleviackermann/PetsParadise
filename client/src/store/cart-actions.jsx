@@ -34,6 +34,7 @@ export const removeItemFromCart = (id, token) => {
       }
     );
     const data = await removeData.json();
+    console.log("data is ", data);
     dispatch(authActions.updateCart(data.cart));
   };
 };

@@ -4,6 +4,7 @@ import User from "../models/User.js";
 import Employee from "../models/Employee.js";
 import Admin from "../models/Admin.js";
 import Product from "../models/Product.js";
+import Order from "../models/Order.js";
 // User Register
 export const registerUser = async (req, res) => {
   try {
@@ -211,4 +212,55 @@ export const removeFromCart = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const orderItems = async (req, res) => {
+  try {
+    const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+    const user = await User.findById(token.id);
+    // console.log(user.cart);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await user.populate("cart.productId");
+    console.log(user.cart);
+    const cart = user.cart;
+    for (const item of cart) {
+      const order = new Order({
+        prodId: item.productId._id,
+        userId: user._id,
+        status: "Pending",
+        amount: item.productId.price,
+        quantity: item.quantity,
+      });
+      const savedOrder = await order.save();
+      user.orders.push(savedOrder._id);
+    }
+    // cart.forEach(async (item) => {
+    //   const order = new Order({
+    //     prodId: item.productId._id,
+    //     userId: user._id,
+    //     status: "Pending",
+    //     amount: item.productId.price,
+    //     quantity: item.quantity,
+    //   });
+    //   const savedOrder = await order.save();
+    //   user.orders.push(savedOrder._id);
+    //   await user.save();
+    // });
+    user.cart = [];
+    await user.save();
+    await user.populate("orders");
+    console.log(user);
+    const updatedCart = user.cart;
+    res.json({ updatedCart });
+  } catch (error) {}
+};
+
+export const getOrderedItems = async (req, res) => {
+  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  let orders = [];
+  orders = await Order.find({ userId: token.id });
+  console.log(orders[0]);
+  return res.status(201).send(orders);
 };

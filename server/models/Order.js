@@ -21,16 +21,18 @@ const orderSchema = new Schema(
       type: String,
       default: "Pending",
     },
-    employeeId: {
-      type: Schema.Types.ObjectId,
-      ref: "Employee",
-    }, amount: {
+    // employeeId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Employee",
+    // },
+    amount: {
       type: Number,
       required: true,
-    }, quantity: {
+    },
+    quantity: {
       type: Number,
       default: 1,
-    }
+    },
   },
   { timestamps: true }
 );
