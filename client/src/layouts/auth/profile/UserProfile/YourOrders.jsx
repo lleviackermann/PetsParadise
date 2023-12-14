@@ -70,7 +70,7 @@ const YourOrders = () => {
         },
       });
       const orderData = await response.json();
-      console.log(orderData);
+      // console.log(orderData);
       setData(orderData);
     };
     sendRequest();

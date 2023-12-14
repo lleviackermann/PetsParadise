@@ -12,7 +12,7 @@ function Review() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    window.alert('review has been submitted');
+    window.alert("review has been submitted");
   };
 
   return (
@@ -21,7 +21,7 @@ function Review() {
         Customer <span>Review</span>
       </h1>
       <ReviewDisplay />
-      <ReviewSubmit submit={submitHandler} review={reviewHandler} />
+      {/* <ReviewSubmit submit={submitHandler} review={reviewHandler} /> */}
     </section>
   );
 }

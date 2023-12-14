@@ -1,11 +1,8 @@
+import BG from "./images/BG1.png"
 const Hero =()=>{
     return (
         <section id="hero">
-      {/* <h4>Trade-in-offer</h4>
-      <h2>Super value deals</h2>
-      <h1>ON all products</h1>
-      <p>Save more with coupons & up to 70% off!</p>
-      <button>Shop Now</button> */}
+       <img src={BG} alt=""/>
     </section>
     );
       

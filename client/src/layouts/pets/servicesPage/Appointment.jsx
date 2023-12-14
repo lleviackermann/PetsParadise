@@ -2,7 +2,6 @@ import { useState } from "react";
 import servicesImages from "./servicesImages";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
-import { authActions } from "../../../store/auth-slice";
 
 function AppointmentSection(props) {
   const [pack, setPack] = useState("");
@@ -103,7 +102,7 @@ function AppointmentSection(props) {
           <form action="services/appointment" onSubmit={SubmitHandler}>
             <label htmlFor="selpack">
               Select the {props.page === servicesImages ? "package" : "doctor"}{" "}
-              you want:{" "}
+              you want:
             </label>
             <select name="selpack" id="selpack" onChange={SelectPack}>
               {props.page.appointment.map((data) => (

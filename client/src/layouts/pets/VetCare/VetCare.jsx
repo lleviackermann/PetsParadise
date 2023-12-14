@@ -11,7 +11,7 @@ import { vetCareInfo } from "./ourDoctors";
 const VetCare = () => {
   return (
     <div className="vetcare">
-      <Background />
+      {/* <Background /> */}
       <About />
       <Service />
       <Gallery />

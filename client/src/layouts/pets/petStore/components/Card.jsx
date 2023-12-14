@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import classes from "../Products/Products.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../../store/cart-actions";
+import { uiActions } from "../../../../store/ui-slice";
 
 const Card = (props) => {
   const history = useHistory();
@@ -14,7 +15,20 @@ const Card = (props) => {
 
   const dispatch = useDispatch();
   const addToCart = () => {
-    console.log("Adding to cart");
+    if (token === null) {
+      dispatch(
+        uiActions.showNotification({
+          notification: {
+            status: "failure",
+            title: "Login to add to cart",
+            message: "Login to continue",
+          },
+        })
+      );
+      setTimeout(() => {
+        dispatch(uiActions.removeNotification());
+      });
+    }
     dispatch(addItemToCart(props.id, token));
   };
 
@@ -24,7 +38,7 @@ const Card = (props) => {
         <h3 className={classes.cardTitle}>{props.title}</h3>
 
         <img
-          src={null}
+          src={props.src}
           alt={props.title}
           className={classes.cardImg}
           onClick={() => {

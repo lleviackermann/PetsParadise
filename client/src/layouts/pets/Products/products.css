@@ -8,73 +8,39 @@
     --outline-hover:0.2rem solid var(--black);
 }
 
-.logo{
-    height: 50px;
-    width: 50px;
-}
-.ins{
-    height: 50px;
-    width: 100px;
-}
-
-/* body {
-    overflow-x: hidden;
-} */
-
 #hero {
-    background-image: url("./images/BG4.png");
-    height: 90%;
-    width: 90%;
-    position: absolute;
-    /* left: 0;
-    top: 0; */
-    background-size: cover; /* Add this line */
-    padding-left: 80px;
+    height: cover;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
   }
 
-#hero h4{
-    /* margin-bottom: -30px; */
-    font-size: 20px;
-}
-#hero h1{
-  /* margin-top: -30px; */
-  color: #088178;
-  font-size: 20px;
- 
-}
-#hero h2{
-    font-size: 20px;
-  }
-  #hero p{
-    color: red;
-    font-size: 20px;
-  }
-  
-
-#hero button{
-    background-color: #088178;
-    color: #1a1a1a;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: .5s;
+#hero img{
+    width: 90%;
+    height: 600px;
 }
 
-#hero button:hover{
-    background-color: #088178;
-    color: #1a1a1a;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: .5s;
-}
-
-#product1{
+/* #product1{
     text-align: center;
+} */
+.box{
+    background-color: #eee;
+    width: 330px;
+    height: 50px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+     padding: 0px 25px;
+}
+input {
+    width: 240px;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
 }
 
 #product1 .pro-container{
@@ -84,8 +50,9 @@
     flex-wrap: wrap;
     margin-right: 20px;
     margin-left: 20px;
-    /* margin: 10px 10px 10px 10px; */
+    padding-top: 50px;
 }
+
 #product1 .pro-container1{
     display: flex;
     justify-content: space-between;
@@ -93,7 +60,6 @@
     flex-wrap: wrap;
     margin-right: 20px;
     margin-left: 20px;
-    /* margin: 10px 10px 10px 10px; */
 }
 
 #product1 .pro{
@@ -199,7 +165,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-image: url("../../img/productLandingPage/bg4.jpg");
+    background-image: url("./images/petAccessories.png");
     min-width: 580px;
     width: 48%;
     height: 50vh;
@@ -261,7 +227,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-image: url("../../img/productLandingPage/bg5.jpg");
+    background-image: url("./images/petAccessories1.png");
     min-width: 30%;
     height: 30vh;
     background-size: cover;

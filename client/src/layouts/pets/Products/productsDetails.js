@@ -1,3 +1,23 @@
+import i1 from "./images/ac1.avif"
+import i2 from "./images/ac17.jpg"
+import i3 from "./images/ac19.jpg"
+import i4 from "./images/ac2.jpg"
+import i5 from "./images/ac3.jpg"
+import i6 from "./images/ac4.jpg"
+import i7 from "./images/ac5.jpg"
+import i8 from "./images/ac6.jpg"
+import i9 from "./images/ac7.jpg"
+import i10 from "./images/ac8.jpg"
+import i11 from "./images/ac9.jpg"
+import i12 from "./images/ac18.jpg"
+import i13 from "./images/ac20.jpg"
+import i14 from "./images/ac10.jpg"
+import i15 from "./images/ac11.jpg"
+import i16 from "./images/ac12.avif"
+import i17 from "./images/ac13.jpg"
+import i18 from "./images/ac14.jpg"
+import i19 from "./images/ac15.jpg"
+import i20 from "./images/ac16.jpg"
 const productDetails = [
     {
       productType: "accessories",
@@ -5,7 +25,7 @@ const productDetails = [
       productDetails: {
         Name: "Bow Tie",
         price: "1999.00",
-        src: "../../img/productLandingPage/ac1.avif",
+        src: i1,
       },
     },
     {
@@ -14,7 +34,7 @@ const productDetails = [
       productDetails: {
         Name: "Dog non-slip Socks",
         price: "199.00",
-        src: "../../img/productLandingPage/ac17.jpg",
+        src: i2,
       },
     },
     {
@@ -23,7 +43,7 @@ const productDetails = [
       productDetails: {
         Name: "Cat scratching Ball Toy",
         price: "1999.00",
-        src: "../../img/productLandingPage/ac19.jpg",
+        src: i3,
       },
     },
     {
@@ -32,7 +52,7 @@ const productDetails = [
       productDetails: {
         Name: "Pawstop Dog Belt",
         price: "1499.00",
-        src: "../../img/productLandingPage/ac2.jpg",
+        src: i4,
       },
     },
     {
@@ -41,7 +61,7 @@ const productDetails = [
       productDetails: {
         Name: "Buraq Cat Harness Full Body with Leash Set - for Walking",
         price: "199.00",
-        src: "../../img/productLandingPage/ac3.jpg",
+        src: i5,
       },
     },
     {
@@ -50,7 +70,7 @@ const productDetails = [
       productDetails: {
         Name: "Jingle Bell for Cat Collar",
         price: "500",
-        src: "../../img/productLandingPage/ac4.jpg",
+        src: i6,
       },
     },
     {
@@ -59,7 +79,7 @@ const productDetails = [
       productDetails: {
         Name: "Bath Box Bird Cage",
         price: "250",
-        src: "../../img/productLandingPage/ac5.jpg",
+        src: i7,
       },
     },
     {
@@ -68,7 +88,7 @@ const productDetails = [
       productDetails: {
         Name: "Bird Parrot Feeder Cage Fruit Vegetable Holder",
         price: "150",
-        src: "../../img/productLandingPage/ac6.jpg",
+        src: i8,
       },
     },
     {
@@ -77,7 +97,7 @@ const productDetails = [
       productDetails: {
         Name: "Aquarium",
         price: "1050",
-        src: "../../img/productLandingPage/ac7.jpg",
+        src: i9,
       },
     },
     {
@@ -86,7 +106,7 @@ const productDetails = [
       productDetails: {
         Name: "mall Fish Hideout Betta Cave Aquarium Decorations",
         price: "300",
-        src: "../../img/productLandingPage/ac8.jpg",
+        src: i10,
       },
     },
     {
@@ -95,7 +115,7 @@ const productDetails = [
       productDetails: {
         Name: "Glitter Gold Bone Dog Name ID Tag",
         price: "1999",
-        src: "../../img/productLandingPage/ac9.jpg",
+        src: i11,
       },
     },
     {
@@ -104,7 +124,7 @@ const productDetails = [
       productDetails: {
         Name: "Personalized Dog Bone Pet Charm",
         price: "425",
-        src: "../../img/productLandingPage/ac18.jpg",
+        src: i12,
       },
     },
     {
@@ -113,7 +133,7 @@ const productDetails = [
       productDetails: {
         Name: "Hunar Quick Fish Catching Nets with Long Handle Aquarium Accessories for Fish Tank Water Tank(Set of 2)",
         price: "350",
-        src: "../../img/productLandingPage/ac20.jpg",
+        src: i13,
       },
     },
     {
@@ -122,7 +142,7 @@ const productDetails = [
       productDetails: {
         Name: "NATLIS Bird Cage, House for Parrot, Rabbit and Small Pets",
         price: "900",
-        src: "../../img/productLandingPage/ac10.jpg",
+        src: i14,
       },
     },
     {
@@ -131,7 +151,7 @@ const productDetails = [
       productDetails: {
         Name: "Soft Plush Donut Cuddler Cushion",
         price: "2149",
-        src: "../../img/productLandingPage/ac11.jpg",
+        src: i15,
       },
     },
     {
@@ -140,7 +160,7 @@ const productDetails = [
       productDetails: {
         Name: "Cute and Funny Pet Sunglasses",
         price: "1499",
-        src: "../../img/productLandingPage/ac12.avif",
+        src: i16,
       },
     },
     {
@@ -149,7 +169,7 @@ const productDetails = [
       productDetails: {
         Name: "Bird Perch Bird Stand Platform Toy",
         price: "2623",
-        src: "../../img/productLandingPage/ac13.jpg",
+        src: i17,
       },
     },
     {
@@ -158,7 +178,7 @@ const productDetails = [
       productDetails: {
         Name: "Hanging Ring Plastic Swing Toy (Pack of 3)",
         price: "169",
-        src: "../../img/productLandingPage/ac14.jpg",
+        src: i18,
       },
     },
     {
@@ -167,7 +187,7 @@ const productDetails = [
       productDetails: {
         Name: "Colourful - High Glass Submersible Automatic On/Off",
         price: "1299",
-        src: "../../img/productLandingPage/ac15.jpg",
+        src: i19,
       },
     },
     {
@@ -176,7 +196,7 @@ const productDetails = [
       productDetails: {
         Name: "Decorative Ornaments for Fish Tank Decoration",
         price: "659",
-        src: "../../img/productLandingPage/ac16.jpg",
+        src: i20,
       },
     },
   ];

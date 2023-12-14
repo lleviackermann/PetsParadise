@@ -7,7 +7,7 @@ function ProductsList(props) {
   const lifeSpan = `${Math.round(prev)}-${Math.round(
     prev + Math.random() + 1
   )} years`;
-  console.log(props.data);
+  // console.log(props.data);
   // console.log(props.data[0]._id);
   return (
     <>
