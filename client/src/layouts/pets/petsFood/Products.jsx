@@ -15,6 +15,20 @@ function Products() {
 
   const dispatch = useDispatch();
   const addToCart = (id) => {
+    if (token === null) {
+      dispatch(
+        uiActions.showNotification({
+          notification: {
+            status: "failure",
+            title: "Login to add to cart",
+            message: "Login to continue",
+          },
+        })
+      );
+      setTimeout(() => {
+        dispatch(uiActions.removeNotification());
+      }, 3000);
+    }
     dispatch(addItemToCart(id, token));
   };
 

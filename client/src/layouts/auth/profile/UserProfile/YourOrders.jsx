@@ -9,57 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 const YourOrders = () => {
   const token = useSelector((state) => state.auth.userToken);
   const [data, setData] = useState([]);
-  // const data = [
-  //   {
-  //     id: 112345,
-  //     date: "12/12/2021",
-  //     status: "Delivered",
-  //     total: 1000,
-  //   },
-  //   {
-  //     id: 112346,
-  //     date: "12/12/2021",
-  //     status: "On the way",
-  //     total: 1600,
-  //   },
-  //   {
-  //     id: 112347,
-  //     date: "12/12/2021",
-  //     status: "Delivered",
-  //     total: 2000,
-  //   },
-  //   {
-  //     id: 112348,
-  //     date: "12/12/2021",
-  //     status: "Cancelled",
-  //     total: 100,
-  //   },
-  //   {
-  //     id: 112345,
-  //     date: "12/12/2021",
-  //     status: "Delivered",
-  //     total: 1000,
-  //   },
-  //   {
-  //     id: 112346,
-  //     date: "12/12/2021",
-  //     status: "On the way",
-  //     total: 1600,
-  //   },
-  //   {
-  //     id: 112347,
-  //     date: "12/12/2021",
-  //     status: "Delivered",
-  //     total: 2000,
-  //   },
-  //   {
-  //     id: 112348,
-  //     date: "12/12/2021",
-  //     status: "Cancelled",
-  //     total: 100,
-  //   },
-  // ];
-
   useEffect(() => {
     const sendRequest = async () => {
       const response = await fetch("http://localhost:8000/auth/order", {
@@ -70,7 +19,6 @@ const YourOrders = () => {
         },
       });
       const orderData = await response.json();
-      // console.log(orderData);
       setData(orderData);
     };
     sendRequest();
