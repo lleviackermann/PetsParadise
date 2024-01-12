@@ -1,11 +1,46 @@
-import React, { useState } from "react";
-import productDetails from "./productsDetails";
+import React, { useState, useEffect } from "react";
+// import productDetails from "./productsDetails";
 import classes from "../petsFood/petfoodLandingPage.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { addItemToCart } from "../../../store/cart-actions";
 
 const ProductSection = () => {
-  const [filteredProducts, setFilteredProducts] = useState(productDetails);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [data, setData] = useState([]);
   const [selectedPetType, setSelectedPetType] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const token = useSelector((state) => state.auth.userToken);
+  const dispatch = useDispatch();
+  const addToCart = (id) => {
+    if (token === null) {
+      dispatch(
+        uiActions.showNotification({
+          notification: {
+            status: "failure",
+            title: "Login to add to cart",
+            message: "Login to continue",
+          },
+        })
+      );
+      setTimeout(() => {
+        dispatch(uiActions.removeNotification());
+      }, 3000);
+    }
+    dispatch(addItemToCart(id, token));
+  };
+
+  useEffect(() => {
+    const fetchFoodDetails = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/accessory");
+        const data = await response.json();
+        setFilteredProducts(data);
+        setData(data);
+      } catch (error) {}
+    };
+    fetchFoodDetails();
+  }, []);
+
   const buttonStyle = {
     padding: "10px 15px",
     margin: "5px",
@@ -20,8 +55,8 @@ const ProductSection = () => {
   const handleButtonClick = (petType) => {
     const petTypeProducts =
       petType === "ALL"
-        ? productDetails
-        : productDetails.filter((product) => product.petType === petType);
+        ? data
+        : data.filter((product) => product.petType === petType);
 
     setFilteredProducts(petTypeProducts);
     setSelectedPetType(petType);
@@ -31,8 +66,8 @@ const ProductSection = () => {
     const term = event.target.value;
     setSearchTerm(term);
 
-    const searchedProducts = productDetails.filter((product) =>
-      product.productDetails.Name.toLowerCase().includes(term.toLowerCase())
+    const searchedProducts = data.filter((product) =>
+      product.name.toLowerCase().includes(term.toLowerCase())
     );
 
     setFilteredProducts(searchedProducts);
@@ -93,10 +128,19 @@ const ProductSection = () => {
       <div className="pro-container">
         {filteredProducts.map((product, index) => (
           <div key={index} className={`pro ${product.petType}`}>
-            <img className="imgsrc" src={product.productDetails.src} alt="" />
+            <img
+              className="imgsrc"
+              src={
+                "/src/layouts/pets/Products" +
+                product.src.substring(
+                  product.src.indexOf("../../img") + "../../img".length
+                )
+              }
+              alt=""
+            />
             <div className="des">
               <span>adidas</span>
-              <h5 className="title">{product.productDetails.Name}</h5>
+              <h5 className="title">{product.name}</h5>
               <div className="star">
                 <i className="fas fa-star"></i>
                 <i className="fas fa-star"></i>
@@ -106,17 +150,17 @@ const ProductSection = () => {
               </div>
               <h4 className="rate">
                 <i className="fa-solid fa-indian-rupee-sign"></i>
-                {product.productDetails.price}
+                {product.price}
               </h4>
             </div>
             <p className="name" style={{ display: "none" }}>
-              {product.productDetails.Name}
+              {product.name}
             </p>
             <p className="price" style={{ display: "none" }}>
-              {product.productDetails.price}
+              {product.price}
             </p>
             <p className="src" style={{ display: "none" }}>
-              {product.productDetails.src}
+              {product.src}
             </p>
             <p className="type" style={{ display: "none" }}>
               Accessory

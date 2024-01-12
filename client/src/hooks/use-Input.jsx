@@ -43,7 +43,6 @@ const useInput = (type) => {
   const error = !validValue && initialState.checked;
 
   const inputChangeHandler = (event) => {
-    // alert(event.target.value);
     dispatch({ type: "CHANGE", value: event.target.value });
   };
   const inputBlurHandler = (event) => {

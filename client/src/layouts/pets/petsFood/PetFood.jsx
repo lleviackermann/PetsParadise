@@ -4,7 +4,6 @@ import Categories from "./Categories";
 import Products from "./Products";
 import Review from "./Review";
 import classes from "./petfoodLandingPage.module.css";
-import styled from "styled-components";
 import "./food.css";
 
 const PetFood = () => {

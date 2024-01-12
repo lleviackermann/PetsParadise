@@ -28,7 +28,7 @@ function Layout(props) {
       )}
       <NavBar showCart={showCartHandler} />
       <main>{props.children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
