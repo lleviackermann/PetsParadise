@@ -28,8 +28,9 @@ const Card = (props) => {
       setTimeout(() => {
         dispatch(uiActions.removeNotification());
       }, 3000);
+    } else {
+      dispatch(addItemToCart(props.id, token));
     }
-    dispatch(addItemToCart(props.id, token));
   };
 
   return (

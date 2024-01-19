@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 const HeaderCartButton = (props) => {
   const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
   const cart = useSelector((state) => state.auth.cart);
+  console.log(cart);
   const numberOfCartItems = cart.reduce(
     (quantity, item) => quantity + item.quantity,
     0

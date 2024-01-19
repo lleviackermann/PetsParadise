@@ -120,14 +120,14 @@ export const addToCart = async (req, res) => {
 
     // Find the logged-in user
     const user = await User.findById(token.id);
-    console.log(user);
+    // console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     // Find the product by ID
-    console.log(productId);
+    // console.log(productId);
     const product = await Product.findById(productId);
 
     // If the product does not exist, return an error
@@ -158,7 +158,6 @@ export const addToCart = async (req, res) => {
     await user.populate("cart.productId");
 
     const cart = user.cart;
-    console.log(cart);
 
     // Return the updated user object with the populated cart
     res.json({ cart });
@@ -183,7 +182,6 @@ export const removeFromCart = async (req, res) => {
     const existingCartItem = user.cart.find((item) =>
       item.productId.equals(productId)
     );
-    console.log(user.cart, productId);
 
     if (existingCartItem) {
       if (existingCartItem.quantity === 1) {
