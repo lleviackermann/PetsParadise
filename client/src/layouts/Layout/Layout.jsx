@@ -1,5 +1,4 @@
 import NavBar from "../Layout/NavBar";
-// import Footer from "../Layout/";
 import { useState } from "react";
 import Cart from "./Cart";
 import Notification from "../Ui/Notification";

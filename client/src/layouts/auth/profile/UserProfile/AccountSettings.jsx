@@ -1,17 +1,17 @@
 import React from "react";
-import "./AccountSettings.css";
+import classes from "./AccountSettings.module.css";
 
 const AccountSettings = ({ user }) => {
   return (
-    <div className="accountsettings">
-      <h1 className="mainhead1">Personal Information</h1>
+    <div className={classes.accountsettings}>
+      <h1 className={classes.mainhead1}>Personal Information</h1>
 
-      <div className="form">
-        <div className="form-group" style={{ fontSize: "1.5rem" }}>
+      <div className={classes.form}>
+        <div className={classes.formGroup} style={{ fontSize: "1.5rem" }}>
           <strong>Name:</strong>
           <span>{user.name}</span>
         </div>
-        <div className="form-group" style={{ fontSize: "1.5rem" }}>
+        <div className={classes.formGroup} style={{ fontSize: "1.5rem" }}>
           <strong>Email:</strong>
           <span>{user.email}</span>
         </div>

@@ -15,6 +15,7 @@ import foodRoutes from "./routes/food.js";
 import petRoutes from "./routes/pets.js";
 import appointmentRoutes from "./routes/appointment.js";
 import accessoryRoutes from "./routes/accessory.js";
+// import Count from "./models/Count.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,6 +45,25 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// app.use(async (req, res, next) => {
+//   const ip = req.ip || req.connect.remoteAddress;
+
+//   let visit = await Visit.findOne({ ip });
+
+//   if (!visit) {
+//     // If the user is visiting for the first time, create a new visit record
+//     visit = new Visit({ ip });
+//   }
+
+//   // Increment the visit count
+//   visit.count += 1;
+
+//   // Save the updated visit record
+//   await visit.save();
+
+//   next();
+// });
+
 app.use("/auth", authRoutes);
 app.use("/post", dataRoutes);
 app.use("/pets", petRoutes);
@@ -52,6 +72,7 @@ app.use("/accessory", accessoryRoutes);
 app.use("/appointment", appointmentRoutes);
 app.get("/", async (req, res) => {
   console.log("Home request");
+
   res.render("index.ejs");
 });
 app.get("/upload", async (req, res) => {
@@ -64,7 +85,22 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
+  .then(async () => {
+    //     const countDocument = await Count.findOne({
+    //       countId: "your_specific_id",
+    //     });
+
+    //     if (countDocument) {
+    //       countDocument.countViews = totalViews;
+    //       await countDocument.save();
+    //       console.log("CountViews updated successfully");
+    //     } else {
+    //       console.error("Count document not found");
+    //     }
+    //   } {
+    //     console.error("Error updating countViews:", error);
+    //   }
+
     app.listen(PORT, () => {
       console.log(`Server Started Successfully on port ${PORT}`);
     });

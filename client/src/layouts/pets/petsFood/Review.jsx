@@ -12,7 +12,14 @@ function Review() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    window.alert("review has been submitted");
+    if (review === "") {
+      window.alert("review cannot be empty");
+      return;
+    }
+    const sendRequest = async () => {
+      const response = await fetch("http://localhost:8000/review");
+    };
+    sendRequest();
   };
 
   return (
@@ -21,7 +28,7 @@ function Review() {
         Customer <span>Review</span>
       </h1>
       <ReviewDisplay />
-      {/* <ReviewSubmit submit={submitHandler} review={reviewHandler} /> */}
+      <ReviewSubmit submit={submitHandler} review={reviewHandler} />
     </section>
   );
 }

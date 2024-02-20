@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "@mui/material/Button";
 import { resetPassword } from "../../../../store/auth-actions";
+import classes from "./AccountSettings.module.css";
 
 const ChangePassword = () => {
   const [oldpass, setOldpass] = useState("");
@@ -31,18 +33,18 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="accountsettings">
-      <h1 className="mainhead1">Change Password</h1>
+    <div className={classes.accountsettings}>
+      <h1 className={classes.mainhead1}>Change Password</h1>
 
-      <div className="form">
-        <div className="form-group">
+      <div className={classes.form}>
+        <div className={classes.formGroup}>
           <label htmlFor="oldpass">
             Old Password <span>*</span>
           </label>
           <input type="password" onChange={changeOldpass} value={oldpass} />
         </div>
 
-        <div className="form-group">
+        <div className={classes.formGroup}>
           <label htmlFor="newpass">
             New Password <span>*</span>
           </label>
@@ -50,9 +52,9 @@ const ChangePassword = () => {
         </div>
       </div>
 
-      <button className="mainbutton1" onClick={changePassword}>
-        Save Changes
-      </button>
+      <Button variant="contained" onClick={changePassword}>
+        Save
+      </Button>
     </div>
   );
 };

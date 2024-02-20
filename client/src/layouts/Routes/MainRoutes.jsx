@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import LoadingSpinner from "../Ui/LoadingSpinner";
+
 const Home = React.lazy(() => import("../Home/HomePage"));
 const PetRoutes = React.lazy(() => import("../pets/PetRoutes"));
 const NotFound = React.lazy(() => import("../NotFound"));
@@ -10,13 +12,7 @@ function MainRoutes() {
   return (
     <div>
       <main>
-        <Suspense
-          fallback={
-            <div className="centered">
-              <h1>Loading..</h1>
-            </div>
-          }
-        >
+        <Suspense fallback={<LoadingSpinner />}>
           <Switch>
             <Route path="/" exact>
               <Home />

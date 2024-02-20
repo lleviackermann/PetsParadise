@@ -1,27 +1,26 @@
-import React, { useState } from 'react'
-import "./HomePage.css"
-import dogSketch from "./dog-sketch.png"
-import groupPet from "./group_pet.jpg"
-import petGromming from "./petGromming.gif"
-import manTrainingDog from "./man-training-dog.gif"
-import petSitting from "./petsitting.gif"
-import vetCare from "./vet-care.gif"
-import petFood from "./pet-food.gif"
-import petToys from "./pet-toys.gif"
-import birds from "./birds.gif"
-import featureBird from "./feature-bird.png"
-import featureService from "./feature-service.png"
-import featureCare from "./feature-care.png"
-import customerService from "./customer-service.png"
-import TypingEffect from './TypingEffect'
-
+import React, { useState } from "react";
+import "./HomePage.css";
+import dogSketch from "./dog-sketch.png";
+import groupPet from "./group_pet.jpg";
+import petGromming from "./petGromming.gif";
+import manTrainingDog from "./man-training-dog.gif";
+import petSitting from "./petsitting.gif";
+import vetCare from "./vet-care.gif";
+import petFood from "./pet-food.gif";
+import petToys from "./pet-toys.gif";
+import birds from "./birds.gif";
+import featureBird from "./feature-bird.png";
+import featureService from "./feature-service.png";
+import featureCare from "./feature-care.png";
+import customerService from "./customer-service.png";
+import TypingEffect from "./TypingEffect";
 
 export default function HomePage() {
   const [contactUs, setContactUs] = useState({
     name: "",
     email: "",
-    message: ""
-  })
+    message: "",
+  });
 
   const strings = [
     "Dogs",
@@ -31,44 +30,22 @@ export default function HomePage() {
     "Vet-Care",
     "Services",
     "Accessories",
-  ]
+  ];
 
-  const handleServicesClick = () => {
-
-  }
-  const handleContactUsClick = () => {
-
-  }
-  const goToDogsPage = () => {
-
-  }
-  const goToCatsPage = () => {
-
-  }
-  const goToBirdsPage = () => {
-
-  }
-  const goToFishPage = () => {
-
-  }
-  const goToServicesPage = () => {
-
-  }
-  const goToProductsPage = () => {
-
-  }
-  const goToVetCarePage = () => {
-
-  }
-  const goToPetsFoodPage = () => {
-
-  }
-  const handleContactUsSubmit = () => {
-
-  }
+  const handleServicesClick = () => {};
+  const handleContactUsClick = () => {};
+  const goToDogsPage = () => {};
+  const goToCatsPage = () => {};
+  const goToBirdsPage = () => {};
+  const goToFishPage = () => {};
+  const goToServicesPage = () => {};
+  const goToProductsPage = () => {};
+  const goToVetCarePage = () => {};
+  const goToPetsFoodPage = () => {};
+  const handleContactUsSubmit = () => {};
   const handleChange = (evt) => {
-    setContactUs({ ...contactUs, [evt.target.name]: [evt.target.value] })
-  }
+    setContactUs({ ...contactUs, [evt.target.name]: [evt.target.value] });
+  };
   return (
     <div className="root_div">
       <header>
@@ -76,7 +53,8 @@ export default function HomePage() {
           <div className="left">
             <div className="heading">
               <h1 className="heading__top">
-                PETS<span>Paradise</span><img src={dogSketch} className='dog-sketch' alt="" />
+                PETS<span>Paradise</span>
+                <img src={dogSketch} className="dog-sketch" alt="" />
               </h1>
               <br />
               <p className="heading__middle">
@@ -85,24 +63,33 @@ export default function HomePage() {
               </p>
               <br />
               <div className="heading__end">
-                We provide you <span className="multiText"><TypingEffect words={strings}
-                  styles={{
-                    color: '',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '90%',
-                    height: '80px',
-                    fontSize: '30px',
-                    padding: '2px', borderRadius: '20px',
-                    margin: '5px'
-                  }} /></span>
-                
+                We provide you
+                <span className="multiText">
+                  <TypingEffect
+                    words={strings}
+                    styles={{
+                      color: "",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "90%",
+                      height: "80px",
+                      fontSize: "30px",
+                      padding: "2px",
+                      borderRadius: "20px",
+                      margin: "5px",
+                    }}
+                  />
+                </span>
               </div>
             </div>
             <div className="button">
-              <div className="btn-grad" onClick={handleServicesClick}>Services</div>
-              <div className="normal-btn" onClick={handleContactUsClick}>Contact Us</div>
+              <div className="btn-grad" onClick={handleServicesClick}>
+                Services
+              </div>
+              <div className="normal-btn" onClick={handleContactUsClick}>
+                Contact Us
+              </div>
             </div>
           </div>
           <div className="right">
@@ -207,9 +194,7 @@ export default function HomePage() {
       </section>
 
       <section className="our__services">
-        <p className="services--heading small">
-          Our Services
-        </p>
+        <p className="services--heading small">Our Services</p>
         <div className="services">
           <div className="services__info">
             <h3>Pet Gromming</h3>
@@ -219,11 +204,11 @@ export default function HomePage() {
             <p className="services__details">
               Regular pet grooming not only keeps your furry friend looking and
               smelling great, but it also offers numerous health benefits.
-              Grooming can help prevent matting, skin irritations, and infections.
-              Additionally, grooming sessions provide an opportunity for you to
-              bond with your pet and detect any potential health issues early on.
-              Give your pet the gift of good health and hygiene with our
-              professional pet grooming services
+              Grooming can help prevent matting, skin irritations, and
+              infections. Additionally, grooming sessions provide an opportunity
+              for you to bond with your pet and detect any potential health
+              issues early on. Give your pet the gift of good health and hygiene
+              with our professional pet grooming services
             </p>
             <div className="services__button" onClick={goToServicesPage}>
               Learn more<span>&rarr;</span>
@@ -236,7 +221,7 @@ export default function HomePage() {
 
         <div className="services">
           <div className="services__add">
-            <img src={manTrainingDog} className='services__image' alt="" />
+            <img src={manTrainingDog} className="services__image" alt="" />
           </div>
           <div className="services__info">
             <h3 className="services__h3">Pet Training</h3>
@@ -264,21 +249,24 @@ export default function HomePage() {
           <div className="services__info">
             <h3>Pet Sitting</h3>
             <h2 className="services__heading">
-              Travel with peace of mind knowing your beloved pet is in the loving
-              care of our experienced pet sitters, who treat them like family.
+              Travel with peace of mind knowing your beloved pet is in the
+              loving care of our experienced pet sitters, who treat them like
+              family.
             </h2>
             <p className="services__details">
               Regular pet grooming not only keeps your furry friend looking and
               smelling great, but it also offers numerous health benefits.
-              Grooming can help prevent matting, skin irritations, and infections.
-              Additionally, grooming sessions provide an opportunity for you to
-              bond with your pet and detect any potential health issues early on.
-              Give your pet the gift of good health and hygiene with our
-              professional pet grooming services
+              Grooming can help prevent matting, skin irritations, and
+              infections. Additionally, grooming sessions provide an opportunity
+              for you to bond with your pet and detect any potential health
+              issues early on. Give your pet the gift of good health and hygiene
+              with our professional pet grooming services
             </p>
-            <div onClick={goToServicesPage}><button className="services__button" type="submit">
-              Learn more<span>&rarr;</span>
-            </button></div>
+            <div onClick={goToServicesPage}>
+              <button className="services__button" type="submit">
+                Learn more<span>&rarr;</span>
+              </button>
+            </div>
           </div>
           <div className="services__add">
             <img src={petSitting} alt="" className="services__image big" />
@@ -298,17 +286,19 @@ export default function HomePage() {
             <p className="services__details">
               Our veterinary care services offer comprehensive medical care for
               your furry friends. From routine check-ups to advanced diagnostics
-              and treatments, our expert veterinarians and staff are dedicated to
-              providing the highest level of care for your pets. We understand
-              that pets are family, and we treat them with the same care and
-              compassion we would want for our own. Whether your pet needs a
-              vaccination, surgery, or ongoing medical management, we are here to
-              support you and your pet every step of the way. Trust us to provide
-              the best possible care for your furry friend.
+              and treatments, our expert veterinarians and staff are dedicated
+              to providing the highest level of care for your pets. We
+              understand that pets are family, and we treat them with the same
+              care and compassion we would want for our own. Whether your pet
+              needs a vaccination, surgery, or ongoing medical management, we
+              are here to support you and your pet every step of the way. Trust
+              us to provide the best possible care for your furry friend.
             </p>
-            <div onClick={goToVetCarePage}><button className="services__button" type="submit">
-              Learn more&rarr;
-            </button></div>
+            <div onClick={goToVetCarePage}>
+              <button className="services__button" type="submit">
+                Learn more&rarr;
+              </button>
+            </div>
           </div>
         </div>
 
@@ -324,17 +314,20 @@ export default function HomePage() {
               for pets of all kinds! Made with high-quality ingredients and
               formulated by experts in pet nutrition, our pet food provides the
               essential nutrients that your furry, feathered, or finned friends
-              need to thrive. Whether you have a dog, cat, bird, or fish, our pet
-              food is designed to meet their unique nutritional requirements. With
-              real meat, vegetables, and other natural ingredients, our pet food
-              is both delicious and nutritious, ensuring that your pet stays
-              healthy and happy. Plus, our convenient home delivery service means
-              that you never have to worry about running out of food. Try our new
-              line of pet food today and give your pets the gift of good health!
+              need to thrive. Whether you have a dog, cat, bird, or fish, our
+              pet food is designed to meet their unique nutritional
+              requirements. With real meat, vegetables, and other natural
+              ingredients, our pet food is both delicious and nutritious,
+              ensuring that your pet stays healthy and happy. Plus, our
+              convenient home delivery service means that you never have to
+              worry about running out of food. Try our new line of pet food
+              today and give your pets the gift of good health!
             </p>
-            <div onClick={goToPetsFoodPage}><button className="services__button product-button" type="submit">
-              Learn more<span>&rarr;</span>
-            </button></div>
+            <div onClick={goToPetsFoodPage}>
+              <button className="services__button product-button" type="submit">
+                Learn more<span>&rarr;</span>
+              </button>
+            </div>
           </div>
           <div className="services__add">
             <img src={petFood} alt="" className="services__image big" />
@@ -353,15 +346,18 @@ export default function HomePage() {
             </h2>
             <p className="services__details">
               Bring joy to your pet's life with our exciting line of pet toys!
-              Designed to stimulate your pet's natural instincts, our toys provide
-              endless entertainment and mental stimulation. Made with high-quality
-              materials and available in a variety of fun shapes and sizes, our
-              pet toys are the perfect way to keep your furry friend happy and
-              healthy. Order now and discover the joy of playtime with your pet!
+              Designed to stimulate your pet's natural instincts, our toys
+              provide endless entertainment and mental stimulation. Made with
+              high-quality materials and available in a variety of fun shapes
+              and sizes, our pet toys are the perfect way to keep your furry
+              friend happy and healthy. Order now and discover the joy of
+              playtime with your pet!
             </p>
-            <div onClick={goToProductsPage}><button className="services__button product-button" type="submit">
-              Learn more<span>&rarr;</span>
-            </button></div>
+            <div onClick={goToProductsPage}>
+              <button className="services__button product-button" type="submit">
+                Learn more<span>&rarr;</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -374,18 +370,20 @@ export default function HomePage() {
             </h2>
             <p className="services__details">
               Transform your home into a serene oasis for your feathered and
-              finned friends with our range of bird cages and fish aquariums! Our
-              bird cages provide a safe and spacious environment for your birds to
-              thrive, while our fish aquariums are designed to mimic the natural
-              habitats of your fish. Made with high-quality materials and
-              available in a variety of sizes and styles, our cages and aquariums
-              are the perfect choice for pet owners who want to provide their pets
-              with a comfortable and stimulating living space. Order now and
-              create an oasis of tranquility for your pets!
+              finned friends with our range of bird cages and fish aquariums!
+              Our bird cages provide a safe and spacious environment for your
+              birds to thrive, while our fish aquariums are designed to mimic
+              the natural habitats of your fish. Made with high-quality
+              materials and available in a variety of sizes and styles, our
+              cages and aquariums are the perfect choice for pet owners who want
+              to provide their pets with a comfortable and stimulating living
+              space. Order now and create an oasis of tranquility for your pets!
             </p>
-            <div onClick={goToProductsPage}><button className="services__button product-button" type="submit">
-              Learn more<span>&rarr;</span>
-            </button></div>
+            <div onClick={goToProductsPage}>
+              <button className="services__button product-button" type="submit">
+                Learn more<span>&rarr;</span>
+              </button>
+            </div>
           </div>
           <div className="services__add">
             <img src={birds} alt="" className="services__image big" />
@@ -401,8 +399,8 @@ export default function HomePage() {
             <p className="card-heading">Wide variety of pets</p>
             <p className="card-details">
               We offer a range of pets to choose from, including dogs, cats,
-              birds, fish.We ensure that all our pets are healthy, well-cared for,
-              and ethically sourced from reputable breeders.
+              birds, fish.We ensure that all our pets are healthy, well-cared
+              for, and ethically sourced from reputable breeders.
             </p>
           </div>
 
@@ -422,8 +420,8 @@ export default function HomePage() {
             <p className="card-heading">Variety of Services</p>
             <p className="card-details">
               We offer a range of services, including pet grooming, pet sitting,
-              dog walking, and pet training. Whether you need someone to take care
-              of your pet while you're away or want to improve your pet's
+              dog walking, and pet training. Whether you need someone to take
+              care of your pet while you're away or want to improve your pet's
               behavior, we have you covered.
             </p>
           </div>
@@ -443,18 +441,19 @@ export default function HomePage() {
             <p className="card-heading">Affordable Pricing</p>
             <p className="card-details">
               We believe that quality pet care should be accessible to everyone,
-              which is why we offer competitive pricing for our services. We also
-              offer discounts for multiple pets and long-term pet care packages.
+              which is why we offer competitive pricing for our services. We
+              also offer discounts for multiple pets and long-term pet care
+              packages.
             </p>
           </div>
           <div className="choose-us-cards">
             <img src={customerService} alt="" />
             <p className="card-heading">Exceptional Customer Service</p>
             <p className="card-details">
-              At PetParadise, we pride ourselves on providing exceptional customer
-              service. We are always available to answer any questions you may
-              have, and we go above and beyond to ensure that you and your pet are
-              happy with our services.
+              At PetParadise, we pride ourselves on providing exceptional
+              customer service. We are always available to answer any questions
+              you may have, and we go above and beyond to ensure that you and
+              your pet are happy with our services.
             </p>
           </div>
         </div>
@@ -492,25 +491,55 @@ export default function HomePage() {
 
               <form className="contact-form">
                 <div className="input-box">
-                  <input className="input-name" type="text" pattern="[A-Za-z ]+" placeholder="Enter your name" name="name" title="Please enter a valid name. Names can only contain letters and spaces." onChange={handleChange} value={contactUs.name} required />
+                  <input
+                    className="input-name"
+                    type="text"
+                    pattern="[A-Za-z ]+"
+                    placeholder="Enter your name"
+                    name="name"
+                    title="Please enter a valid name. Names can only contain letters and spaces."
+                    onChange={handleChange}
+                    value={contactUs.name}
+                    required
+                  />
                 </div>
                 <div className="input-box">
-                  <input className="input-email" type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="Enter your email" name="email" title="Please enter a valid Email." onChange={handleChange} value={contactUs.email} required />
+                  <input
+                    className="input-email"
+                    type="email"
+                    pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                    placeholder="Enter your email"
+                    name="email"
+                    title="Please enter a valid Email."
+                    onChange={handleChange}
+                    value={contactUs.email}
+                    required
+                  />
                 </div>
                 <div className="input-box message-box">
-                  <textarea className="input-message" placeholder="Enter your message" name="message" onChange={handleChange} required>{contactUs.message}</textarea>
+                  <textarea
+                    className="input-message"
+                    placeholder="Enter your message"
+                    name="message"
+                    onChange={handleChange}
+                    required
+                  >
+                    {contactUs.message}
+                  </textarea>
                 </div>
                 <div className="button">
-                  <button className="services__button" onClick={handleContactUsSubmit}>
-                    Send<span>&rarr;</span></button>
+                  <button
+                    className="services__button"
+                    onClick={handleContactUsSubmit}
+                  >
+                    Send<span>&rarr;</span>
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       </section>
-
-
     </div>
-  )
+  );
 }

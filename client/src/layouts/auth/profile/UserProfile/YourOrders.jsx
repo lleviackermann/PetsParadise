@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./YourOrders.css";
+import classes from "./YourOrders.module.css";
 import OrderSuccessful from "./Order/OrderSuccessful";
-// import { useRecoilState } from "recoil";
 import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,15 +28,15 @@ const YourOrders = () => {
     orderSuccessfulProvider
   );
   return (
-    <div className="yourorders">
-      <h1 className="mainhead1">Your Orders</h1>
+    <div className={classes.yourorders}>
+      <h1 className={classes.mainhead1}>Your Orders</h1>
       {ordersuccesscont && (
         <OrderSuccessful
           orderid={selectedorderid}
           message={`Order ID: ${selectedorderid}`}
         />
       )}
-      <table className="yourorderstable">
+      <table className={classes.yourorderstable}>
         <thead>
           <tr>
             <th scope="col">Oder ID</th>
@@ -59,13 +58,13 @@ const YourOrders = () => {
                 <td data-label="Delivery Status">
                   <div>
                     {item.status === "Delivered" && (
-                      <span className="greendot"></span>
+                      <span className={classes.greendot}></span>
                     )}
                     {item.status === "On the way" && (
-                      <span className="yellowdot"></span>
+                      <span className={classes.yellowdot}></span>
                     )}
                     {item.status === "Cancelled" && (
-                      <span className="reddot"></span>
+                      <span className={classes.reddot}></span>
                     )}
                     {item.status}
                   </div>
@@ -73,7 +72,7 @@ const YourOrders = () => {
                 <td data-label="Total">${item.amount * item.quantity}</td>
                 {/* <td data-label="Invoice">
                   <button
-                    className="mainbutton1"
+                    classNameclasses.={mainbutton1}
                     onClick={() => {
                       setselectedorderid(item.id);
                       setordersuccesscont(true);

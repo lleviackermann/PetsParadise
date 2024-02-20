@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import AccountSettings from "./AccountSettings";
-import "./UserProfile.css";
+import classes from "./UserProfile.module.css";
 import ChangePassword from "./ChangePassword";
 import YourOrders from "./YourOrders";
 import YourAppointments from "./YourAppointments";
@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 const UserProfile = () => {
   const { activepage } = useParams();
   const userInfo = useSelector((state) => state.auth.userInfo);
-  // console.log(userInfo);
 
   const [user, setUser] = useState({
     name: userInfo.firstName + " " + userInfo.lastName,
@@ -21,12 +20,12 @@ const UserProfile = () => {
   });
 
   return (
-    <div className="userprofile">
-      <div className="userprofilein">
-        <div className="left">
+    <div className={classes.userprofile}>
+      <div className={classes.userprofilein}>
+        <div className={classes.left}>
           <UserSidebar activepage={activepage} />
         </div>
-        <div className="right">
+        <div className={classes.right}>
           {activepage === "accountsettings" && <AccountSettings user={user} />}
           {activepage === "changepassword" && <ChangePassword />}
           <RecoilRoot>

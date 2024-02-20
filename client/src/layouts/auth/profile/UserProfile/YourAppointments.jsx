@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./YourOrders.css";
+import classes from "./YourOrders.module.css";
 import OrderSuccessful from "./Order/OrderSuccessful";
 import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
@@ -29,15 +29,15 @@ const YourAppointments = () => {
     orderSuccessfulProvider
   );
   return (
-    <div className="yourorders">
-      <h1 className="mainhead1">Your Appointments</h1>
+    <div className={classes.yourorders}>
+      <h1 className={classes.mainhead1}>Your Appointments</h1>
       {appointmentsuccesscount && (
         <OrderSuccessful
           orderid={selectedappointment}
           message={`Order ID: ${selectedappointment}`}
         />
       )}
-      <table className="yourorderstable">
+      <table className={classes.yourorderstable}>
         <thead>
           <tr>
             <th scope="col" style={{ width: "300px" }}>
@@ -62,13 +62,13 @@ const YourAppointments = () => {
                 <td data-label="Delivery Status">
                   <div>
                     {item.status === "Delivered" && (
-                      <span className="greendot"></span>
+                      <span className={classes.greendot}></span>
                     )}
                     {item.status === "Pending" && (
-                      <span className="yellowdot"></span>
+                      <span className={classes.yellowdot}></span>
                     )}
                     {item.status === "Cancelled" && (
-                      <span className="reddot"></span>
+                      <span className={classes.reddot}></span>
                     )}
                     {item.status}
                   </div>
@@ -76,7 +76,7 @@ const YourAppointments = () => {
                 <td data-label="Total">${item.package}</td>
                 {/* <td data-label="Invoice">
                   <button
-                    className="mainbutton1"
+                    classNameclasses.={mainbutton1}
                     onClick={() => {
                       setselectedappointmentid(item.id);
                       setappointmentsuccesscount(true);

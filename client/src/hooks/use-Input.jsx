@@ -15,7 +15,7 @@ const validation = (type, value) => {
     return /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(value);
   }
   if (type === "name") {
-    return /^[A-Z][a-zA-Z0-9]{2,}$/.test(value);
+    return /^[A-Z][a-zA-Z]{2,}$/.test(value);
   }
   if (type === "password") {
     if (value === "admin123") {
