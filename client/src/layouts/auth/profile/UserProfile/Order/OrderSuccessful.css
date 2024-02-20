@@ -1,4 +1,4 @@
-.OrdersSuccessful {
+/* .OrdersSuccessful {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.499);
@@ -59,7 +59,6 @@
 }
 
 
-/*  */
 .confirmationcont .c1 {
     display: flex;
     justify-content: center;
@@ -211,4 +210,333 @@
     }
     
     
+} */
+
+.confirmationcont::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+}
+
+.confirmationcont::-webkit-scrollbar-thumb {
+    background-color: var(--col1);
+    border-radius: 5px;
+}
+
+
+.confirmationcont .c1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.confirmationcont .c1 h2 {
+    text-align: center;
+    margin: 0; /* Remove default margin */
+    font-size: 24px; /* Increased font size */
+    color: var(--col1);
+}
+
+.confirmationcont .c1 svg {
+    width: 100px;
+    height: 100px;
+    color: var(--col1);
+}
+
+.confirmationcont .c2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0; /* Added padding */
+}
+
+.confirmationcont .c2 h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--col1);
+    margin-top: 10px;
+    width: 100%;
+}
+
+.confirmationcont .c2 div {
+    width: 48%; /* Adjusted width for better alignment */
+}
+
+.confirmationcont .c2 div p {
+    font-size: 16px; /* Increased font size */
+    font-weight: 400;
+    color: var(--col2);
+    margin: 10px 0; /* Added margin */
+}
+
+.confirmationcont .c3 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.confirmationcont .c3 table thead tr {
+    background-color: var(--col1);
+    color: white;
+}
+
+.confirmationcont .c3 table thead tr th {
+    padding: 10px 10px;
+    font-size: 16px; /* Increased font size */
+    font-weight: 600;
+    color: black;
+}
+
+.confirmationcont .c3 table tr td {
+    padding: 10px 10px;
+    font-size: 16px; /* Increased font size */
+    font-weight: 400;
+    color: var(--col2);
+}
+
+
+/* Styling for Order Summary */
+.confirmationcont .c2 {
+    padding-top: 20px; /* Adjusted padding */
+}
+
+.confirmationcont .c2 h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--col1);
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 15px; /* Added margin */
+}
+
+.confirmationcont .c2 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjusted margin */
+    border: 1px solid #ccc; /* Added border */
+}
+
+.confirmationcont .c2 table tbody tr td {
+    padding: 8px 0;
+    border: 1px solid #ccc; /* Added border */
+}
+
+/* Styling for Product Details */
+.confirmationcont .c3 {
+    margin-top: 20px; /* Added margin */
+}
+
+.confirmationcont .c3 h2 {  
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--col1);
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 15px; /* Added margin */
+}
+
+.confirmationcont .c3 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjusted margin */
+    border: 1px solid #ccc; /* Added border */
+}
+
+.confirmationcont .c3 table tbody tr td {
+    padding: 8px 0;
+    border: 1px solid #ccc; /* Added border */
+}
+
+/* Styling for Product Details */
+.confirmationcont .c3 {
+    margin-top: 20px; /* Added margin */
+}
+
+.confirmationcont .c3 h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--col1);
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 15px; /* Added margin */
+}
+
+.confirmationcont .c3 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjusted margin */
+}
+
+.confirmationcont .c3 table tbody tr td {
+    padding: 8px 0;
+}
+ 
+.OrdersSuccessful {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.499);
+    position: fixed;
+    top: 0;
+    left: 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    margin-top: 20px;
+}
+
+.confirmationcont {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 90%;
+    height: 80vh;
+    border-radius: 50px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    z-index: 1001;
+    padding: 20px; /* Added padding */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.confirmationcont::-webkit-scrollbar {
+    width: 0; /* Hide scrollbar width */
+    background: transparent; /* Optional: Set background color */
+}
+
+/* Styling for Order Summary */
+.confirmationcont .c2 {
+    padding-top: 20px; /* Adjusted padding */
+}
+
+.confirmationcont .c2 h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--col1);
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 15px; /* Added margin */
+}
+
+.confirmationcont .c2 table {
+    width: 60%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjusted margin */
+    border: 1px solid #ccc; /* Added border */
+}
+
+.confirmationcont .c2 table tbody tr td {
+    padding: 8px 20px;
+    border: 1px solid #ccc; /* Added border */
+}
+
+/* Styling for Product Details */
+.confirmationcont .c3 {
+    margin-top: 20px; /* Added margin */
+}
+
+.confirmationcont .c3 h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--col1);
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 15px; /* Added margin */
+}
+
+.confirmationcont .c3 table {
+    width: 60%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjusted margin */
+    border: 1px solid #ccc; /* Added border */
+}
+
+.confirmationcont .c3 table tbody tr td {
+    padding: 8px 20px;
+    border: 1px solid #ccc; /* Added border */
+}
+
+/* Other Styles */
+.popup__close-btn {
+    position: absolute;
+    top: 100px;
+    right: 110px;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 2px solid black;
+    opacity: 0.8;
+    /* border: none; */
+    outline: none;
+    z-index: 2000;
+}
+
+.popup__close-btn:hover {
+    background-color: var(--col1);
+    color: rgb(13, 201, 248);
+    border: 2px solid rgb(13, 201, 248);
+}
+
+
+.input-container {
+    margin-top: 10px;
+}
+
+.input-field {
+    width: 350px;
+    height: 100px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    margin-right: 50px;
+    margin-top: 50px;
+    border-radius: 5px;
+    font-size: 18px;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.label {
+    margin-top: 10px;
+    font-size: 18px;
+    margin-left: 70px;
+    color: #333;
+    display: block;
+}
+
+
+
+/* Adjustments for small screens */
+@media screen and (max-width: 700px) {
+    .confirmationcont .c2 div {
+        width: 100%;
+    }
+
+    .confirmationcont .c2 div p {
+        font-size: 14px; /* Decreased font size */
+    }
+
+    .confirmationcont .c2 div p:first-child {
+        font-size: 14px; /* Decreased font size */
+    }
+
+    .confirmationcont .c2 div p:last-child {
+        font-size: 14px; /* Decreased font size */
+    }
+
+    .confirmationcont .c3 table p {
+        font-size: 14px; /* Decreased font size */
+    }
 }
