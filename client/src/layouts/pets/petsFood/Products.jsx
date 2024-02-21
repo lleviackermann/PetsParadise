@@ -109,7 +109,8 @@ function Products() {
           showMore ? classes.showMore : classes.viewSearch
         }`}
       >
-        {filteredProducts.map((item, index) => (
+        {filteredProducts.map((item, index) =>{
+          return (
           <div key={index} className={`${item.petType} ${classes.items}`}>
             <img
               className={classes.imgsrc}
@@ -138,7 +139,7 @@ function Products() {
               </button>
             </div>
           </div>
-        ))}
+        )})}
       </div>
       <div className={classes.viewMore}>
         <center>

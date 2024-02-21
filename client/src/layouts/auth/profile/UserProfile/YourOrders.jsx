@@ -19,11 +19,12 @@ const YourOrders = () => {
       });
       const orderData = await response.json();
       setData(orderData);
+      console.log(orderData);
     };
     sendRequest();
   }, []);
 
-  const [selectedorderid, setselectedorderid] = useState(0);
+  const [selectedorder, setselectedorder] = useState(0);
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
     orderSuccessfulProvider
   );
@@ -32,18 +33,19 @@ const YourOrders = () => {
       <h1 className={classes.mainhead1}>Your Orders</h1>
       {ordersuccesscont && (
         <OrderSuccessful
-          orderid={selectedorderid}
-          message={`Order ID: ${selectedorderid}`}
+          order={selectedorder}
+          message={`Order ID: ${selectedorder}`}
+          
         />
       )}
       <table className={classes.yourorderstable}>
         <thead>
           <tr>
-            <th scope="col">Oder ID</th>
+            {/* <th scope="col">Oder ID</th> */}
             <th scope="col">Date</th>
             <th scope="col">Status</th>
             <th scope="col">Total</th>
-            {/* <th scope="col">Invoice</th> */}
+            <th scope="col">Product</th> 
           </tr>
         </thead>
 
@@ -51,7 +53,7 @@ const YourOrders = () => {
           {data.map((item, index) => {
             return (
               <tr key={index}>
-                <td data-label="OrderID">{item._id}</td>
+                {/* <td data-label="OrderID">{item._id}</td> */}
                 <td data-label="OrderDate">
                   {new Date(item.createdAt).toLocaleDateString()}
                 </td>
@@ -70,17 +72,17 @@ const YourOrders = () => {
                   </div>
                 </td>
                 <td data-label="Total">${item.amount * item.quantity}</td>
-                {/* <td data-label="Invoice">
+                <td data-label="Invoice">
                   <button
-                    classNameclasses.={mainbutton1}
+                    className={classes.mainbutton1}
                     onClick={() => {
-                      setselectedorderid(item.id);
+                      setselectedorder(item);
                       setordersuccesscont(true);
                     }}
                   >
-                    View
+                    View Product
                   </button>
-                </td> */}
+                </td>
               </tr>
             );
           })}
