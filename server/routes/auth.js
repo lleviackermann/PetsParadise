@@ -10,6 +10,7 @@ import {
   getOrderedItems,
   getProductDetails,
   getStatistics,
+  submitReview,
 } from "../controllers/auth.js";
 import {
   validateAndOtpSender,
@@ -34,4 +35,5 @@ router.post("/order", orderItems);
 router.get("/order", getOrderedItems);
 router.get("/product/:productId", getProductDetails);
 router.get("/statistics", getStatistics);
+router.post("/review", submitReview);
 export default router;

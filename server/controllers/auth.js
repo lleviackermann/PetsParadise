@@ -7,6 +7,7 @@ import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
+import Review from "../models/Review.js";
 
 // User Register
 export const registerUser = async (req, res) => {
@@ -314,8 +315,6 @@ export const getStatistics = async (req, res) => {
     let prod = await Product.findById(order.prodId);
     products.push(prod);
   }
-  // await user.populate("orders");
-  // await user.populate("appointments");
   const countOrdersByStatus = orders.reduce(
     (acc, order) => {
       if (order.status === "Pending") {
@@ -417,4 +416,22 @@ export const getStatistics = async (req, res) => {
     appointmentStatistics,
     orderTypeStatistics,
   });
+};
+
+export const submitReview = async (req, res) => {
+  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  const user = await User.findById(token.id, { firstName: 1, lastName: 1 });
+  const Name = user.firstName + " " + user.lastName;
+  console.log(user);
+  const newReview = await Review({
+    Name,
+    review: req.body.review,
+    prodId: req.body.prodId,
+  });
+  const savedReview = await newReview.save();
+  const product = await Product.findById(req.body.prodId);
+  product.reviews.push(savedReview);
+  await product.save();
+  const status = [];
+  res.status(201).send({ status });
 };
