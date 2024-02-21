@@ -51,10 +51,7 @@ function LoginSignUp() {
   const [otp, setOtp] = useState(0);
   let formIsValid = false;
   if (signIn && emailValueIsValid) {
-    // && enteredPasswordIsValid
     formIsValid = forgotPassword || enteredPasswordIsValid;
-    // && enteredPassword === confirmPasss
-    // formIsValid = true;
   }
 
   if (

@@ -140,7 +140,7 @@ const foodDetails = [
     src: "../../img/foodservicesLandingPage/birdFood6.jpg",
   },
 ];
-const dogData = [
+export const dogData = [
   {
     productType: "pet",
     petType: "dog",
@@ -442,7 +442,7 @@ const dogData = [
     rating: "2",
   },
 ];
-const catData = [
+export const catData = [
   {
     productType: "pet",
     petType: "cat",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import dogSketch from "./dog-sketch.png";
 import groupPet from "./group_pet.jpg";
@@ -14,13 +14,41 @@ import featureService from "./feature-service.png";
 import featureCare from "./feature-care.png";
 import customerService from "./customer-service.png";
 import TypingEffect from "./TypingEffect";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/ui-slice";
+
+let firstVisit = true;
 
 export default function HomePage() {
+  const dispatch = useDispatch();
   const [contactUs, setContactUs] = useState({
     name: "",
     email: "",
     message: "",
   });
+  useEffect(() => {
+    const fetchCounts = async () => {
+      console.log("fetching counts");
+      try {
+        const response = await fetch("http://localhost:8000/updatecount");
+        const responseData = await response.json();
+        return responseData.views;
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+        return 0;
+      }
+    };
+
+    const handleFirstVisit = async () => {
+      if (firstVisit) {
+        firstVisit = false;
+        const views = await fetchCounts();
+        dispatch(uiActions.updateViews({ views }));
+      }
+    };
+
+    handleFirstVisit();
+  }, [firstVisit, dispatch]);
 
   const strings = [
     "Dogs",
@@ -523,9 +551,8 @@ export default function HomePage() {
                     name="message"
                     onChange={handleChange}
                     required
-                  >
-                    {contactUs.message}
-                  </textarea>
+                    value={contactUs.message}
+                  ></textarea>
                 </div>
                 <div className="button">
                   <button

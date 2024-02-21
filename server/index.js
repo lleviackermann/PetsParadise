@@ -8,13 +8,13 @@ import morgan from "morgan";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
-import ejs from "ejs";
 import authRoutes from "./routes/auth.js";
 import dataRoutes from "./routes/data.js";
 import foodRoutes from "./routes/food.js";
 import petRoutes from "./routes/pets.js";
 import appointmentRoutes from "./routes/appointment.js";
 import accessoryRoutes from "./routes/accessory.js";
+import Count from "./models/Count.js";
 // import Count from "./models/Count.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,10 +23,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-////
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/client"));
-/////
 
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
@@ -45,6 +43,24 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// app.use(async (req, res, next) => {
+//   const ip = req.ip || req.connect.remoteAddress;
+
+//   let visit = await Visit.findOne({ ip });
+
+//   if (!visit) {
+//     // If the user is visiting for the first time, create a new visit record
+//     visit = new Visit({ ip });
+//   }
+
+//   // Increment the visit count
+//   visit.count += 1;
+
+//   // Save the updated visit record
+//   await visit.save();
+
+//   next();
+// });
 
 app.use("/auth", authRoutes);
 app.use("/post", dataRoutes);
@@ -57,6 +73,16 @@ app.get("/", async (req, res) => {
 
   res.render("index.ejs");
 });
+
+app.get("/updatecount", async (req, res) => {
+  const count = await Count.findOne({ countId: "100" });
+  console.log(count);
+  const views = count.countViews + 1;
+  console.log(views);
+  await Count.findOneAndUpdate({ countId: "100" }, { countViews: views });
+  res.json({ views });
+});
+
 app.get("/upload", async (req, res) => {
   res.render("upload.ejs");
 });
@@ -68,21 +94,6 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(async () => {
-    //     const countDocument = await Count.findOne({
-    //       countId: "your_specific_id",
-    //     });
-
-    //     if (countDocument) {
-    //       countDocument.countViews = totalViews;
-    //       await countDocument.save();
-    //       console.log("CountViews updated successfully");
-    //     } else {
-    //       console.error("Count document not found");
-    //     }
-    //   } {
-    //     console.error("Error updating countViews:", error);
-    //   }
-
     app.listen(PORT, () => {
       console.log(`Server Started Successfully on port ${PORT}`);
     });

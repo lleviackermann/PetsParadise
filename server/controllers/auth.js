@@ -5,6 +5,8 @@ import Employee from "../models/Employee.js";
 import Admin from "../models/Admin.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
+import Count from "../models/Count.js";
+
 // User Register
 export const registerUser = async (req, res) => {
   try {
@@ -20,7 +22,6 @@ export const registerUser = async (req, res) => {
       password: passwordHash,
     });
 
-    console.log(newUser);
     let err = "";
     try {
       const savedUser = await newUser.save();
@@ -28,6 +29,13 @@ export const registerUser = async (req, res) => {
       throw error;
     }
     // savedUser.password = "";
+    const count = await Count.findOne({ countId: "100" });
+    const customers = count.countCustomers + 1;
+    await Count.findOneAndUpdate(
+      { countId: "100" },
+      { countCustomers: customers }
+    );
+
     return res.status(201).json("Success");
   } catch (error) {
     return res.status(500).json({
@@ -55,6 +63,13 @@ export const registerEmployee = async (req, res) => {
 
     const savedEmployee = await newEmployee.save();
     savedEmployee.password = "";
+    const count = await Count.findOne({ countId: "100" });
+    const employees = count.countEmployees + 1;
+    await Count.findOneAndUpdate(
+      { countId: "100" },
+      { countEmployees: employees }
+    );
+
     return res.status(201).json(savedEmployee);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -79,6 +94,13 @@ export const registerAdmin = async (req, res) => {
 
     const savedAdmin = await newAdmin.save();
     savedAdmin.password = "";
+    // const count = await Count.findOne({ countId: "100" });
+    // const customers = count.countCustomers + 1;
+    // await Count.findOneAndUpdate(
+    //   { countId: "100" },
+    //   { countCustomers: customers }
+    // );
+
     return res.status(201).json(savedAdmin);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -246,6 +268,10 @@ export const orderItems = async (req, res) => {
     //   user.orders.push(savedOrder._id);
     //   await user.save();
     // });
+    const count = await Count.findOne({ countId: "100" });
+    const orders = count.countOrders + user.cart.length;
+    await Count.findOneAndUpdate({ countId: "100" }, { countOrders: orders });
+
     user.cart = [];
     await user.save();
     await user.populate("orders");
