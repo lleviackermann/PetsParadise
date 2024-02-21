@@ -28,6 +28,7 @@ const YourOrders = () => {
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
     orderSuccessfulProvider
   );
+  console.log(data);
   return (
     <div className={classes.yourorders}>
       <h1 className={classes.mainhead1}>Your Orders</h1>
@@ -35,7 +36,6 @@ const YourOrders = () => {
         <OrderSuccessful
           order={selectedorder}
           message={`Order ID: ${selectedorder}`}
-          
         />
       )}
       <table className={classes.yourorderstable}>
@@ -45,7 +45,7 @@ const YourOrders = () => {
             <th scope="col">Date</th>
             <th scope="col">Status</th>
             <th scope="col">Total</th>
-            <th scope="col">Product</th> 
+            <th scope="col">Product</th>
           </tr>
         </thead>
 
