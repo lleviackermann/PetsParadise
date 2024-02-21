@@ -6,6 +6,7 @@ import Admin from "../models/Admin.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 import Count from "../models/Count.js";
+import Appointment from "../models/Appointment.js";
 
 // User Register
 export const registerUser = async (req, res) => {
@@ -302,3 +303,45 @@ export const getProductDetails = async (req, res) => {
   console.log(product);
   res.status(201).send(product);
 };
+
+export const getAllAppointments = async(req,res)=>{
+  const appointments = await Appointment.find();
+  for (let i = 0; i < appointments.length; i++) {
+    const user = await User.findById(appointments[i].userId);
+    if (user) {
+      const userName = `${user.firstName} ${user.lastName}`;
+      console.log(userName);
+      appointments[i] = appointments[i].toObject(); 
+      appointments[i]["userName"] = userName;
+      console.log(appointments[i]);
+    } else {
+      console.log("User not found for appointment:", appointments[i]._id);
+    }
+  }
+    console.log(appointments);
+  res.status(201).send(appointments)
+}
+
+export const getAllOrders = async(req,res)=>{
+  const orders = await Order.find();
+  for (let i = 0; i < orders.length; i++) {
+    const user = await User.findById(orders[i].userId);
+    const product = await Product.findById(orders[i].prodId)
+    if (user) {
+      const userName = `${user.firstName} ${user.lastName}`;
+      orders[i] = orders[i].toObject(); 
+      orders[i]["userName"] = userName;
+      orders[i]["productName"] = product.name;
+      orders[i]["productType"] = product.productType;
+    }
+    else{
+      orders[i] = orders[i].toObject(); 
+      orders[i]["userName"] = "Hem donga lanja";
+      orders[i]["productName"] = "Random";
+      orders[i]["productType"] = "pets";
+    }
+  }
+  
+  res.status(201).send(orders);
+}
+

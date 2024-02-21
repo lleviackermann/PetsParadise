@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./Notifications.module.css";
+import classes from "./EmployeeNotifications.module.css";
 
 const Notifications = () => {
   const notifications = [
@@ -7,6 +7,11 @@ const Notifications = () => {
     { id: "m2", message: "hello2" },
     { id: "m3", message: "hello3" },
     { id: "m4", message: "hello4" },
+    { id: "m5", message: "hello5" },
+    { id: "m5", message: "hello5" },
+    { id: "m5", message: "hello5" },
+    { id: "m5", message: "hello5" },
+    { id: "m5", message: "hello5" },
     { id: "m5", message: "hello5" },
   ];
 
