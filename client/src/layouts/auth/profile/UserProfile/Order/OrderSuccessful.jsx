@@ -24,8 +24,6 @@ const OrderSuccessful = ({ order, message, redirecto }) => {
             },
           });
           const productData = await response.json();
-          console.log(productData.src);
-          console.log("/src/layouts/pets/Products/"+productData.src.replace('./../img/images/', 'images/'));
           setData(productData);
         };
         sendRequest();
@@ -91,8 +89,14 @@ const OrderSuccessful = ({ order, message, redirecto }) => {
                             </tr>
                         </tbody>
                     </table>
-                    <label className="label" htmlFor="review"><strong>Enter Review : </strong></label>
-                    <input className="input-field" id='review' type="text" placeholder="Enter your review"/>
+                    <div className='review-container'>
+                        <h2>Enter Review:</h2>
+                        <input className='input-field' id='review' type='text' placeholder='Enter your review' />
+                        <div className='submit-btn-container'>
+                            <button type='submit'>Submit review</button>
+                        </div>
+                    </div>
+
                 </div>
 
                 {/* Product Details Table */}

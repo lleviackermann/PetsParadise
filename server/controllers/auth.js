@@ -285,7 +285,14 @@ export const getOrderedItems = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let orders = [];
   orders = await Order.find({ userId: token.id });
-  return res.status(201).send(orders);
+  console.log("ORDERS:",orders[0].prodId);
+  let products = [];
+  for (const order of orders) {
+    let prod = await Product.findById(order.prodId)
+    products.push(prod) 
+  }
+
+  return res.status(201).send({orders,products});
 };
 
 export const getProductDetails = async(req,res)=>{

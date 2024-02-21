@@ -84,6 +84,36 @@
   background-color: rgb(255, 81, 81);
 }
 
+.tableHeaderCell{
+  border-right: 1px solid #ccc;
+}
+
+/* YourOrders.module.css */
+
+.filterButtons {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start of the container */
+  margin-bottom: 20px; /* Add some margin at the bottom for spacing */
+}
+
+.filterButton {
+  margin-right: 10px;
+}
+
+.filterButton select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Styles for the upward and downward arrow icons */
+.arrowIcon {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
 @media screen and (max-width: 1200px) {
   .yourorderstable thead {
     border: none;
