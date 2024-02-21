@@ -10,14 +10,6 @@ export const DropdownItems = [
     title: "Cats",
     path: "/pets/cats",
   },
-  //   {
-  //     title: "Design",
-  //     path: "/design",
-  //   },
-  //   {
-  //     title: "Development",
-  //     path: "/development",
-  //   },
 ];
 
 export const ProfileItems = [

@@ -8,14 +8,14 @@ const reviewSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    prodId: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-    },
-    appointmentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Appointment",
-    },
+    // prodId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Product",
+    // },
+    // appointmentId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Appointment",
+    // },
   },
   { timestamps: true }
 );
