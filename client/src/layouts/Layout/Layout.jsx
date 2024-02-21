@@ -8,8 +8,8 @@ import Footer from "./Footer";
 function Layout(props) {
   const [showCart, setShowCart] = useState(false);
   const notification = useSelector((state) => state.ui.notification);
-  const role = useSelector((state) => state.ui.userRole);
-  console.log(role);
+  const role = useSelector((state) => state.ui.role);
+  // console.log(role);
   const showCartHandler = () => {
     setShowCart(true);
   };

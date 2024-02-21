@@ -6,6 +6,7 @@ const uiSlice = createSlice({
     notification: null,
     userRole: null,
     views: null,
+    role: null,
   },
   reducers: {
     showNotification(state, action) {
@@ -18,7 +19,7 @@ const uiSlice = createSlice({
       state.views = action.payload.views;
     },
     updateRole(state, action) {
-      state.userRole = action.payload;
+      state.role = action.payload;
     },
   },
 });
