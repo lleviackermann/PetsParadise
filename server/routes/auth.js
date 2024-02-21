@@ -9,6 +9,7 @@ import {
   orderItems,
   getOrderedItems,
   getProductDetails,
+  getStatistics,
 } from "../controllers/auth.js";
 import {
   validateAndOtpSender,
@@ -31,5 +32,6 @@ router.post("/addToCart", addToCart);
 router.post("/removeFromCart", removeFromCart);
 router.post("/order", orderItems);
 router.get("/order", getOrderedItems);
-router.get("/product/:productId",getProductDetails)
+router.get("/product/:productId", getProductDetails);
+router.get("/statistics", getStatistics);
 export default router;

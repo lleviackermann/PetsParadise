@@ -6,6 +6,7 @@ import Admin from "../models/Admin.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 import Count from "../models/Count.js";
+import Appointment from "../models/Appointment.js";
 
 // User Register
 export const registerUser = async (req, res) => {
@@ -285,7 +286,7 @@ export const getOrderedItems = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let orders = [];
   orders = await Order.find({ userId: token.id });
-  return res.status(201).send(orders);
+  res.status(201).send(orders);
 };
 
 export const getProductDetails = async (req, res) => {
@@ -294,4 +295,119 @@ export const getProductDetails = async (req, res) => {
   let product = await Product.findById(prodId);
   console.log(product);
   res.status(201).send(product);
+};
+
+export const getStatistics = async (req, res) => {
+  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  const user = await User.findById(token.id);
+  let orders = await Order.find({ userId: token.id });
+  let appointments = await Appointment.find({ userId: token.id });
+  let products = [];
+  for (const order of orders) {
+    let prod = await Product.findById(order.prodId);
+    products.push(prod);
+  }
+  // await user.populate("orders");
+  // await user.populate("appointments");
+  const countOrdersByStatus = orders.reduce(
+    (acc, order) => {
+      if (order.status === "Pending") {
+        acc.pending++;
+      } else if (order.status === "Delivered") {
+        acc.delivered++;
+      }
+      return acc;
+    },
+    { pending: 0, delivered: 0 }
+  );
+  const countAppointmentsByStatus = appointments.reduce(
+    (acc, order) => {
+      if (order.status === "Accepted") {
+        acc.scheduled++;
+      } else if (order.status === "Pending") {
+        acc.cancelled++;
+      }
+      return acc;
+    },
+    { scheduled: 0, cancelled: 0 }
+  );
+  const countorderTypeByStatus = products.reduce(
+    (acc, order) => {
+      if (order.productType === "pet") {
+        acc.pet++;
+      } else if (order.productType === "food") {
+        acc.food++;
+      } else if (order.productType === "Accessory") {
+        acc.accessory++;
+      }
+      return acc;
+    },
+    { pet: 0, food: 0, accessory: 0 }
+  );
+  const orderStatistics = [
+    {
+      data: [
+        {
+          id: 0,
+          value: countOrdersByStatus.delivered,
+          label: "delivered",
+          color: "#ffe4c1",
+        },
+        {
+          id: 1,
+          value: countOrdersByStatus.pending,
+          label: "pending",
+          color: "#c1d1ff",
+        },
+      ],
+    },
+  ];
+
+  const appointmentStatistics = [
+    {
+      data: [
+        {
+          id: 0,
+          value: countAppointmentsByStatus.scheduled,
+          label: "Scheduled",
+          color: "#ffe4c1",
+        },
+        {
+          id: 1,
+          value: countAppointmentsByStatus.cancelled,
+          label: "Cancelled",
+          color: "#c1d1ff",
+        },
+      ],
+    },
+  ];
+  const orderTypeStatistics = [
+    {
+      data: [
+        {
+          id: 0,
+          value: countorderTypeByStatus.pet,
+          label: "pets",
+          color: "#ffe4c1",
+        },
+        {
+          id: 1,
+          value: countorderTypeByStatus.food,
+          label: "food",
+          color: "#c1d1ff",
+        },
+        {
+          id: 2,
+          value: countorderTypeByStatus.accessory,
+          label: "accessories",
+          color: "#c1ffc1",
+        },
+      ],
+    },
+  ];
+  res.status(201).send({
+    orderStatistics,
+    appointmentStatistics,
+    orderTypeStatistics,
+  });
 };
