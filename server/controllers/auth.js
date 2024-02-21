@@ -286,14 +286,14 @@ export const getOrderedItems = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let orders = [];
   orders = await Order.find({ userId: token.id });
-  console.log("ORDERS:",orders[0].prodId);
+  console.log("ORDERS:", orders[0].prodId);
   let products = [];
   for (const order of orders) {
-    let prod = await Product.findById(order.prodId)
-    products.push(prod) 
+    let prod = await Product.findById(order.prodId);
+    products.push(prod);
   }
 
-  return res.status(201).send({orders,products});
+  return res.status(201).send({ orders, products });
 };
 
 export const getProductDetails = async (req, res) => {
@@ -303,45 +303,3 @@ export const getProductDetails = async (req, res) => {
   console.log(product);
   res.status(201).send(product);
 };
-
-export const getAllAppointments = async(req,res)=>{
-  const appointments = await Appointment.find();
-  for (let i = 0; i < appointments.length; i++) {
-    const user = await User.findById(appointments[i].userId);
-    if (user) {
-      const userName = `${user.firstName} ${user.lastName}`;
-      console.log(userName);
-      appointments[i] = appointments[i].toObject(); 
-      appointments[i]["userName"] = userName;
-      console.log(appointments[i]);
-    } else {
-      console.log("User not found for appointment:", appointments[i]._id);
-    }
-  }
-    console.log(appointments);
-  res.status(201).send(appointments)
-}
-
-export const getAllOrders = async(req,res)=>{
-  const orders = await Order.find();
-  for (let i = 0; i < orders.length; i++) {
-    const user = await User.findById(orders[i].userId);
-    const product = await Product.findById(orders[i].prodId)
-    if (user) {
-      const userName = `${user.firstName} ${user.lastName}`;
-      orders[i] = orders[i].toObject(); 
-      orders[i]["userName"] = userName;
-      orders[i]["productName"] = product.name;
-      orders[i]["productType"] = product.productType;
-    }
-    else{
-      orders[i] = orders[i].toObject(); 
-      orders[i]["userName"] = "Hem donga lanja";
-      orders[i]["productName"] = "Random";
-      orders[i]["productType"] = "pets";
-    }
-  }
-  
-  res.status(201).send(orders);
-}
-
