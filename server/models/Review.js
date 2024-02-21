@@ -12,10 +12,10 @@ const reviewSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Product",
     },
-    appointmentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Appointment",
-    },
+    // appointmentId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Appointment",
+    // },
   },
   { timestamps: true }
 );

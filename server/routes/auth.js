@@ -8,6 +8,7 @@ import {
   removeFromCart,
   orderItems,
   getOrderedItems,
+  getProductDetails,
 } from "../controllers/auth.js";
 import {
   validateAndOtpSender,
@@ -30,4 +31,5 @@ router.post("/addToCart", addToCart);
 router.post("/removeFromCart", removeFromCart);
 router.post("/order", orderItems);
 router.get("/order", getOrderedItems);
+router.get("/product/:productId",getProductDetails)
 export default router;
