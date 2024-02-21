@@ -1,17 +1,9 @@
 {
   "dependencies": {
-<<<<<<< HEAD
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.15.10",
-    "@mui/x-data-grid": "^6.19.4",
-    "@mui/x-data-grid-generator": "^6.19.4",
-=======
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/x-charts": "^6.19.4",
->>>>>>> 98c9d16677b42e10d91b4921374e71d6ad4edc7b
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
