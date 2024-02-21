@@ -12,8 +12,8 @@ export const addItemToCart = (id, token) => {
         productId: id,
       }),
     });
+    // if(sendData.status)
     const data = await sendData.json();
-    console.log(data.cart);
     dispatch(authActions.updateCart(data.cart));
   };
 };

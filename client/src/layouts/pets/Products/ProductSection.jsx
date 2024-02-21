@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import classes from "../petsFood/petfoodLandingPage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../store/cart-actions";
+import { uiActions } from "../../../store/ui-slice";
 
 const ProductSection = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -12,6 +13,7 @@ const ProductSection = () => {
   const token = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
   const addToCart = (id) => {
+    console.log("token ", token);
     if (token === null) {
       dispatch(
         uiActions.showNotification({
@@ -25,8 +27,9 @@ const ProductSection = () => {
       setTimeout(() => {
         dispatch(uiActions.removeNotification());
       }, 3000);
+    } else {
+      dispatch(addItemToCart(id, token));
     }
-    dispatch(addItemToCart(id, token));
   };
 
   useEffect(() => {
@@ -167,7 +170,7 @@ const ProductSection = () => {
             </p>
             <div className={classes.productCart}>
               <button
-                // onClick={addToCart.bind(null, item._id)}
+                onClick={addToCart.bind(null, product._id)}
                 className={classes.btn}
               >
                 Add to cart

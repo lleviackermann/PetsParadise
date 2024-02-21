@@ -5,8 +5,11 @@ import Products from "./Products";
 import Review from "./Review";
 import classes from "./petfoodLandingPage.module.css";
 import "./food.css";
+import { useSelector } from "react-redux";
 
 const PetFood = () => {
+  const views = useSelector((state) => state.ui.views);
+  console.log(views);
   return (
     <div className={classes.main}>
       <Home />

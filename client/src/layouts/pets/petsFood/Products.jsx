@@ -4,6 +4,7 @@ import classes from "./petfoodLandingPage.module.css";
 import images from "./foodservicesLandingPage/images";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../store/cart-actions";
+import { uiActions } from "../../../store/ui-slice";
 
 function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -28,8 +29,9 @@ function Products() {
       setTimeout(() => {
         dispatch(uiActions.removeNotification());
       }, 3000);
+    } else {
+      dispatch(addItemToCart(id, token));
     }
-    dispatch(addItemToCart(id, token));
   };
 
   useEffect(() => {
@@ -107,7 +109,8 @@ function Products() {
           showMore ? classes.showMore : classes.viewSearch
         }`}
       >
-        {filteredProducts.map((item, index) => (
+        {filteredProducts.map((item, index) =>{
+          return (
           <div key={index} className={`${item.petType} ${classes.items}`}>
             <img
               className={classes.imgsrc}
@@ -136,7 +139,7 @@ function Products() {
               </button>
             </div>
           </div>
-        ))}
+        )})}
       </div>
       <div className={classes.viewMore}>
         <center>

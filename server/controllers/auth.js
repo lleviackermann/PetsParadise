@@ -5,6 +5,10 @@ import Employee from "../models/Employee.js";
 import Admin from "../models/Admin.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
+import Count from "../models/Count.js";
+import Appointment from "../models/Appointment.js";
+import Review from "../models/Review.js";
+
 // User Register
 export const registerUser = async (req, res) => {
   try {
@@ -20,7 +24,6 @@ export const registerUser = async (req, res) => {
       password: passwordHash,
     });
 
-    console.log(newUser);
     let err = "";
     try {
       const savedUser = await newUser.save();
@@ -28,6 +31,13 @@ export const registerUser = async (req, res) => {
       throw error;
     }
     // savedUser.password = "";
+    const count = await Count.findOne({ countId: "100" });
+    const customers = count.countCustomers + 1;
+    await Count.findOneAndUpdate(
+      { countId: "100" },
+      { countCustomers: customers }
+    );
+
     return res.status(201).json("Success");
   } catch (error) {
     return res.status(500).json({
@@ -55,6 +65,13 @@ export const registerEmployee = async (req, res) => {
 
     const savedEmployee = await newEmployee.save();
     savedEmployee.password = "";
+    const count = await Count.findOne({ countId: "100" });
+    const employees = count.countEmployees + 1;
+    await Count.findOneAndUpdate(
+      { countId: "100" },
+      { countEmployees: employees }
+    );
+
     return res.status(201).json(savedEmployee);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -79,6 +96,13 @@ export const registerAdmin = async (req, res) => {
 
     const savedAdmin = await newAdmin.save();
     savedAdmin.password = "";
+    // const count = await Count.findOne({ countId: "100" });
+    // const customers = count.countCustomers + 1;
+    // await Count.findOneAndUpdate(
+    //   { countId: "100" },
+    //   { countCustomers: customers }
+    // );
+
     return res.status(201).json(savedAdmin);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -120,14 +144,14 @@ export const addToCart = async (req, res) => {
 
     // Find the logged-in user
     const user = await User.findById(token.id);
-    console.log(user);
+    // console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     // Find the product by ID
-    console.log(productId);
+    // console.log(productId);
     const product = await Product.findById(productId);
 
     // If the product does not exist, return an error
@@ -158,7 +182,6 @@ export const addToCart = async (req, res) => {
     await user.populate("cart.productId");
 
     const cart = user.cart;
-    console.log(cart);
 
     // Return the updated user object with the populated cart
     res.json({ cart });
@@ -183,7 +206,6 @@ export const removeFromCart = async (req, res) => {
     const existingCartItem = user.cart.find((item) =>
       item.productId.equals(productId)
     );
-    console.log(user.cart, productId);
 
     if (existingCartItem) {
       if (existingCartItem.quantity === 1) {
@@ -248,6 +270,10 @@ export const orderItems = async (req, res) => {
     //   user.orders.push(savedOrder._id);
     //   await user.save();
     // });
+    const count = await Count.findOne({ countId: "100" });
+    const orders = count.countOrders + user.cart.length;
+    await Count.findOneAndUpdate({ countId: "100" }, { countOrders: orders });
+
     user.cart = [];
     await user.save();
     await user.populate("orders");
@@ -261,6 +287,151 @@ export const getOrderedItems = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let orders = [];
   orders = await Order.find({ userId: token.id });
-  console.log(orders[0]);
-  return res.status(201).send(orders);
+  console.log("ORDERS:", orders[0].prodId);
+  let products = [];
+  for (const order of orders) {
+    let prod = await Product.findById(order.prodId);
+    products.push(prod);
+  }
+
+  return res.status(201).send({ orders, products });
+};
+
+export const getProductDetails = async (req, res) => {
+  // const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  const prodId = req.params.productId;
+  let product = await Product.findById(prodId);
+  console.log(product);
+  res.status(201).send(product);
+};
+
+export const getStatistics = async (req, res) => {
+  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  const user = await User.findById(token.id);
+  let orders = await Order.find({ userId: token.id });
+  let appointments = await Appointment.find({ userId: token.id });
+  let products = [];
+  for (const order of orders) {
+    let prod = await Product.findById(order.prodId);
+    products.push(prod);
+  }
+  const countOrdersByStatus = orders.reduce(
+    (acc, order) => {
+      if (order.status === "Pending") {
+        acc.pending++;
+      } else if (order.status === "Delivered") {
+        acc.delivered++;
+      }
+      return acc;
+    },
+    { pending: 0, delivered: 0 }
+  );
+  const countAppointmentsByStatus = appointments.reduce(
+    (acc, order) => {
+      if (order.status === "Accepted") {
+        acc.scheduled++;
+      } else if (order.status === "Pending") {
+        acc.cancelled++;
+      }
+      return acc;
+    },
+    { scheduled: 0, cancelled: 0 }
+  );
+  const countorderTypeByStatus = products.reduce(
+    (acc, order) => {
+      if (order.productType === "pet") {
+        acc.pet++;
+      } else if (order.productType === "food") {
+        acc.food++;
+      } else if (order.productType === "Accessory") {
+        acc.accessory++;
+      }
+      return acc;
+    },
+    { pet: 0, food: 0, accessory: 0 }
+  );
+  const orderStatistics = [
+    {
+      data: [
+        {
+          id: 0,
+          value: countOrdersByStatus.delivered,
+          label: "delivered",
+          color: "#ffe4c1",
+        },
+        {
+          id: 1,
+          value: countOrdersByStatus.pending,
+          label: "pending",
+          color: "#c1d1ff",
+        },
+      ],
+    },
+  ];
+
+  const appointmentStatistics = [
+    {
+      data: [
+        {
+          id: 0,
+          value: countAppointmentsByStatus.scheduled,
+          label: "Scheduled",
+          color: "#ffe4c1",
+        },
+        {
+          id: 1,
+          value: countAppointmentsByStatus.cancelled,
+          label: "Cancelled",
+          color: "#c1d1ff",
+        },
+      ],
+    },
+  ];
+  const orderTypeStatistics = [
+    {
+      data: [
+        {
+          id: 0,
+          value: countorderTypeByStatus.pet,
+          label: "pets",
+          color: "#ffe4c1",
+        },
+        {
+          id: 1,
+          value: countorderTypeByStatus.food,
+          label: "food",
+          color: "#c1d1ff",
+        },
+        {
+          id: 2,
+          value: countorderTypeByStatus.accessory,
+          label: "accessories",
+          color: "#c1ffc1",
+        },
+      ],
+    },
+  ];
+  res.status(201).send({
+    orderStatistics,
+    appointmentStatistics,
+    orderTypeStatistics,
+  });
+};
+
+export const submitReview = async (req, res) => {
+  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  const user = await User.findById(token.id, { firstName: 1, lastName: 1 });
+  const Name = user.firstName + " " + user.lastName;
+  console.log(user);
+  const newReview = await Review({
+    Name,
+    review: req.body.review,
+    prodId: req.body.prodId,
+  });
+  const savedReview = await newReview.save();
+  const product = await Product.findById(req.body.prodId);
+  product.reviews.push(savedReview);
+  await product.save();
+  const status = [];
+  res.status(201).send({ status });
 };

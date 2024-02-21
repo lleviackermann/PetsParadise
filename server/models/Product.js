@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema({
   name: String,
@@ -15,6 +16,15 @@ const productSchema = new mongoose.Schema({
     type: String,
     default: "None",
     required: false,
+  },
+  reviews: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    default: [],
   },
 });
 

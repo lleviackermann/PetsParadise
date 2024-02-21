@@ -1,5 +1,5 @@
 import React from "react";
-import './Notifications.css'
+import classes from "./Notifications.module.css";
 
 const Notifications = () => {
   const notifications = [
@@ -11,11 +11,15 @@ const Notifications = () => {
   ];
 
   return (
-    <div className="noti">
-      <h1 className="Hnotifications">MESSAGE FROM US</h1>
-      {notifications.map((mess) => (
-        <p key={mess.id} className="Pnoti">{mess.message}</p>
-      ))}
+    <div className={classes.notification}>
+      <div className={classes.noti}>
+        <h1 className={classes.Hnoti}>MESSAGE FROM US</h1>
+        {notifications.map((mess) => (
+          <p key={mess.id} className={classes.Pnoti}>
+            {mess.message}
+          </p>
+        ))}
+      </div>
     </div>
   );
 };

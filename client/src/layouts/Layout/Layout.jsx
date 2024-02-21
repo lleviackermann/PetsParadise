@@ -1,5 +1,4 @@
 import NavBar from "../Layout/NavBar";
-// import Footer from "../Layout/";
 import { useState } from "react";
 import Cart from "./Cart";
 import Notification from "../Ui/Notification";
@@ -9,7 +8,8 @@ import Footer from "./Footer";
 function Layout(props) {
   const [showCart, setShowCart] = useState(false);
   const notification = useSelector((state) => state.ui.notification);
-  // console.log("notification", notification);
+  const role = useSelector((state) => state.ui.role);
+  // console.log(role);
   const showCartHandler = () => {
     setShowCart(true);
   };

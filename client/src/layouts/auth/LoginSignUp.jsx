@@ -51,10 +51,7 @@ function LoginSignUp() {
   const [otp, setOtp] = useState(0);
   let formIsValid = false;
   if (signIn && emailValueIsValid) {
-    // && enteredPasswordIsValid
-    // formIsValid = !forgotPassword || (forgotPassword ? true : false);
-    // && enteredPassword === confirmPasss
-    formIsValid = true;
+    formIsValid = forgotPassword || enteredPasswordIsValid;
   }
 
   if (
@@ -220,7 +217,7 @@ function LoginSignUp() {
             {!forgotPassword ? "Sign in" : "Forgot Password"}
           </h1>
           <input
-            type="email"
+            type="text"
             style={
               emailInputHasError || otpSent === "failure"
                 ? { border: "1px solid #b40e0e", backgroundColor: "#fddddd" }
