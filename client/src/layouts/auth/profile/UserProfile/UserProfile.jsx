@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import AccountSettings from "./AccountSettings";
 import classes from "./UserProfile.module.css";
 import ChangePassword from "./ChangePassword";
+import UserStatistics from "./UserStatistics";
 import YourOrders from "./YourOrders";
 import YourAppointments from "./YourAppointments";
 import Notifications from "./Notifications";
@@ -32,6 +33,7 @@ const UserProfile = () => {
             {activepage === "orders" && <YourOrders />}
             {activepage === "appointments" && <YourAppointments />}
             {activepage === "notifications" && <Notifications />}
+            {activepage === "statistics" && <UserStatistics />}
           </RecoilRoot>
         </div>
       </div>

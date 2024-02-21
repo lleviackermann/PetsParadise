@@ -295,10 +295,10 @@ export const getOrderedItems = async (req, res) => {
   return res.status(201).send({orders,products});
 };
 
-export const getProductDetails = async(req,res)=>{
+export const getProductDetails = async (req, res) => {
   // const token = jwt.decode(req.headers.authorization.split(" ")[1]);
-  const prodId = req.params.productId
-  let product = await Product.findById(prodId)
+  const prodId = req.params.productId;
+  let product = await Product.findById(prodId);
   console.log(product);
-  res.status(201).send(product)
-}
+  res.status(201).send(product);
+};
