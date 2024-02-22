@@ -21,6 +21,34 @@ export const sendReview = (prodId, userToken, review) => {
   };
 };
 
+export const changeStatus = (option, orderId, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/employee/updateOrder",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            status: option === "accept" ? "Delivered" : "Canceled",
+          }),
+        }
+      );
+
+      if (response.ok) {
+      } else {
+        console.error("Failed to update order");
+      }
+    } catch (error) {
+      console.error("Error occurred while updating order:", error);
+    }
+  };
+};
+
 export const loginUser = (mail, password) => {
   let flag = "User";
   return async (dispatch) => {
