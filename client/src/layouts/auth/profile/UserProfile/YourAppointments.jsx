@@ -133,6 +133,7 @@ const YourAppointments = () => {
           <select onChange={(e) => handleStatusFilter(e.target.value)}>
             <option value="All">All</option>
             <option value="Pending">Pending</option>
+            <option value="Scheduled">Scheduled</option>
             <option value="Cancelled">Cancelled</option>
           </select>
         </div>
@@ -227,6 +228,9 @@ const YourAppointments = () => {
                   )}
                   {item.status === "Cancelled" && (
                     <span className={classes.reddot}></span>
+                  )}
+                  {item.status === "Scheduled" && (
+                    <span className={classes.greendot}></span>
                   )}
                 </div>
               </td>

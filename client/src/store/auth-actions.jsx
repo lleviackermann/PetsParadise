@@ -21,7 +21,7 @@ export const sendReview = (prodId, userToken, review) => {
   };
 };
 
-export const changeStatus = (option, orderId, token) => {
+export const changeOrderStatus = (option, orderId, token) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
@@ -34,7 +34,34 @@ export const changeStatus = (option, orderId, token) => {
           },
           body: JSON.stringify({
             orderId: orderId,
-            status: option === "accept" ? "Delivered" : "Canceled",
+            status: option === "accept" ? "Delivered" : "Cancelled",
+          }),
+        }
+      );
+
+      if (response.ok) {
+      } else {
+        console.error("Failed to update order");
+      }
+    } catch (error) {
+      console.error("Error occurred while updating order:", error);
+    }
+  };
+};
+export const changeAppointmentStatus = (option, appId, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/employee/updateAppointment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            appId,
+            status: option ,
           }),
         }
       );

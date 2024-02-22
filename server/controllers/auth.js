@@ -435,6 +435,7 @@ export const submitReview = async (req, res) => {
   const status = [];
   res.status(201).send({ status });
 };
+
 export const getAllAppointments = async (req, res) => {
   const appointments = await Appointment.find();
   for (let i = 0; i < appointments.length; i++) {
