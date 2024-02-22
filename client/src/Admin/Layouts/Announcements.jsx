@@ -5,11 +5,14 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from '../theme';
 import { useHistory } from 'react-router-dom'
-import { announcementColumnData, verifyToken } from '../columnsData';
+import { announcementColumnData } from '../columnsData';
+import { useSelector } from 'react-redux';
+
 const Announcements = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const history = useHistory();
+  const verifyToken = useSelector((state) => state.auth.userToken);
 
   const [allAnnouncements, setAllAnnouncements] = useState([]);
   const getData = async() => {

@@ -29,7 +29,7 @@ export default function HomePage() {
     message: "",
   });
 
-  const [csrfToken, setCsrfToken] = useState("");
+  // const [csrfToken, setCsrfToken] = useState("");
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -54,17 +54,17 @@ export default function HomePage() {
     handleFirstVisit();
   }, [firstVisit, dispatch]);
 
-  const gettingCsrfToken = async() => {
-    const response = await fetch("http://localhost:8000/csrf-token", {
-      method: "GET",
-    });
-    const data = await response.json()
-    setCsrfToken(data.csrfToken);
-  };
+  // const gettingCsrfToken = async() => {
+  //   const response = await fetch("http://localhost:8000/csrf-token", {
+  //     method: "GET",
+  //   });
+  //   const data = await response.json()
+  //   setCsrfToken(data.csrfToken);
+  // };
 
-  useEffect(() => {
-    gettingCsrfToken();
-  }, []);
+  // useEffect(() => {
+  //   gettingCsrfToken();
+  // }, []);
 
   const strings = [
     "Dogs",
@@ -87,7 +87,7 @@ export default function HomePage() {
 
   const handleContactUsSubmit = async (event) => { 
     event.preventDefault();
-    console.log("csrf ", csrfToken);
+    // console.log("csrf ", csrfToken);
     const response = await fetch(
       `http://localhost:8000/sendFeedback`,
       {
@@ -96,7 +96,6 @@ export default function HomePage() {
           "Content-Type": "application/json",
         },
         body:JSON.stringify({
-          _csrf: csrfToken,
           name: contactUs.name,
           email: contactUs.email,
           message: contactUs.message,

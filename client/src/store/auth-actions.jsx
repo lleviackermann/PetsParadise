@@ -1,7 +1,6 @@
 import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
 const adminMailId = "admin101";
-const adminMailPassword = "Admin@123";
 
 export const sendReview = (prodId, userToken, review) => {
   return async (dispatch) => {
@@ -127,17 +126,17 @@ export const loginUser = (mail, password) => {
         dispatch(authActions.login({ token, user, cart }));
       }
       if (flag === "Admin") {
-        const { person } = data;
+        const { token, person } = data;
         const user = {
-          firstName: person.name,
+          firstName: person.firstName,
           lastName: person.lastName,
           email: person.email,
           role: "Admin",
         };
-        dispatch(authActions.login({ token: null, user, cart: null }));
+        dispatch(authActions.login({ token, user, cart: null }));
       }
       if (flag === "Employee") {
-        const { person } = data;
+        const { token, person } = data;
         console.log(person);
         const user = {
           firstName: person.name,
@@ -146,7 +145,7 @@ export const loginUser = (mail, password) => {
           role: "Employee",
         };
         console.log(user);
-        dispatch(authActions.login({ token: null, user, cart: null }));
+        dispatch(authActions.login({ token, user, cart: null }));
       }
     }
     setTimeout(() => {

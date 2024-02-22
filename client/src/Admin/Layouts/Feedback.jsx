@@ -3,13 +3,16 @@ import Topbar from "../Components/Topbar";
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { tokens } from '../theme';
-import { feedbackColumnsData, productsColumnData, verifyToken } from "../columnsData";
+import { feedbackColumnsData } from "../columnsData";
+import { useSelector } from 'react-redux';
 
 const Feedback = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const apiRef = useGridApiRef();
   const [allFeedbacks, setAllFeedbacks] = useState([]);
+  const verifyToken = useSelector((state) => state.auth.userToken);
+
   const getData = async() => {
     try {
       const response = await fetch('http://localhost:8000/profile/admin/getAllFeedbacks', {

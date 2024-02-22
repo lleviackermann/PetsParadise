@@ -8,6 +8,7 @@ import path from "path";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
+import fs from "fs";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
@@ -21,12 +22,15 @@ import Count from "./models/Count.js";
 import adminRoutes from "./routes/admin.js";
 import { verifyToken } from "./middleware/authverfication.js";
 import { sendFeedback } from "./controllers/admin.js";
+import { errorHandler } from "./middleware/errormiddleware.js";
 // import Count from "./models/Count.js";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
+app.use(morgan(':date[web] :method :url :status :response-time ms', {
+  stream: fs.createWriteStream(path.join(__dirname, "petsParadise.log"), { flags: 'a' })
+}));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/client"));
@@ -101,6 +105,8 @@ app.get("/upload", async (req, res) => {
 });
 
 app.post("/upload");
+
+app.use(errorHandler);
 const PORT = process.env.PORT || 6001;
 mongoose
   .connect(process.env.MONGO_URL, {

@@ -263,6 +263,3 @@ export const announcementColumnData = [
 
     },
 ]
-
-
-export const verifyToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDZlOTJkNDhmYTY2YmQxZWFlNWY0YiIsImlhdCI6MTcwODU4MzI5N30.ajzXZpBIiqDsdqpPKLt3QMffJn4lu2HxSwa0YV-inRw";
