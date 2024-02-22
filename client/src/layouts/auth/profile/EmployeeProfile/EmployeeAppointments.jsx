@@ -4,34 +4,13 @@ import OrderSuccessful from "./Order/OrderSuccessful";
 import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
+import { changeAppointmentStatus } from "../../../../store/auth-actions";
 
 const EmployeeAppointments = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const token = useSelector((state) => state.auth.userToken);
-
-  const appointment = [
-    {
-      userName: "person1",
-      appointmentType: "services",
-      date: "2022-12-18",
-      time: "10:00",
-      number:"4",
-      package:"18000",
-      status:"pending",
-    },
-    {
-      userName: "person2",
-      appointmentType: "vetCare",
-      date: "2022-12-23",
-      time: "10:00",
-      number:"1",
-      package:"1800",
-      status:"pending",
-    },
-  ]
-  
-  // allData = appointment.Stringify
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -46,9 +25,15 @@ const EmployeeAppointments = () => {
       console.log(appointments);
       setData(appointments);
       setFilteredData(appointments); 
+      handleStatusFilter("Pending")
     };
     sendRequest();
   }, []);
+
+  useEffect(() => {
+    handleStatusFilter("Pending");
+  }, [data]);
+  
 
   const [selectedappointment, setselectedappointmentid] = useState(0);
   const [appointmentsuccesscount, setappointmentsuccesscount] = useRecoilState(
@@ -112,7 +97,7 @@ const EmployeeAppointments = () => {
     if (status === "All") {
       setFilteredData(data); 
     } else {
-      const filtered = data.filter((appointment) => appointment.status === status);
+      const filtered = data.filter((appointment) =>{ console.log(appointment.status,status); return appointment.status === status});
       setFilteredData(filtered);
     }
   };
@@ -127,8 +112,30 @@ const EmployeeAppointments = () => {
     setFilteredData(sortedData);
   };
 
-  const AppointmentHandler = ((operation) => {
-  })
+  const AppointmentHandler = (option,index) => {
+    const selectedAppointment = data[index];
+    dispatch(changeAppointmentStatus(option,selectedAppointment._id,token))
+    setData((prevData) =>
+      prevData.map((appointment) =>
+        appointment._id === selectedAppointment._id
+          ? {
+              ...appointment,
+              status: option,
+            }
+          : appointment
+      )
+    );
+    setFilteredData((prevData) =>
+      prevData.map((appointment) =>
+        appointment._id === selectedAppointment._id
+          ? {
+              ...appointment,
+              status: option,
+            }
+          : appointment
+      )
+    );
+  }
 
   return (
     <div className={classes.yourorders}>
@@ -151,8 +158,9 @@ const EmployeeAppointments = () => {
         <div className={classes.filterButton}>
           <span>Status:</span>
           <select onChange={(e) => handleStatusFilter(e.target.value)}>
-            <option value="All">All</option>
             <option value="Pending">Pending</option>
+            <option value="All">All</option>
+            <option value="Scheduled">Scheduled</option>
             <option value="Cancelled">Cancelled</option>
           </select>
         </div>
@@ -228,13 +236,13 @@ const EmployeeAppointments = () => {
                 &#9660;
               </span>
             </th> 
-            <th scope="col" className={classes.tableHeaderCell}>Accept</th>
+            <th scope="col" className={classes.tableHeaderCell}>Operation</th>
             {/* <th scope="col" className={classes.tableHeaderCell}>Accept</th> */}
             
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {filteredData.map((item, index) => (
             <tr key={index}>
               {/* <td data-label="Sno">{index + 1}</td> */}
               <td data-label="Name">{item.userName}</td>
@@ -255,7 +263,16 @@ const EmployeeAppointments = () => {
               </td> */}
               <td data-label="Total">Rs.{item.package}</td>
 
-              <td data-label="Operation"><button onClick={() => AppointmentHandler("accept")}>Accept</button> &nbsp; <button onClick={() => AppointmentHandler("cancel")}>Cancel</button></td>
+              <td data-label="Operation">
+  {item.status === "Pending" && (
+    <>
+      <button onClick={() => AppointmentHandler("Scheduled", index)}>Accept</button>
+      &nbsp;
+      <button onClick={() => AppointmentHandler("Cancelled", index)}>Cancel</button>
+    </>
+  )}
+  {item.status !== "Pending" && item.status}
+</td>
 
               {/* <td data-label="Total"></td> */}
             </tr>

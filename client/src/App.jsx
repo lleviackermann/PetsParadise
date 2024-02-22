@@ -5,9 +5,9 @@ function App() {
 
   return (
     <>
-      {/* <Layout> */}
+      <Layout>
           <MainRoutes />
-      {/* </Layout> */}
+      </Layout>
     </>
   );
 }

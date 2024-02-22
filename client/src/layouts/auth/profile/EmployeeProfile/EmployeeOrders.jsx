@@ -4,8 +4,7 @@ import OrderSuccessful from "./Order/OrderSuccessful";
 import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../../../../store/auth-slice";
-import { changeStatus } from "../../../../store/auth-actions";
+import { changeOrderStatus } from "../../../../store/auth-actions";
 
 const YourOrders = () => {
   const token = useSelector((state) => state.auth.userToken);
@@ -16,10 +15,9 @@ const YourOrders = () => {
 
   const handleAcceptOrCancel = async (option, index) => {
     const selectedOrder = data[index];
-    dispatch(changeStatus(option, selectedOrder._id, token));
-    // console.log(
+    dispatch(changeOrderStatus(option, selectedOrder._id, token));
     setOriginalData((prevData) =>
-      originalData.map((order) =>
+      prevData.map((order) =>
         order._id === selectedOrder._id
           ? {
               ...order,
@@ -28,7 +26,6 @@ const YourOrders = () => {
           : order
       )
     );
-    // );
     setData((prevData) =>
       prevData.map((order) =>
         order._id === selectedOrder._id
@@ -39,32 +36,6 @@ const YourOrders = () => {
           : order
       )
     );
-    // console.log(data[index].status, data[index]._id);
-
-    // try {
-    //   const response = await fetch(
-    //     "http://localhost:8000/employee/updateOrder",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: "Bearer " + token,
-    //       },
-    //       body: JSON.stringify({
-    //         orderId: selectedOrder._id, // Replace with your actual orderId property
-    //         status: "Delivered", // or "cancel" based on your logic
-    //       }),
-    //     }
-    //   );
-    //   if (response.ok) {
-    //     console.log("Order updated successfully");
-    //     console.log(data[index]);
-    //   } else {
-    //     console.error("Failed to update order");
-    //   }
-    // } catch (error) {
-    //   console.error("Error occurred while updating order:", error);
-    // }
   };
 
   useEffect(() => {
@@ -79,10 +50,12 @@ const YourOrders = () => {
       const orderData = await response.json();
       setOriginalData(orderData);
       setData(orderData);
-      // setProdData(orderData.products)
     };
     sendRequest();
   }, []);
+  useEffect(()=>{      
+    handleStatusFilter("Pending")
+},[originalData])
 
   const [selectedorder, setselectedorder] = useState(0);
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
@@ -155,8 +128,8 @@ const YourOrders = () => {
         <div className={classes.filterButton}>
           <span>Status:</span>
           <select onChange={(e) => handleStatusFilter(e.target.value)}>
-            <option value="All">All</option>
-            <option value="Pending">Pending</option>
+          <option value="Pending">Pending</option>
+          <option value="All">All</option>
             <option value="Delivered">Delivered</option>
           </select>
         </div>
