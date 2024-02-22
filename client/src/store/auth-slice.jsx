@@ -9,6 +9,7 @@ const authSlice = createSlice({
     expirationTime: null,
     otpSent: "no",
     cart: [],
+    userRole: null,
   },
   reducers: {
     login(state, action) {
@@ -52,6 +53,9 @@ const authSlice = createSlice({
     },
     updateCart(state, action) {
       state.cart = action.payload;
+    },
+    updateRole(state, action) {
+      state.userRole = action.payload;
     },
   },
 });

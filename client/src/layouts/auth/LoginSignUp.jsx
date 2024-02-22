@@ -7,7 +7,6 @@ function LoginSignUp() {
   const [signIn, setSignIn] = useState(true);
   const [forgotPassword, setForgotPassword] = useState(false);
   const otpSent = useSelector((state) => state.auth.otpSent);
-  console.log(otpSent);
   useEffect(() => {
     if (otpSent === "no") {
       setSignIn(true);

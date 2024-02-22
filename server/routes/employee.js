@@ -13,10 +13,7 @@ router.post("/updateOrder", async (req, res) => {
         .json({ error: "Invalid request, orderId is required." });
     }
 
-    const orders = await Order.findByIdAndUpdate(
-      orderId,
-      { status: status },
-    );
+    const orders = await Order.findByIdAndUpdate(orderId, { status: status });
 
     if (!orders) {
       return res.status(404).json({ error: "Order not found." });
@@ -33,17 +30,14 @@ router.post("/updateOrder", async (req, res) => {
 router.post("/updateAppointment", async (req, res) => {
   try {
     const { appId, status } = req.body;
-  console.log(status);
+    console.log(status);
     if (!appId) {
       return res
         .status(400)
         .json({ error: "Invalid request, appId is required." });
     }
 
-    const appointments = await Appointment.findByIdAndUpdate(
-      appId,
-      { status },
-    );
+    const appointments = await Appointment.findByIdAndUpdate(appId, { status });
 
     if (!appointments) {
       return res.status(404).json({ error: "Order not found." });

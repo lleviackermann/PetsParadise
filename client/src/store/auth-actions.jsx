@@ -1,6 +1,6 @@
 import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
-const adminMailId = "admin123";
+const adminMailId = "admin101";
 const adminMailPassword = "Admin@123";
 
 export const sendReview = (prodId, userToken, review) => {
@@ -17,7 +17,6 @@ export const sendReview = (prodId, userToken, review) => {
       }),
     });
     const data = await response.json();
-    console.log(data);
   };
 };
 
@@ -61,7 +60,7 @@ export const changeAppointmentStatus = (option, appId, token) => {
           },
           body: JSON.stringify({
             appId,
-            status: option ,
+            status: option,
           }),
         }
       );
@@ -79,10 +78,11 @@ export const changeAppointmentStatus = (option, appId, token) => {
 export const loginUser = (mail, password) => {
   let flag = "User";
   return async (dispatch) => {
-    if (mail === adminMailId && password === adminMailPassword) {
+    if (mail === adminMailId) {
       flag = "Admin";
-      // dispatch(uiActions.updateRole());
-      return;
+    }
+    if (/^E\d{3}/.test(mail)) {
+      flag = "Employee";
     }
     const response = await fetch("http://localhost:8000/auth/login", {
       method: "POST",
@@ -96,8 +96,6 @@ export const loginUser = (mail, password) => {
       }),
     });
     const data = await response.json();
-    const { token, person, cart } = data;
-
     if (data.msg) {
       dispatch(
         uiActions.showNotification({
@@ -109,22 +107,47 @@ export const loginUser = (mail, password) => {
         })
       );
     } else {
-      const user = {
-        firstName: person.firstName,
-        lastName: person.lastName,
-        email: person.email,
-      };
-      dispatch(
-        uiActions.showNotification({
-          notification: {
-            status: "success",
-            title: "Login Success",
-            message: data.msg,
-          },
-        })
-      );
-      dispatch(uiActions.updateRole("User"));
-      dispatch(authActions.login({ token, user, cart }));
+      if (flag === "User") {
+        const { token, person, cart } = data;
+        const user = {
+          firstName: person.firstName,
+          lastName: person.lastName,
+          email: person.email,
+          role: "User",
+        };
+        dispatch(
+          uiActions.showNotification({
+            notification: {
+              status: "success",
+              title: "Login Success",
+              message: "Success",
+            },
+          })
+        );
+        dispatch(authActions.login({ token, user, cart }));
+      }
+      if (flag === "Admin") {
+        const { person } = data;
+        const user = {
+          firstName: person.name,
+          lastName: person.lastName,
+          email: person.email,
+          role: "Admin",
+        };
+        dispatch(authActions.login({ token: null, user, cart: null }));
+      }
+      if (flag === "Employee") {
+        const { person } = data;
+        console.log(person);
+        const user = {
+          firstName: person.name,
+          lastName: " ",
+          email: person.email,
+          role: "Employee",
+        };
+        console.log(user);
+        dispatch(authActions.login({ token: null, user, cart: null }));
+      }
     }
     setTimeout(() => {
       dispatch(uiActions.removeNotification());

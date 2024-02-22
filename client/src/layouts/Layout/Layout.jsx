@@ -6,10 +6,18 @@ import { useSelector } from "react-redux";
 import Footer from "./Footer";
 
 function Layout(props) {
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  console.log(userInfo);
+  let userRole = "User";
+  if (
+    userInfo != null &&
+    (userInfo.role === "Employee" || userInfo.role === "Admin")
+  ) {
+    userRole = userInfo.role;
+  }
+
   const [showCart, setShowCart] = useState(false);
   const notification = useSelector((state) => state.ui.notification);
-  const role = useSelector((state) => state.ui.role);
-  // console.log(role);
   const showCartHandler = () => {
     setShowCart(true);
   };
@@ -26,7 +34,8 @@ function Layout(props) {
           status={notification.status}
         />
       )}
-      <NavBar showCart={showCartHandler} />
+      {userRole === "User" && <NavBar showCart={showCartHandler} />}
+      {/* <NavBar showCart={showCartHandler} /> */}
       <main>{props.children}</main>
       {/* <Footer /> */}
     </>

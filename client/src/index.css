@@ -6,10 +6,6 @@
   font-family: sans-serif;
 }
 
-body {
-  /* padding-top: 5rem; */
-}
-
 a {
   text-decoration: none;
   color: rgb(97, 97, 97);
@@ -28,4 +24,8 @@ li {
   border-radius: 5px;
   color: #323232;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
