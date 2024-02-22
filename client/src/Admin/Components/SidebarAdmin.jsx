@@ -184,13 +184,13 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
-                        <Item
+                        {/* <Item
                             title="Transactions"
                             to="/admin/transactions"
                             icon={<ReceiptOutlined />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        /> */}
 
                         <SubMenuDivider title="Contacts" isCollapsed={isCollapsed} />
 
@@ -202,7 +202,7 @@ const Sidebar = () => {
                             setSelected={setSelected}
                         />
                         <Item
-                            title="Announcement"
+                            title="Announcements"
                             to="/admin/announcements"
                             icon={<ContactsOutlinedIcon />}
                             selected={selected}

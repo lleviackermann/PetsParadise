@@ -1,109 +1,50 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Topbar from "../Components/Topbar";
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { tokens } from '../theme';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-
+import { usersColumnData, verifyToken } from "../columnsData";
 
 const Users = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const apiRef = useGridApiRef();
-
-  const columns = [
-    {
-      field: "id",
-      headerName: "UserId",
-      headerAlign: 'center',
-      flex: 1,
-      align: "center",
-    },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-      headerAlign: 'center',
-      align: "center",
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      headerAlign: 'center',
-      align: "center",
-
-    },
-    {
-      field: "moneyspent",
-      headerName: "Money Spent",
-      flex: 0.5,
-      headerAlign: 'center',
-      align: "center",
-
-    },
-    {
-      field: "appointments",
-      headerName: "Appointments",
-      flex: 0.8,
-      headerAlign: 'center',
-      align: "center",
-
-    },
-  ];
-
-  const messages = [
-    {
-      id: 1,
-      name: "Suprit kumar",
-      email: "Hello",
-      moneyspent: 199,
-      appointments: 20,
-    },
-    {
-      id: 2,
-      name: "Suprit kumar",
-      email: "Hello",
-      moneyspent: 199,
-      appointments: 20,
-    },
-    {
-      id: 3,
-      name: "Suprit kumar",
-      email: "Hello",
-      moneyspent: 199,
-      appointments: 20,
-    },
-    {
-      id: 4,
-      name: "Suprit kumar",
-      email: "Hello",
-      moneyspent: 199,
-      appointments: 20,
-    },
-  ]
+  const [allUsers, setAllUsers] = useState([]);
+  const getData = async() => {
+    try {
+      const response = await fetch('http://localhost:8000/profile/admin/getAllUsers', {
+        method: 'GET',
+        headers: {
+          "Authorization": verifyToken,
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setAllUsers(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
+  useEffect(() => {
+    getData();
+  }, []);
 
   const deleteSelectedRows = () => {
     apiRef.current.getSelectedRows().forEach((value) => {console.log(value.id)});
   }
 
   return (
-    <>
+    <Box sx={{height: "100vh",overflow: "auto"}}>
       <Topbar title="Customers" message="Find all your customers here!" />
       <Box display="flex" justifyContent="space-between" alignContent="center">
         <Box marginLeft="1rem" padding="8px"
           fontStyle="bold" width="fit-content" borderBottom="2px solid" borderColor={colors.greenAccent[400]}
           display="flex" justifyContent="center" alignContent="center"
         >
-          <Typography variant='h3'>Your Customers</Typography>
-        </Box>
-        <Box mr="2rem" display="flex" justifyContent="center"
-        alignContent="center" onClick={deleteSelectedRows}>
-          <Button variant="contained" color='error' startIcon={<DeleteIcon />}>
-            Delete Selected Rows
-          </Button>
+          <Typography variant='h3' fontSize="30px" fontWeight="700">Your Customers</Typography>
         </Box>
       </Box>
       <Box m="20px">
@@ -114,10 +55,12 @@ const Users = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-cell": {
-              // borderBottom: "none",
+            "& .MuiDataGrid-row": {
+              paddingTop: "22px",
+            },
+            "& .MuiDataGrid-row .MuiDataGrid-cell": {
               fontSize: 18,
-              padding: "10px",
+              paddingBottom: "22px",
             },
             "& .name-column--cell": {
               color: colors.greenAccent[300],
@@ -125,9 +68,10 @@ const Users = () => {
             "& .MuiDataGrid-columnHeaders": {
               backgroundColor: colors.blueAccent[700],
               borderBottom: "none",
-              fontSize: 20,
+              fontSize: 23,
               fontWeight: 700,
-              textWrap: "wrap"
+              textWrap: "wrap",
+
             },
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
@@ -144,14 +88,15 @@ const Users = () => {
           <DataGrid
             autoHeight
             getRowHeight={() => 'auto'}
-            checkboxSelection
-            rows={messages}
-            columns={columns}
+            rows={allUsers}
+            columns={usersColumnData}
             apiRef={apiRef}
+            disableColumnSelector
+            disableRowSelectionOnClick
           />
         </Box>
       </Box>
-    </>
+    </Box>
   )
 }
 

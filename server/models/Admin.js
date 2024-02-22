@@ -39,7 +39,7 @@ const AdminSchema = new Schema(
         },
         expenses: {
             type: Number,
-            default: 0,
+            default: Number(0),
         }
     },
     { timestamps: true }
