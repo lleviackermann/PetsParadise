@@ -55,6 +55,15 @@ You can checkout the Website by visiting the following url in any web browser
 ```
 
 
+## Documentation
+
+To access the Admin Dashboard, please log in using the provided credentials for the Admin account.
+
+```bash
+  Id:- admin101
+  Password:- Admin@101
+```
+
 ## Authors
 
 ### Group 7
