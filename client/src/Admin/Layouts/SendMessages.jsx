@@ -38,7 +38,7 @@ const SendMessages = () => {
     }
   } 
   return (
-    <>
+    <Box sx={{height: "100vh",overflow: "auto"}}>
       <Topbar title="Send Message" message="Connect With your users!" />
       <Box ml="1rem" display="flex" fontSize="20px" gap="1rem" 
           mb="2rem" onClick={handleUserChange}>
@@ -119,7 +119,7 @@ const SendMessages = () => {
           )}
         </Formik>
       </Box>
-    </>
+    </Box>
   )
 }
 
