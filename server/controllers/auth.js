@@ -128,7 +128,7 @@ export const login = async (req, res) => {
   if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
 
   const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
-  await person.populate("cart.productId");
+  if(flag === "User") await person.populate("cart.productId");
   const cart = person.cart;
   person.password = "";
   person.cart = [];
@@ -280,7 +280,7 @@ export const orderItems = async (req, res) => {
     console.log(user);
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOrderedItems = async (req, res) => {

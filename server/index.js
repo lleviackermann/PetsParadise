@@ -15,6 +15,8 @@ import petRoutes from "./routes/pets.js";
 import appointmentRoutes from "./routes/appointment.js";
 import accessoryRoutes from "./routes/accessory.js";
 import Count from "./models/Count.js";
+import adminRoutes from "./routes/admin.js";
+import { verifyToken } from "./middleware/authverfication.js";
 // import Count from "./models/Count.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -68,6 +70,7 @@ app.use("/pets", petRoutes);
 app.use("/food", foodRoutes);
 app.use("/accessory", accessoryRoutes);
 app.use("/appointment", appointmentRoutes);
+app.use("/profile/admin", verifyToken, adminRoutes);
 app.get("/", async (req, res) => {
   console.log("Home request");
 
@@ -86,6 +89,7 @@ app.get("/updatecount", async (req, res) => {
 app.get("/upload", async (req, res) => {
   res.render("upload.ejs");
 });
+
 app.post("/upload");
 const PORT = process.env.PORT || 6001;
 mongoose
@@ -99,3 +103,6 @@ mongoose
     });
   })
   .catch((error) => console.log(error));
+
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDZlOTJkNDhmYTY2YmQxZWFlNWY0YiIsImlhdCI6MTcwODU4MzI5N30.ajzXZpBIiqDsdqpPKLt3QMffJn4lu2HxSwa0YV-inRw
