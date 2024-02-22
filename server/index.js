@@ -14,6 +14,7 @@ import foodRoutes from "./routes/food.js";
 import petRoutes from "./routes/pets.js";
 import appointmentRoutes from "./routes/appointment.js";
 import accessoryRoutes from "./routes/accessory.js";
+import employeeRoutes from "./routes/employee.js";
 import Count from "./models/Count.js";
 // import Count from "./models/Count.js";
 
@@ -63,6 +64,7 @@ const upload = multer({ storage });
 // });
 
 app.use("/auth", authRoutes);
+app.use("/employee", employeeRoutes);
 app.use("/post", dataRoutes);
 app.use("/pets", petRoutes);
 app.use("/food", foodRoutes);
