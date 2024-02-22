@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import multer from "multer";
+import csrf from "csurf";
+import cookieParser from "cookie-parser";
 import path from "path";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -18,6 +20,7 @@ import employeeRoutes from "./routes/employee.js";
 import Count from "./models/Count.js";
 import adminRoutes from "./routes/admin.js";
 import { verifyToken } from "./middleware/authverfication.js";
+import { sendFeedback } from "./controllers/admin.js";
 // import Count from "./models/Count.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,15 +28,16 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 app.use(express.json());
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/client"));
 
+app.use(cors());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(cookieParser());
+// app.use(csrf({ cookie: true }));
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 const storage = multer.diskStorage({
@@ -73,6 +77,11 @@ app.use("/food", foodRoutes);
 app.use("/accessory", accessoryRoutes);
 app.use("/appointment", appointmentRoutes);
 app.use("/profile/admin", verifyToken, adminRoutes);
+app.post("/sendFeedback", sendFeedback);
+
+app.get("/csrf-token", (req, res) => {
+  return res.status(200).json({ csrfToken: req.csrfToken() });
+})
 app.get("/", async (req, res) => {
   console.log("Home request");
   res.render("index.ejs");
@@ -105,4 +114,3 @@ mongoose
   })
   .catch((error) => console.log(error));
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDZlOTJkNDhmYTY2YmQxZWFlNWY0YiIsImlhdCI6MTcwODU4MzI5N30.ajzXZpBIiqDsdqpPKLt3QMffJn4lu2HxSwa0YV-inRw

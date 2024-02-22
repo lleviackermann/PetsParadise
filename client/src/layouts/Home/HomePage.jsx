@@ -16,19 +16,23 @@ import customerService from "./customer-service.png";
 import TypingEffect from "./TypingEffect";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/ui-slice";
+import { useHistory } from 'react-router-dom';
 
 let firstVisit = true;
 
 export default function HomePage() {
+  const history = useHistory()
   const dispatch = useDispatch();
   const [contactUs, setContactUs] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  const [csrfToken, setCsrfToken] = useState("");
+
   useEffect(() => {
     const fetchCounts = async () => {
-      console.log("fetching counts");
       try {
         const response = await fetch("http://localhost:8000/updatecount");
         const responseData = await response.json();
@@ -50,6 +54,18 @@ export default function HomePage() {
     handleFirstVisit();
   }, [firstVisit, dispatch]);
 
+  const gettingCsrfToken = async() => {
+    const response = await fetch("http://localhost:8000/csrf-token", {
+      method: "GET",
+    });
+    const data = await response.json()
+    setCsrfToken(data.csrfToken);
+  };
+
+  useEffect(() => {
+    gettingCsrfToken();
+  }, []);
+
   const strings = [
     "Dogs",
     "Cats",
@@ -62,17 +78,45 @@ export default function HomePage() {
 
   const handleServicesClick = () => {};
   const handleContactUsClick = () => {};
-  const goToDogsPage = () => {};
-  const goToCatsPage = () => {};
-  const goToBirdsPage = () => {};
-  const goToFishPage = () => {};
-  const goToServicesPage = () => {};
-  const goToProductsPage = () => {};
-  const goToVetCarePage = () => {};
-  const goToPetsFoodPage = () => {};
-  const handleContactUsSubmit = () => {};
-  const handleChange = (evt) => {
-    setContactUs({ ...contactUs, [evt.target.name]: [evt.target.value] });
+  const goToDogsPage = () => { history.push("/pets/dogs") };
+  const goToCatsPage = () => { history.push("/pets/cats") };
+  const goToServicesPage = () => { history.push("/pets/services") };
+  const goToProductsPage = () => { history.push("/pets/products") };
+  const goToVetCarePage = () => { history.push("/pets/vetcare") };
+  const goToPetsFoodPage = () => { history.push("/pets/petfoods") };
+
+  const handleContactUsSubmit = async (event) => { 
+    event.preventDefault();
+    console.log("csrf ", csrfToken);
+    const response = await fetch(
+      `http://localhost:8000/sendFeedback`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({
+          _csrf: csrfToken,
+          name: contactUs.name,
+          email: contactUs.email,
+          message: contactUs.message,
+        })
+      }
+    );
+    setContactUs({
+      name: "",
+      email: "",
+      message: "",
+    })
+   };
+  const handleNameChange = (evt) => {
+    setContactUs({ ...contactUs, name: evt.target.value });
+  };
+  const handleEmailChange = (evt) => {
+    setContactUs({ ...contactUs, email: evt.target.value });
+  };
+  const handleMessageChange = (evt) => {
+    setContactUs({ ...contactUs, message: evt.target.value });
   };
   return (
     <div className="root_div">
@@ -149,28 +193,6 @@ export default function HomePage() {
                   <span className="icon arrow"></span>
                 </span>
                 <span className="button-text">Cats</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="container">
-            <div onClick={goToBirdsPage}>
-              <button className="learn-more">
-                <span className="circle">
-                  <span className="icon arrow"></span>
-                </span>
-                <span className="button-text">Birds</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="container">
-            <div onClick={goToFishPage}>
-              <button className="learn-more">
-                <span className="circle">
-                  <span className="icon arrow"></span>
-                </span>
-                <span className="button-text">Fish</span>
               </button>
             </div>
           </div>
@@ -488,7 +510,7 @@ export default function HomePage() {
       </section>
 
       <section className="contact" id="contact-us">
-        <p className="services--heading contact-head small">Contact Us</p>
+        <p className="services--heading contact-head small topic-text">Feedback Form</p>
 
         <div className="contact-container">
           <div className="content">
@@ -514,7 +536,7 @@ export default function HomePage() {
             </div>
 
             <div className="right-side">
-              <div className="topic-text">Send us a message</div>
+              <div className="topic-text">Send us a feedback</div>
               <p>Out team would be very happy to hear from you.</p>
 
               <form className="contact-form">
@@ -526,7 +548,7 @@ export default function HomePage() {
                     placeholder="Enter your name"
                     name="name"
                     title="Please enter a valid name. Names can only contain letters and spaces."
-                    onChange={handleChange}
+                    onChange={handleNameChange}
                     value={contactUs.name}
                     required
                   />
@@ -539,7 +561,7 @@ export default function HomePage() {
                     placeholder="Enter your email"
                     name="email"
                     title="Please enter a valid Email."
-                    onChange={handleChange}
+                    onChange={handleEmailChange}
                     value={contactUs.email}
                     required
                   />
@@ -549,7 +571,7 @@ export default function HomePage() {
                     className="input-message"
                     placeholder="Enter your message"
                     name="message"
-                    onChange={handleChange}
+                    onChange={handleMessageChange}
                     required
                     value={contactUs.message}
                   ></textarea>
