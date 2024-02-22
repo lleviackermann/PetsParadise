@@ -11,6 +11,8 @@ import {
   getProductDetails,
   getStatistics,
   submitReview,
+  getAllOrders,
+  getAllAppointments,
 } from "../controllers/auth.js";
 import {
   validateAndOtpSender,
