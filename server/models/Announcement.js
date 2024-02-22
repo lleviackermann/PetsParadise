@@ -8,8 +8,14 @@ const announcement = new Schema({
     },
     target: {
         type: String,
+        required: true,
+    },
+    emailId: {
+        type: String,
         default: "all",
     }
+}, {
+    timestamps: true
 })
 
 const Announcement = mongoose.model('Announcement', announcement);

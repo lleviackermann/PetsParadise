@@ -37,6 +37,10 @@ const AdminSchema = new Schema(
             type: String,
             default: "",
         },
+        expenses: {
+            type: Number,
+            default: 0,
+        }
     },
     { timestamps: true }
 );

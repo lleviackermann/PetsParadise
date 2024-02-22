@@ -21,7 +21,7 @@ const YourAppointments = () => {
       });
       const appointmentdata = await response.json();
       setData(appointmentdata);
-      setFilteredData(appointmentdata); 
+      setFilteredData(appointmentdata);
       console.log(appointmentdata);
     };
     sendRequest();
@@ -34,9 +34,11 @@ const YourAppointments = () => {
 
   const handleTypeFilter = (type) => {
     if (type === "All") {
-      setFilteredData(data); 
+      setFilteredData(data);
     } else {
-      const filtered = data.filter((appointment) => appointment.appointmentType === type);
+      const filtered = data.filter(
+        (appointment) => appointment.appointmentType === type
+      );
       setFilteredData(filtered);
     }
   };
@@ -44,9 +46,13 @@ const YourAppointments = () => {
   const handleDateFilter = (sortOrder) => {
     let sortedData;
     if (sortOrder === "Ascending") {
-      sortedData = [...filteredData].sort((a, b) => new Date(a.date) - new Date(b.date));
+      sortedData = [...filteredData].sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
     } else {
-      sortedData = [...filteredData].sort((a, b) => new Date(b.date) - new Date(a.date));
+      sortedData = [...filteredData].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
     }
     setFilteredData(sortedData);
   };
@@ -55,25 +61,23 @@ const YourAppointments = () => {
     let sortedData;
     if (sortOrder === "Ascending") {
       sortedData = [...filteredData].sort((a, b) => {
-          const [aHours, aMinutes] = a.time.split(':').map(Number);
-          const [bHours, bMinutes] = b.time.split(':').map(Number);
-          const aDate = new Date(0, 0, 0, aHours, aMinutes); 
-          const bDate = new Date(0, 0, 0, bHours, bMinutes); 
-          return aDate - bDate;
+        const [aHours, aMinutes] = a.time.split(":").map(Number);
+        const [bHours, bMinutes] = b.time.split(":").map(Number);
+        const aDate = new Date(0, 0, 0, aHours, aMinutes);
+        const bDate = new Date(0, 0, 0, bHours, bMinutes);
+        return aDate - bDate;
       });
     } else {
       sortedData = [...filteredData].sort((a, b) => {
-          const [aHours, aMinutes] = a.time.split(':').map(Number);
-          const [bHours, bMinutes] = b.time.split(':').map(Number);
-          const aDate = new Date(0, 0, 0, aHours, aMinutes); 
-          const bDate = new Date(0, 0, 0, bHours, bMinutes); 
-          return bDate - aDate;
+        const [aHours, aMinutes] = a.time.split(":").map(Number);
+        const [bHours, bMinutes] = b.time.split(":").map(Number);
+        const aDate = new Date(0, 0, 0, aHours, aMinutes);
+        const bDate = new Date(0, 0, 0, bHours, bMinutes);
+        return bDate - aDate;
       });
     }
     setFilteredData(sortedData);
-};
-
-
+  };
 
   const handleNumPetsFilter = (sortOrder) => {
     let sortedData;
@@ -87,9 +91,11 @@ const YourAppointments = () => {
 
   const handleStatusFilter = (status) => {
     if (status === "All") {
-      setFilteredData(data); 
+      setFilteredData(data);
     } else {
-      const filtered = data.filter((appointment) => appointment.status === status);
+      const filtered = data.filter(
+        (appointment) => appointment.status === status
+      );
       setFilteredData(filtered);
     }
   };
@@ -127,6 +133,7 @@ const YourAppointments = () => {
           <select onChange={(e) => handleStatusFilter(e.target.value)}>
             <option value="All">All</option>
             <option value="Pending">Pending</option>
+            <option value="Scheduled">Scheduled</option>
             <option value="Cancelled">Cancelled</option>
           </select>
         </div>
@@ -134,17 +141,20 @@ const YourAppointments = () => {
       <table className={classes.yourorderstable}>
         <thead>
           <tr>
-            <th scope="col" className={classes.tableHeaderCell}>Sno.</th>
-            <th scope="col" className={classes.tableHeaderCell}>Type</th>
-            <th scope="col" className={classes.tableHeaderCell}><span
+            <th scope="col" className={classes.tableHeaderCell}>
+              Sno.
+            </th>
+            <th scope="col" className={classes.tableHeaderCell}>
+              Type
+            </th>
+            <th scope="col" className={classes.tableHeaderCell}>
+              <span
                 onClick={() => handleDateFilter("Descending")}
                 className={classes.arrowIcon}
               >
                 &#9650;
               </span>
-              &nbsp;
-              Date
-              &nbsp;
+              &nbsp; Date &nbsp;
               <span
                 onClick={() => handleDateFilter("Ascending")}
                 className={classes.arrowIcon}
@@ -153,15 +163,13 @@ const YourAppointments = () => {
               </span>
             </th>
             <th scope="col" className={classes.tableHeaderCell}>
-            <span
+              <span
                 onClick={() => handleTimeFilter("Descending")}
                 className={classes.arrowIcon}
               >
                 &#9650;
               </span>
-              &nbsp;
-              Time
-              &nbsp;
+              &nbsp; Time &nbsp;
               <span
                 onClick={() => handleTimeFilter("Ascending")}
                 className={classes.arrowIcon}
@@ -169,37 +177,39 @@ const YourAppointments = () => {
                 &#9660;
               </span>
             </th>
-            <th scope="col" className={classes.tableHeaderCell}><span
+            <th scope="col" className={classes.tableHeaderCell}>
+              <span
                 onClick={() => handleNumPetsFilter("Descending")}
                 className={classes.arrowIcon}
               >
                 &#9650;
               </span>
-              &nbsp;
-              Pets
-              &nbsp;
+              &nbsp; Pets &nbsp;
               <span
                 onClick={() => handleNumPetsFilter("Ascending")}
                 className={classes.arrowIcon}
               >
                 &#9660;
-              </span></th>
-            <th scope="col" className={classes.tableHeaderCell}>Status</th>
-            <th scope="col" className={classes.tableHeaderCell}><span
+              </span>
+            </th>
+            <th scope="col" className={classes.tableHeaderCell}>
+              Status
+            </th>
+            <th scope="col" className={classes.tableHeaderCell}>
+              <span
                 onClick={() => handleTotalFilter("Descending")}
                 className={classes.arrowIcon}
               >
                 &#9650;
               </span>
-              &nbsp;
-              Total
-              &nbsp;
+              &nbsp; Total &nbsp;
               <span
                 onClick={() => handleTotalFilter("Ascending")}
                 className={classes.arrowIcon}
               >
                 &#9660;
-              </span></th>
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -219,6 +229,9 @@ const YourAppointments = () => {
                   {item.status === "Cancelled" && (
                     <span className={classes.reddot}></span>
                   )}
+                  {item.status === "Scheduled" && (
+                    <span className={classes.greendot}></span>
+                  )}
                 </div>
               </td>
               <td data-label="Total">${item.package}</td>
@@ -231,4 +244,3 @@ const YourAppointments = () => {
 };
 
 export default YourAppointments;
-

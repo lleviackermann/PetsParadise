@@ -2,11 +2,86 @@ import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
 const adminMailId = "admin123";
 const adminMailPassword = "Admin@123";
+
+export const sendReview = (prodId, userToken, review) => {
+  return async (dispatch) => {
+    const response = await fetch("http://localhost:8000/auth/review", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userToken,
+      },
+      body: JSON.stringify({
+        prodId,
+        review,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+};
+
+export const changeOrderStatus = (option, orderId, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/employee/updateOrder",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            status: option === "accept" ? "Delivered" : "Cancelled",
+          }),
+        }
+      );
+
+      if (response.ok) {
+      } else {
+        console.error("Failed to update order");
+      }
+    } catch (error) {
+      console.error("Error occurred while updating order:", error);
+    }
+  };
+};
+export const changeAppointmentStatus = (option, appId, token) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/employee/updateAppointment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            appId,
+            status: option ,
+          }),
+        }
+      );
+
+      if (response.ok) {
+      } else {
+        console.error("Failed to update order");
+      }
+    } catch (error) {
+      console.error("Error occurred while updating order:", error);
+    }
+  };
+};
+
 export const loginUser = (mail, password) => {
   let flag = "User";
   return async (dispatch) => {
     if (mail === adminMailId && password === adminMailPassword) {
       flag = "Admin";
+      // dispatch(uiActions.updateRole());
       return;
     }
     const response = await fetch("http://localhost:8000/auth/login", {
@@ -48,6 +123,7 @@ export const loginUser = (mail, password) => {
           },
         })
       );
+      dispatch(uiActions.updateRole("User"));
       dispatch(authActions.login({ token, user, cart }));
     }
     setTimeout(() => {

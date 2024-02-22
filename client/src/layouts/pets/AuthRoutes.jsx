@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import UserProfile from "../auth/profile/UserProfile/UserProfile";
+import EmployeeProfile from "../auth/profile/EmployeeProfile/EmployeeProfile";
 import { RecoilRoot } from "recoil";
 import LoginSignUp from "../auth/LoginSignUp";
 import { useSelector } from "react-redux";
@@ -25,6 +26,11 @@ function AuthRoutes() {
       <Route path="/auth/user/:activepage">
         <RecoilRoot>
           <UserProfile />
+        </RecoilRoot>
+      </Route>
+      <Route path="/auth/employee/:activepage">
+        <RecoilRoot>
+          <EmployeeProfile />
         </RecoilRoot>
       </Route>
       {/* <Route path="/ForgotPassword" element={<ForgotPassword />} /> */}

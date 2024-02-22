@@ -7,6 +7,7 @@ import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
+import Review from "../models/Review.js";
 
 // User Register
 export const registerUser = async (req, res) => {
@@ -127,7 +128,7 @@ export const login = async (req, res) => {
   if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
 
   const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
-  await person.populate("cart.productId");
+  if(flag === "User") await person.populate("cart.productId");
   const cart = person.cart;
   person.password = "";
   person.cart = [];
@@ -279,7 +280,7 @@ export const orderItems = async (req, res) => {
     console.log(user);
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOrderedItems = async (req, res) => {
@@ -314,8 +315,6 @@ export const getStatistics = async (req, res) => {
     let prod = await Product.findById(order.prodId);
     products.push(prod);
   }
-  // await user.populate("orders");
-  // await user.populate("appointments");
   const countOrdersByStatus = orders.reduce(
     (acc, order) => {
       if (order.status === "Pending") {
@@ -417,4 +416,62 @@ export const getStatistics = async (req, res) => {
     appointmentStatistics,
     orderTypeStatistics,
   });
+};
+
+export const submitReview = async (req, res) => {
+  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  const user = await User.findById(token.id, { firstName: 1, lastName: 1 });
+  const Name = user.firstName + " " + user.lastName;
+  console.log(user);
+  const newReview = await Review({
+    Name,
+    review: req.body.review,
+    prodId: req.body.prodId,
+  });
+  const savedReview = await newReview.save();
+  const product = await Product.findById(req.body.prodId);
+  product.reviews.push(savedReview);
+  await product.save();
+  const status = [];
+  res.status(201).send({ status });
+};
+
+export const getAllAppointments = async (req, res) => {
+  const appointments = await Appointment.find();
+  for (let i = 0; i < appointments.length; i++) {
+    const user = await User.findById(appointments[i].userId);
+    if (user) {
+      const userName = `${user.firstName} ${user.lastName}`;
+      console.log(userName);
+      appointments[i] = appointments[i].toObject();
+      appointments[i]["userName"] = userName;
+      console.log(appointments[i]);
+    } else {
+      console.log("User not found for appointment:", appointments[i]._id);
+    }
+  }
+  console.log(appointments);
+  res.status(201).send(appointments);
+};
+
+export const getAllOrders = async (req, res) => {
+  const orders = await Order.find();
+  for (let i = 0; i < orders.length; i++) {
+    const user = await User.findById(orders[i].userId);
+    const product = await Product.findById(orders[i].prodId);
+    if (user) {
+      const userName = `${user.firstName} ${user.lastName}`;
+      orders[i] = orders[i].toObject();
+      orders[i]["userName"] = userName;
+      orders[i]["productName"] = product.name;
+      orders[i]["productType"] = product.productType;
+    } else {
+      orders[i] = orders[i].toObject();
+      orders[i]["userName"] = "Hem donga lanja";
+      orders[i]["productName"] = "Random";
+      orders[i]["productType"] = "pets";
+    }
+  }
+
+  res.status(201).send(orders);
 };

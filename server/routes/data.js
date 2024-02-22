@@ -5,7 +5,7 @@ import { dogData, catData } from "./foodDetail.js";
 import accessoryDetails from "./accessoryDetail.js";
 
 router.get("/", (request, response) => {
-  // Product.insertMany(dogData);
+  // Product.insertMany(catData);
   return response.status(234).send("Welcome To MERN Stack Tutorial");
 });
 

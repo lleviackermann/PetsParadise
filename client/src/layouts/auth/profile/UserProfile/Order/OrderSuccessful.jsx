@@ -1,30 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./OrderSuccessful.css";
 import { useRecoilState } from "recoil";
 import { orderSuccessfulProvider } from "../Providers/OrderSuccessfulProvider";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { sendReview } from "../../../../../store/auth-actions";
 
 const OrderSuccessful = ({ order, message, redirecto }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const token = useSelector((state) => state.auth.userToken);
+
+  const dispatch = useDispatch();
   console.log(userInfo);
 
-  const token = useSelector((state) => state.auth.userToken);
   const [data, setData] = useState([]);
+  const reviewRef = useRef(null);
 
-    useEffect(() => {
-        const sendRequest = async () => {
-          const response = await fetch("http://localhost:8000/auth/product/"+order.prodId, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          });
-          const productData = await response.json();
-          setData(productData);
-        };
-        sendRequest();
-      }, []);
+  const submitReview = (e) => {
+    e.preventDefault();
+    dispatch(sendReview(data._id, token, reviewRef.current.value));
+  };
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      const response = await fetch(
+        "http://localhost:8000/auth/product/" + order.prodId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      const productData = await response.json();
+      setData(productData);
+    };
+    sendRequest();
+  }, []);
 
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
     orderSuccessfulProvider
@@ -76,50 +88,69 @@ const OrderSuccessful = ({ order, message, redirecto }) => {
           <h2>{"Order Confirmation"}</h2>
         </div>
 
-                {/* Order Summary Table */}
-                <div className='c2 input-container'>
-                    <h2>Order Summary</h2>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td><strong>Order Id</strong></td>
-                                <td>{order._id}</td>
-                            </tr>
-                            <tr>    
-                                <td><strong>Order Date</strong></td>
-                                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Name</strong></td>
-                                <td>{userInfo.firstName+" "+userInfo.lastName}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email</strong></td>
-                                <td>{userInfo.email}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Order Subtotal</strong></td>
-                                <td>${order.amount}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Order Quantity</strong></td>
-                                <td>{order.quantity}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Total</strong></td>
-                                <td>${order.amount * order.quantity}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className='review-container'>
-                        <h2>Enter Review:</h2>
-                        <input className='input-field' id='review' type='text' placeholder='Enter your review' />
-                        <div className='submit-btn-container'>
-                            <button type='submit'>Submit review</button>
-                        </div>
-                    </div>
-
-                </div>
+        {/* Order Summary Table */}
+        <div className="c2 input-container">
+          <h2>Order Summary</h2>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Order Id</strong>
+                </td>
+                <td>{order._id}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Order Date</strong>
+                </td>
+                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Name</strong>
+                </td>
+                <td>{userInfo.firstName + " " + userInfo.lastName}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Email</strong>
+                </td>
+                <td>{userInfo.email}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Order Subtotal</strong>
+                </td>
+                <td>${order.amount}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Order Quantity</strong>
+                </td>
+                <td>{order.quantity}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Total</strong>
+                </td>
+                <td>${order.amount * order.quantity}</td>
+              </tr>
+            </tbody>
+          </table>
+          <form className="review-container" onSubmit={submitReview}>
+            <h2>Enter Review:</h2>
+            <input
+              className="input-field"
+              id="review"
+              type="text"
+              placeholder="Enter your review"
+              ref={reviewRef}
+            />
+            <div className="submit-btn-container">
+              <button type="submit">Submit review</button>
+            </div>
+          </form>
+        </div>
 
         {/* Product Details Table */}
         <div className="c3">
