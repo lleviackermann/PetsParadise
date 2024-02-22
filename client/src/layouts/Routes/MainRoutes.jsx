@@ -7,7 +7,8 @@ const PetRoutes = React.lazy(() => import("../pets/PetRoutes"));
 const NotFound = React.lazy(() => import("../NotFound"));
 const Payment = React.lazy(() => import("../Others/Payment"));
 const AuthRoutes = React.lazy(() => import("../pets/AuthRoutes"));
-
+const AdminRoutes = React.lazy(() => import("../../Admin/AdminRoutes/AdminRoutes"));
+const Dashboard = React.lazy(() => import("../../Admin/Layouts/Dashboard"))
 function MainRoutes() {
   return (
     <div>
@@ -16,6 +17,9 @@ function MainRoutes() {
           <Switch>
             <Route path="/" exact>
               <Home />
+            </Route>
+            <Route path="/admin/*" exact>
+              <AdminRoutes />
             </Route>
             <Route path="/auth/*" exact>
               <AuthRoutes />

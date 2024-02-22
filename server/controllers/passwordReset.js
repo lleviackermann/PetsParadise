@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import Employee from "../models/Employee.js";
 import Admin from "../models/Admin.js";
 import otpGenerator from "otp-generator";
-import mailSender from "../utils/mailSender.js";
+import mailSender from "../middleware/mailSender.js";
 import Otp from "../models/Otp.js";
 
 export const validateAndOtpSender = async (req, res) => {
