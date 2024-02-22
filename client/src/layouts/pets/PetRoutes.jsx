@@ -30,6 +30,38 @@ function PetRoutes() {
   return (
     <div>
       <Switch>
+      <Route path="/pets/" exact>
+          <PetLandingPage />
+        </Route>
+        <Route path="/pets/dogs" exact>
+          <Redirect to="/pets/dogs/1"></Redirect>
+        </Route>
+        <Route path="/pets/dogs/1">
+          <Dogs />
+        </Route>
+        <Route path="/pets/cats" exact>
+          <Redirect to="/pets/cats/1"></Redirect>
+        </Route>
+        <Route path="/pets/cats/1">
+          <Cats />
+        </Route>
+
+        <Route path="/pets/dogs/:pnum">
+          <Dogs />
+        </Route>
+        <Route path="/pets/cats">
+          <Cats />
+        </Route>
+        <Route path="/pets/services" exact>
+          <Services />
+        </Route>
+        <Route path="/pets/vetcare" exact>
+          <VetCare />
+        </Route>
+        <Route path="/pets/petfoods" exact>
+          <PetFood />
+        </Route>
+
        
 {/* Accessories */}
         <Route path='/pets/products' exact>{<Shop/>}</Route> 
@@ -43,16 +75,15 @@ function PetRoutes() {
 {/* Accessories */}
 
 
-        {/* <Route path="/pets/products">
-          <Products />
-        </Route> */}
-        {/* <Route path={`${path}:petId`}>
-          <ProductDetail />
-        </Route> */}
-        {/* <Route path="*">
+        <Route path="*">
           <NotFound />
-        </Route> */}
+        </Route>
+                <Route path={`${path}:petId`}>
+          <ProductDetail />
+        </Route>
+
       </Switch>
+      
       {/* <Route path="pets/:petId/comments" exact>
           <Comments />
         </Route> */}

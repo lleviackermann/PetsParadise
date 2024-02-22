@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './CSS/ShopCategory.css'
 import { ShopContext } from '../Context/ShopContext'
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
@@ -8,7 +8,18 @@ import Navbar from '../Components/Navbar/Navbar'
 import all_product from '../Components/Assets/all_product'
 
 const ShopCategory = (props) => {
-  // const {all_product} = useContext(ShopContext);
+  useEffect(() => {
+    const fetchFoodDetails = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/accessory");
+        const data = await response.json();
+        setFilteredProducts(data);
+        setData(data);
+      } catch (error) {}
+    };
+    fetchFoodDetails();
+  }, []);
+
   return (
     <div className='shop-category'>
       <Navbar/>
