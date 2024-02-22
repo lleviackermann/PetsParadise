@@ -10,7 +10,6 @@ const YourOrders = () => {
   const token = useSelector((state) => state.auth.userToken);
   const [originalData, setOriginalData] = useState([]);
   const [data, setData] = useState([]);
-  const [prodData, setProdData] = useState([]);
   const dispatch = useDispatch();
 
   const handleAcceptOrCancel = async (option, index) => {
@@ -53,9 +52,9 @@ const YourOrders = () => {
     };
     sendRequest();
   }, []);
-  useEffect(()=>{      
-    handleStatusFilter("Pending")
-},[originalData])
+  // useEffect(() => {
+  //   handleStatusFilter("Pending");
+  // }, []);
 
   const [selectedorder, setselectedorder] = useState(0);
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
@@ -105,13 +104,11 @@ const YourOrders = () => {
     if (category === "All") {
       filteredOrders = [...originalData];
     } else {
-      filteredOrders = originalData.filter((order) => {
-        const productData = prodData.find(
-          (product) => product._id === order.prodId
-        );
-        return productData && productData.productType === category;
+      filteredOrders = data.filter((order) => {
+        return order.productType === category;
       });
     }
+    console.log(originalData);
     setData(filteredOrders);
   };
 
@@ -128,8 +125,8 @@ const YourOrders = () => {
         <div className={classes.filterButton}>
           <span>Status:</span>
           <select onChange={(e) => handleStatusFilter(e.target.value)}>
-          <option value="Pending">Pending</option>
-          <option value="All">All</option>
+            <option value="All">All</option>
+            <option value="Pending">Pending</option>
             <option value="Delivered">Delivered</option>
           </select>
         </div>
@@ -185,21 +182,15 @@ const YourOrders = () => {
                 &#9660;
               </span>
             </th>
-            {/* {data.status === "Pending" && ( */}
             <th scope="col" className={classes.tableHeaderCell}>
               Product
             </th>
-            {/* )} */}
           </tr>
         </thead>
         <tbody>
           {data.map((item, index) => {
-            const productData = prodData.find(
-              (product) => product._id === item.prodId
-            );
             return (
               <tr key={index}>
-                {/* <td data-label="Sno">{index+1}</td> */}
                 <td data-label="OrderDate">
                   {new Date(item.createdAt).toLocaleDateString()}
                 </td>
@@ -215,11 +206,8 @@ const YourOrders = () => {
                       Accept
                     </button>
                   )}
-                  {item.status !== "Pending" && "Delivered"}
+                  {item.status !== "Pending" && item.status}
                   &nbsp;&nbsp;
-                  {/* <button onClick={() => handleAcceptOrCancel("cancel", index)}>
-                    Cancel
-                  </button> */}
                 </td>
               </tr>
             );

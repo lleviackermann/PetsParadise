@@ -13,16 +13,12 @@ import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const { activepage } = useParams();
-  // const userInfo = useSelector((state) => state.auth.userInfo);
-  console.log("Active Page:", activepage);
-
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  console.log(userInfo);
   const [employee, setUser] = useState({
-    // name: userInfo.firstName + " " + userInfo.lastName,
-    // email: userInfo.email,
-    name: "Dinesh",
-    email: "svbsovbvon",
+    name: userInfo.firstName + " " + userInfo.lastName,
+    email: userInfo.email,
   });
-
 
   return (
     <div className={classes.userprofile}>
@@ -31,7 +27,9 @@ const UserProfile = () => {
           <EmployeeSidebar activepage={activepage} />
         </div>
         <div className={classes.right}>
-          {activepage === "accountsettings" && <EmployeeAccountSettings employee={employee} />}
+          {activepage === "accountsettings" && (
+            <EmployeeAccountSettings employee={employee} />
+          )}
           {activepage === "changepassword" && <ChangePassword />}
           <RecoilRoot>
             {activepage === "orders" && <YourOrders />}
@@ -42,7 +40,6 @@ const UserProfile = () => {
         </div>
       </div>
     </div>
-    // <EmployeeAccountSettings employee={employee} />
   );
 };
 

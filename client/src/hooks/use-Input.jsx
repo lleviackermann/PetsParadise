@@ -4,9 +4,24 @@ const initialInputState = {
   checked: false,
 };
 
+let employeePasswords = [
+  "doctor@1",
+  "doctor@2",
+  "doctor@3",
+  "doctor@4",
+  "employee@1",
+  "employee@2",
+  "employee@3",
+  "employee@4",
+  "employee@5",
+  "employee@6",
+  "admin123",
+];
+
 const validation = (type, value) => {
   if (type === "email") {
-    if (/^A\d{4}/.test(value)) {
+    // /^a\d{4}/
+    if (/^a.{4}/.test(value)) {
       return true;
     }
     if (/^E\d{3}/.test(value) && value.length == 4) {
@@ -18,7 +33,7 @@ const validation = (type, value) => {
     return /^[A-Z][a-zA-Z]{2,}$/.test(value);
   }
   if (type === "password") {
-    if (value === "admin123") {
+    if (employeePasswords.includes(value)) {
       return true;
     }
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(value);
@@ -31,7 +46,6 @@ const inputStateReducer = (state, action) => {
   }
 
   if (action.type === "BLUR") {
-    console.log(action);
     return { value: state.value, checked: true };
   }
   return initialInputState;
@@ -49,7 +63,6 @@ const useInput = (type) => {
     dispatch({ type: "CHANGE", value: event.target.value });
   };
   const inputBlurHandler = (event) => {
-    console.log("Blur handler called");
     dispatch({ type: "BLUR" });
   };
 

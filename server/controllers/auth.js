@@ -121,18 +121,22 @@ export const login = async (req, res) => {
   } else if (flag == "User") {
     person = await User.findOne({ email: userId });
   }
-  console.log(person);
 
   if (!person) return res.status(400).json({ msg: "User does not exist. " });
   const matched = bcrypt.compareSync(password, person.password);
+  if (flag == "Admin") {
+    return res.status(200).json({ person });
+  }
+  if (flag === "Employee") {
+    return res.status(200).json({ person });
+  }
   if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
 
   const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
-  if(flag === "User") await person.populate("cart.productId");
+  if (flag === "User") await person.populate("cart.productId");
   const cart = person.cart;
   person.password = "";
   person.cart = [];
-  console.log(person, cart);
   return res.status(200).json({ token, person, cart });
 };
 
@@ -240,13 +244,15 @@ export const orderItems = async (req, res) => {
   try {
     const token = jwt.decode(req.headers.authorization.split(" ")[1]);
     const user = await User.findById(token.id);
-    // console.log(user.cart);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     await user.populate("cart.productId");
-    console.log(user.cart);
     const cart = user.cart;
+    let totalPrice = 0;
+    const randomEmployee = await Employee.aggregate([{ $sample: { size: 1 } }]);
+    console.log(randomEmployee[0].orders);
     for (const item of cart) {
       const order = new Order({
         prodId: item.productId._id,
@@ -255,32 +261,28 @@ export const orderItems = async (req, res) => {
         amount: item.productId.price,
         quantity: item.quantity,
       });
+      totalPrice += item.productId.price * item.quantity;
       const savedOrder = await order.save();
       user.orders.push(savedOrder._id);
+      randomEmployee[0].orders.push(savedOrder._id);
     }
-    // cart.forEach(async (item) => {
-    //   const order = new Order({
-    //     prodId: item.productId._id,
-    //     userId: user._id,
-    //     status: "Pending",
-    //     amount: item.productId.price,
-    //     quantity: item.quantity,
-    //   });
-    //   const savedOrder = await order.save();
-    //   user.orders.push(savedOrder._id);
-    //   await user.save();
-    // });
+    console.log("ordering items");
+
     const count = await Count.findOne({ countId: "100" });
     const orders = count.countOrders + user.cart.length;
-    await Count.findOneAndUpdate({ countId: "100" }, { countOrders: orders });
+    const sales = count.countSales + totalPrice;
+    await Count.findOneAndUpdate(
+      { countId: "100" },
+      { countOrders: orders, countSales: sales }
+    );
 
     user.cart = [];
     await user.save();
     await user.populate("orders");
-    console.log(user);
     const updatedCart = user.cart;
+    console.log(randomEmployee);
     res.json({ updatedCart });
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getOrderedItems = async (req, res) => {
@@ -328,14 +330,16 @@ export const getStatistics = async (req, res) => {
   );
   const countAppointmentsByStatus = appointments.reduce(
     (acc, order) => {
-      if (order.status === "Accepted") {
+      if (order.status === "Scheduled") {
         acc.scheduled++;
       } else if (order.status === "Pending") {
+        acc.pending++;
+      } else if (order.status === "Cancelled") {
         acc.cancelled++;
       }
       return acc;
     },
-    { scheduled: 0, cancelled: 0 }
+    { scheduled: 0, cancelled: 0, pending: 0 }
   );
   const countorderTypeByStatus = products.reduce(
     (acc, order) => {
@@ -383,6 +387,12 @@ export const getStatistics = async (req, res) => {
           value: countAppointmentsByStatus.cancelled,
           label: "Cancelled",
           color: "#c1d1ff",
+        },
+        {
+          id: 2,
+          value: countAppointmentsByStatus.pending,
+          label: "Pending",
+          color: "#c1ffc1",
         },
       ],
     },

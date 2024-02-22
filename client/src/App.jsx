@@ -2,11 +2,10 @@ import Layout from "./layouts/Layout/Layout";
 import MainRoutes from "./layouts/Routes/MainRoutes";
 
 function App() {
-
   return (
     <>
       <Layout>
-          <MainRoutes />
+        <MainRoutes />
       </Layout>
     </>
   );

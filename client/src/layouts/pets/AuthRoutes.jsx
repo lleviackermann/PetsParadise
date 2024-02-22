@@ -14,27 +14,87 @@ const NotFound = React.lazy(() => import("../NotFound"));
 
 function AuthRoutes() {
   const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  let userRole = "User";
+  if (userInfo != null) {
+    userRole = userInfo.role;
+  }
+
+  const ProtectedRoute = ({
+    path,
+    exact,
+    userRole,
+    allowedRoles,
+    children,
+  }) => {
+    const isUserAllowed = allowedRoles.includes(userRole);
+
+    return (
+      <Route path={path} exact={exact}>
+        {isUserAllowed ? (
+          children
+        ) : userRole === "Admin" ? (
+          <Redirect to="/admin/dashboard" />
+        ) : (
+          <Redirect to="/employee/dashboard" />
+        )}
+      </Route>
+    );
+  };
+
   return (
     <Switch>
-      <Route path="/auth/login" exact>
-        {userLoggedIn && <Redirect to="/" />}
-        {!userLoggedIn && <LoginSignUp />}
-      </Route>
+      {
+        <Route path="/auth/login" exact>
+          {userLoggedIn && userRole === "User" && <Redirect to="/" />}
+          {userLoggedIn && userRole === "Admin" && (
+            <Redirect to="/admin/dashboard" />
+          )}
+          {!userLoggedIn && <LoginSignUp />}
+        </Route>
+      }
+
+      {/* <ProtectedRoute
+        path="/signup"
+        userRole={userRole}
+        allowedRoles={["User"]}
+      >
+        <SignUp />
+      </ProtectedRoute> */}
+
       <Route path="/signup">
         <SignUp />
       </Route>
+      {/* <ProtectedRoute
+        path="/auth/user/:activepage"
+        userRole={userRole}
+        allowedRoles={["User"]}
+      >
+        <RecoilRoot>
+          <UserProfile />
+        </RecoilRoot>
+      </ProtectedRoute> */}
+
       <Route path="/auth/user/:activepage">
         <RecoilRoot>
           <UserProfile />
         </RecoilRoot>
       </Route>
-      <Route path="/auth/employee/:activepage">
+
+      {/* <ProtectedRoute
+        path="/auth/employee/:activepage"
+        userRole={userRole}
+        allowedRoles={["Employee"]}
+      >
         <RecoilRoot>
           <EmployeeProfile />
         </RecoilRoot>
+      </ProtectedRoute> */}
+
+      <Route path="/ForgotPassword" element={<ForgotPassword />} />
+      <Route path="*" exact>
+        {userRole === "Admin" && <Redirect to="/admin/dashboard" />}
       </Route>
-      {/* <Route path="/ForgotPassword" element={<ForgotPassword />} /> */}
-      <Route path="*" element={<NotFound />} />
     </Switch>
   );
 }

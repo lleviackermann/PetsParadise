@@ -75,7 +75,6 @@ app.use("/appointment", appointmentRoutes);
 app.use("/profile/admin", verifyToken, adminRoutes);
 app.get("/", async (req, res) => {
   console.log("Home request");
-
   res.render("index.ejs");
 });
 
@@ -105,6 +104,5 @@ mongoose
     });
   })
   .catch((error) => console.log(error));
-
 
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDZlOTJkNDhmYTY2YmQxZWFlNWY0YiIsImlhdCI6MTcwODU4MzI5N30.ajzXZpBIiqDsdqpPKLt3QMffJn4lu2HxSwa0YV-inRw
