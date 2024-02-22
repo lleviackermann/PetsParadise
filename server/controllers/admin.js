@@ -6,6 +6,8 @@ import Announcement from "../models/Announcement.js";
 import Message from "../models/Message.js";
 import Count from "../models/Count.js";
 import Admin from "../models/Admin.js";
+import { lineChartDataGenerator, topUsersHelper, topVetsHelper } from "../helpers/adminHelpers.js";
+
 
 // Customers Page
 export const getAllUsers = async (req, res, next) => {
@@ -185,34 +187,10 @@ export const getDashboardContents = async (req, res, next) => {
     try {
         const count = await Count.findOne({ countId: 100 });
         const admin = await Admin.findOne({ adminId: "admin101" });
-        const users = await User.find().populate('orders');
-        const usersDataFormatted = users.map((user) => {
-            let moneySpent = 0;
-            for (let i = 0; i < user.orders.length; i++) {
-                moneySpent += user.orders[i].amount;
-            };
-            return {
-                id: user._id,
-                name: user.firstName + " " + user.lastName,
-                email: user.email,
-                moneyspent: moneySpent,
-            }
-        })
-        const topUsers = usersDataFormatted.sort((first, second) => {
-            return second.moneyspent - first.moneyspent;
-        })
+        const topUsers = await topUsersHelper();
+        const topVets = await topVetsHelper();
+        const lineData = await lineChartDataGenerator();
         
-        const employees = await Employee.find();
-        const formattedEmployeesData = employees.map((employee) => {
-            return {
-                name: employee.name,
-                email: employee.email,
-                appointments: employee.appointments.length,
-            }
-        })
-        const topVets = formattedEmployeesData.sort((first, second) => {
-            return second.appointments - first.appointments;
-        })
         const formattedData = {
             totalViews: count.countViews,
             totalSales: count.countSales,
