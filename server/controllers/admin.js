@@ -224,3 +224,30 @@ export const addExpenses = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const deleteOrder = async(req, res, next) => {
+  try {
+    console.log(req.body);
+    const { idToDelete } = req.body;
+
+    for(let i = 0; i < idToDelete.length; i++) {
+      await Order.findByIdAndDelete(idToDelete[i]);
+    }
+    const orders = await Order.find().populate("userId");
+    const formattedOrdersData = orders.map((order) => {
+      return {
+        id: order._id,
+        prodId: order.prodId,
+        time: order.createdAt.toLocaleString(),
+        customerName: order.userId.firstName + " " + order.userId.lastName,
+        amount: order.amount,
+        status: order.status,
+        quantity: order.quantity,
+      };
+    });
+    return res.status(200).json(formattedOrdersData);
+  } catch(err) {
+    next(err);
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Topbar from "../Components/Topbar";
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { tokens } from '../theme';
 import { ordersColumnData } from "../columnsData";
@@ -35,8 +35,29 @@ const Orders = () => {
     getData();
   }, []);
 
-  const deleteSelectedRows = () => {
-    apiRef.current.getSelectedRows().forEach((value) => {console.log(value.id)});
+  const deleteSelectedRows = async () => {
+    const idToDelete = [];
+    apiRef.current.getSelectedRows().forEach((value) => {idToDelete.push(value.id)});
+    console.log(idToDelete);
+    try {
+      const response = await fetch('http://localhost:8000/profile/admin/deleteOrders', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": verifyToken,
+        },
+        body: JSON.stringify({
+          idToDelete: idToDelete
+        })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setAllOrders(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   return (
@@ -48,6 +69,7 @@ const Orders = () => {
           display="flex" justifyContent="center" alignContent="center"
         >
           <Typography variant='h3' fontSize="30px" fontWeight="700">Your Orders</Typography>
+          <Button variant='contained' onClick={deleteSelectedRows}>Delete The selected orders</Button>
         </Box>
       </Box>
       <Box m="20px">
@@ -95,6 +117,7 @@ const Orders = () => {
             columns={ordersColumnData}
             apiRef={apiRef}
             disableColumnSelector
+            checkboxSelection
             disableRowSelectionOnClick
           />
         </Box>
