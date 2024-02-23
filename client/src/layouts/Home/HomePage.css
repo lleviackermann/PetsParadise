@@ -51,13 +51,21 @@
   box-sizing: border-box;
   list-style: none;
 }
+body {
+  font-size: initial;
+  /* font-size: ; */
+}
 
-.root_div{
-    width: 100%;
+.root_div {
+  width: 100%;
+  /* font-size: 62.5% !important; */
+}
+.root_div {
+  font-size: 62.5%; /* Set the font size for the specific div */
 }
 
 html {
-  font-size: 62.5%;
+  /* font-size: 62.5%; */
 }
 
 body {
@@ -88,7 +96,8 @@ header main .left .heading {
 header main .left .heading__top {
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 5rem;
+  /* font-size: 5rem; */
+  font-size: 3.12rem;
 }
 
 header main .left .heading__top .dog-sketch {
@@ -103,12 +112,14 @@ header main .left .heading__top span {
 header main .left .heading__middle {
   font-family: var(--roboto-text);
   font-weight: 400;
-  font-size: 3rem;
+  /* font-size: 3rem; */
+  font-size: 1.87rem;
 }
 
 header main .left .heading__end {
   font-weight: 600;
-  font-size: 4rem;
+  /* font-size: 4rem; */
+  font-size: 2.5rem;
 }
 
 header main .left .heading__end span {
@@ -118,7 +129,8 @@ header main .left .heading__end span {
 main .button {
   display: flex;
   gap: 1rem;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
+  font-size: 1rem;
 }
 
 .btn-grad {
@@ -143,14 +155,15 @@ main .button {
   background-color: var(--button-hover-color);
   color: #fff;
   text-decoration: none;
-} 
+}
 
 .normal-btn {
   padding: 1rem 3rem;
   outline: none;
   border: none;
   background-color: transparent;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
+  font-size: 1rem;
   font-family: var(--roboto-text);
   color: var(--main-color);
   cursor: pointer;
@@ -178,11 +191,13 @@ main .button {
 }
 
 .left .review__section h3 {
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  font-size: 1.25rem;
 }
 
 .left .review__section h4 {
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
+  font-size: 1rem;
   line-height: 2;
 }
 
@@ -241,7 +256,8 @@ main .button {
 
 .categories--heading {
   text-transform: uppercase;
-  font-size: 4rem;
+  font-size: 2.5rem;
+  /* font-size: 4rem; */
   width: max-content;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -262,7 +278,8 @@ main .button {
 
 .container {
   font-family: "Mukta", sans-serif;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
+  font-size: 1rem;
 }
 
 .container button {
@@ -283,7 +300,8 @@ main .button {
 button.learn-more {
   /* width: max-content; */
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.25rem;
+  /* font-size: 2rem; */
   width: 100%;
   height: auto;
   display: flex;
@@ -397,7 +415,8 @@ button:hover .button-text {
 
 .services--heading {
   text-transform: uppercase;
-  font-size: 4rem;
+  /* font-size: 4rem; */
+  font-size: 2.5rem;
   width: max-content;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -437,20 +456,23 @@ button:hover .button-text {
 
 .services__info h3 {
   color: var(--color3);
-  font-size: 2rem;
+  font-size: 1.25rem;
+  /* font-size: 2rem; */
   padding-left: 0.5rem;
   border-left: 3px solid;
 }
 
 .services__heading {
   font-family: var(--poppins-text);
-  font-size: 3rem;
+  /* font-size: 3rem; */
+  font-size: 1.87rem;
   line-height: 1.4;
 }
 
 .services__details {
   font-family: var(--roboto-text);
   font-size: 1.6rem;
+  /* font-size: 1rem; */
   line-height: 1.7;
   color: var(--color-light-text);
 }
@@ -480,7 +502,8 @@ button:hover .button-text {
   border-radius: 50px;
   outline: none;
   border: none;
-  font-size: 1.6rem;
+  font-size: 1rem;
+  /* font-size: 1.6rem; */
   cursor: pointer;
   transition: var(--hoverTransition);
 }
@@ -529,7 +552,8 @@ button:hover .button-text {
 
 .choose-us-heading1 {
   text-transform: uppercase;
-  font-size: 5rem;
+  /* font-size: 5rem; */
+  font-size: 3.125rem;
   width: max-content;
   text-align: center;
   margin: auto;
@@ -561,7 +585,8 @@ button:hover .button-text {
   text-align: center;
   box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
   transition: all 0.2s;
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
+  font-size: 0.9rem;
 }
 
 .choose-us-cards img {
@@ -589,7 +614,8 @@ button:hover .button-text {
 }
 
 .card-heading {
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  font-size: 1.25rem;
   font-weight: 700;
   text-transform: uppercase;
   color: #8b8f8d;
@@ -597,7 +623,8 @@ button:hover .button-text {
 }
 
 .card-details {
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  font-size: 1.25rem;
   color: #828893;
 }
 
@@ -662,19 +689,22 @@ button:hover .button-text {
 }
 
 .contact-icon {
-  font-size: 3rem;
+  /* font-size: 3rem; */
+  font-size: 1.875rem;
   color: #3e2093;
   margin-bottom: 10px;
 }
 
 .content .left-side .details .topic {
+  /* font-size: 11.25px; */
   font-size: 18px;
   font-weight: 500;
 }
 
 .content .left-side .details .text-one,
 .content .left-side .details .text-two {
-  font-size: 14px;
+  font-size: 16px;
+  /* font-size: 8.75px; */
   color: #afafb6;
 }
 
@@ -684,14 +714,16 @@ button:hover .button-text {
 }
 
 .content .right-side .topic-text {
-  font-size: 4rem;
+  font-size: 2.5rem;
+  /* font-size: 4rem; */
   font-weight: 600;
   color: #3e2093;
   margin-bottom: 1rem;
 }
 
 .content .right-side p {
-  font-size: 2rem;
+  font-size: 1.25rem;
+  /* font-size: 2rem; */
   margin-bottom: 1rem;
 }
 
@@ -707,7 +739,8 @@ button:hover .button-text {
   width: 100%;
   border: none;
   outline: none;
-  font-size: 16px;
+  /* font-size: 16px; */
+  font-size: 10px;
   background: #f0f1f8;
   border-radius: 6px;
   padding: 0 1.5rem;
@@ -734,7 +767,8 @@ button:hover .button-text {
   border-radius: 50px;
   outline: none;
   border: none;
-  font-size: 1.6rem;
+  font-size: 1rem;
+  /* font-size: 1.6rem; */
   cursor: pointer;
   transition: var(--hoverTransition);
 }
@@ -743,7 +777,6 @@ button:hover .button-text {
   background-color: var(--button-hover-color);
 }
 
- 
 @media (max-width: 950px) {
   .contact-container {
     width: 90%;
@@ -778,7 +811,6 @@ button:hover .button-text {
     margin-left: 0;
   }
 }
-
 
 @media (max-width: 1200px) {
   html {
@@ -866,7 +898,7 @@ button:hover .button-text {
 }
 
 @media (min-width: 850px) {
-  .header nav{
+  .header nav {
     display: flex;
   }
 }
@@ -981,21 +1013,21 @@ button:hover .button-text {
 }
 
 #myBtn {
-  display: none; 
-  position: fixed; 
-  bottom: 20px; 
-  right: 30px; 
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
   z-index: 99;
-  border: none; 
-  outline: none; 
+  border: none;
+  outline: none;
   background-color: var(--product-heading-color-2);
-  color: white; 
-  cursor: pointer; 
-  padding: 15px; 
-  border-radius: 50%; 
-  font-size: 18px; 
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 18px;
 }
 
 #myBtn:hover {
-  background-color: #555; 
+  background-color: #555;
 }
