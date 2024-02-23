@@ -34,6 +34,7 @@ const OrderSuccessful = ({ order, message, redirecto }) => {
       );
       const productData = await response.json();
       setData(productData);
+      console.log(productData);
     };
     sendRequest();
   }, []);
@@ -137,19 +138,21 @@ const OrderSuccessful = ({ order, message, redirecto }) => {
               </tr>
             </tbody>
           </table>
-          <form className="review-container" onSubmit={submitReview}>
-            <h2>Enter Review:</h2>
-            <input
-              className="input-field"
-              id="review"
-              type="text"
-              placeholder="Enter your review"
-              ref={reviewRef}
-            />
-            <div className="submit-btn-container">
-              <button type="submit">Submit review</button>
-            </div>
-          </form>
+          {order.status === "Delivered" && (
+            <form className="review-container" onSubmit={submitReview}>
+              <h2>Enter Review:</h2>
+              <input
+                className="input-field"
+                id="review"
+                type="text"
+                placeholder="Enter your review"
+                ref={reviewRef}
+              />
+              <div className="submit-btn-container">
+                <button type="submit">Submit review</button>
+              </div>
+            </form>
+          )}
         </div>
 
         {/* Product Details Table */}

@@ -148,14 +148,12 @@ export const addToCart = async (req, res) => {
 
     // Find the logged-in user
     const user = await User.findById(token.id);
-    // console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     // Find the product by ID
-    // console.log(productId);
     const product = await Product.findById(productId);
 
     // If the product does not exist, return an error
@@ -251,8 +249,6 @@ export const orderItems = async (req, res) => {
     await user.populate("cart.productId");
     const cart = user.cart;
     let totalPrice = 0;
-    const randomEmployee = await Employee.aggregate([{ $sample: { size: 1 } }]);
-    console.log(randomEmployee[0].orders);
     for (const item of cart) {
       const order = new Order({
         prodId: item.productId._id,
@@ -264,9 +260,7 @@ export const orderItems = async (req, res) => {
       totalPrice += item.productId.price * item.quantity;
       const savedOrder = await order.save();
       user.orders.push(savedOrder._id);
-      randomEmployee[0].orders.push(savedOrder._id);
     }
-    console.log("ordering items");
 
     const count = await Count.findOne({ countId: "100" });
     const orders = count.countOrders + user.cart.length;
@@ -280,7 +274,6 @@ export const orderItems = async (req, res) => {
     await user.save();
     await user.populate("orders");
     const updatedCart = user.cart;
-    console.log(randomEmployee);
     res.json({ updatedCart });
   } catch (error) {}
 };
@@ -289,7 +282,6 @@ export const getOrderedItems = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let orders = [];
   orders = await Order.find({ userId: token.id });
-  console.log("ORDERS:", orders[0].prodId);
   let products = [];
   for (const order of orders) {
     let prod = await Product.findById(order.prodId);
@@ -303,14 +295,12 @@ export const getProductDetails = async (req, res) => {
   // const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   const prodId = req.params.productId;
   let product = await Product.findById(prodId);
-  console.log(product);
   res.status(201).send(product);
 };
 
 export const getStatistics = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let query = {};
-  console.log(token);
   if (token != null) {
     query = { userId: token.id };
   }
@@ -436,7 +426,6 @@ export const submitReview = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   const user = await User.findById(token.id, { firstName: 1, lastName: 1 });
   const Name = user.firstName + " " + user.lastName;
-  console.log(user);
   const newReview = await Review({
     Name,
     review: req.body.review,
@@ -456,15 +445,12 @@ export const getAllAppointments = async (req, res) => {
     const user = await User.findById(appointments[i].userId);
     if (user) {
       const userName = `${user.firstName} ${user.lastName}`;
-      console.log(userName);
       appointments[i] = appointments[i].toObject();
       appointments[i]["userName"] = userName;
-      console.log(appointments[i]);
     } else {
       console.log("User not found for appointment:", appointments[i]._id);
     }
   }
-  console.log(appointments);
   res.status(201).send(appointments);
 };
 
@@ -481,7 +467,6 @@ export const getAllOrders = async (req, res) => {
       orders[i]["productType"] = product.productType;
     } else {
       orders[i] = orders[i].toObject();
-      console.log(orders[i]);
       orders[i]["userName"] = "HM Karthik";
       orders[i]["productName"] = "Pedigree for Adult Dog";
       orders[i]["productType"] = "pets";

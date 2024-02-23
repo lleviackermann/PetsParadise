@@ -1,6 +1,7 @@
 import express from 'express'
 import { 
     addExpenses,
+    deleteOrder,
     getAllAnnouncements, 
     getAllEmployee, 
     getAllFeedbacks, 
@@ -23,5 +24,6 @@ router.post("/makeAnnouncement", makeAnnouncement);
 router.get("/getAllAnnouncements", getAllAnnouncements);
 router.get("/getDashboardContents", getDashboardContents);
 router.post("/addExpenses", addExpenses);
+router.post("/deleteOrders", deleteOrder);
 
 export default router;

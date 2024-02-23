@@ -23,7 +23,6 @@ import adminRoutes from "./routes/admin.js";
 import { verifyToken } from "./middleware/authverfication.js";
 import { sendFeedback } from "./controllers/admin.js";
 import { errorHandler } from "./middleware/errormiddleware.js";
-// import Count from "./models/Count.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
@@ -65,25 +64,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
-// app.use(async (req, res, next) => {
-//   const ip = req.ip || req.connect.remoteAddress;
-
-//   let visit = await Visit.findOne({ ip });
-
-//   if (!visit) {
-//     // If the user is visiting for the first time, create a new visit record
-//     visit = new Visit({ ip });
-//   }
-
-//   // Increment the visit count
-//   visit.count += 1;
-
-//   // Save the updated visit record
-//   await visit.save();
-
-//   next();
-// });
 
 app.use("/auth", authRoutes);
 app.use("/employee", employeeRoutes);
