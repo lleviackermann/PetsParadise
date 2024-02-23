@@ -21,12 +21,14 @@ import { useTheme } from "@emotion/react";
 import LineChart from "../Components/BasicLineChart";
 import BasicPieChart from "../Components/BasicPieChart";
 import BasicBarGraph from "../Components/BasicBarGraph";
-
+import { useSelector } from 'react-redux';
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [amount,setAmount] = useState(0)
+  const [amount, setAmount] = useState(0);
+  const verifyToken = useSelector((state) => state.auth.userToken);
   const [formattedData, setFormattedData] = useState(null);
+
   const fetchData = async () => {
     const response = await fetch(
       `http://localhost:8000/profile/admin/getDashboardContents`,
@@ -34,32 +36,30 @@ const Dashboard = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDZlOTJkNDhmYTY2YmQxZWFlNWY0YiIsImlhdCI6MTcwODU4MzI5N30.ajzXZpBIiqDsdqpPKLt3QMffJn4lu2HxSwa0YV-inRw",
+          "Authorization": verifyToken,
         },
       }
     );
     const json = await response.json();
     setFormattedData(json);
   };
-  const addExpenseFunction = async ()=>{
+  const addExpenseFunction = async () => {
     const response = await fetch(
       `http://localhost:8000/profile/admin/addExpenses`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDZlOTJkNDhmYTY2YmQxZWFlNWY0YiIsImlhdCI6MTcwODU4MzI5N30.ajzXZpBIiqDsdqpPKLt3QMffJn4lu2HxSwa0YV-inRw",
+          "Authorization": verifyToken,
         },
-        body:JSON.stringify({
+        body: JSON.stringify({
           amount: amount
         })
       }
     );
     fetchData();
     setAmount(0);
-    
+
   }
   function stringToColor(string) {
     let hash = 0;
@@ -485,7 +485,7 @@ const Dashboard = () => {
                   label="Amount"
                   type="number"
                   value={amount}
-                  onChange={(evt)=>setAmount(evt.target.value)}
+                  onChange={(evt) => setAmount(evt.target.value)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -510,7 +510,14 @@ const Dashboard = () => {
                   marginTop: "10px",
                 }}
               >
-                <Button variant="contained" onClick={addExpenseFunction}>Add Expense</Button>
+                <Button variant="contained" onClick={addExpenseFunction}
+                  sx={{
+                    backgroundColor: colors.greenAccent[500],
+                    color: colors.grey[800],
+                  }}
+                >
+                  Add Expense
+                </Button>
               </Stack>
             </Stack>
           </Stack>

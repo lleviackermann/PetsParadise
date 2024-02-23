@@ -17,11 +17,13 @@ const authSlice = createSlice({
       state.userInfo = action.payload.user;
       state.userToken = action.payload.token;
       state.cart = action.payload.cart;
+      state.userRole = action.payload.user.role;
     },
     logout(state) {
       state.userLoggedIn = false;
       state.userInfo = null;
       state.userToken = null;
+      state.userRole = null;
       state.cart = [];
     },
     otpSent(state, action) {

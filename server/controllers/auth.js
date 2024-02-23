@@ -124,12 +124,12 @@ export const login = async (req, res) => {
 
   if (!person) return res.status(400).json({ msg: "User does not exist. " });
   const matched = bcrypt.compareSync(password, person.password);
-  if (flag == "Admin") {
-    return res.status(200).json({ person });
-  }
-  if (flag === "Employee") {
-    return res.status(200).json({ person });
-  }
+  // if (flag == "Admin") {
+  //   return res.status(200).json({ person });
+  // }
+  // if (flag === "Employee") {
+  //   return res.status(200).json({ person });
+  // }
   if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
 
   const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);

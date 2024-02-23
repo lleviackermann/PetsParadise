@@ -60,6 +60,8 @@ function PetRoutes() {
         <Route path="/pets/petfoods" exact>
           <PetFood />
         </Route>
+
+        {/* Accessories */}
         <Route path="/pets/products" exact>
           {<Shop />}
         </Route>
@@ -75,13 +77,21 @@ function PetRoutes() {
         <Route path="/pets/products/fishs">
           <ShopCategory banner={product4} category="fish" />
         </Route>
+        {/* <Route path="/pets/products/product" ><Product/></Route> */}
         <Route path="/pets/product/:productId">
           <Product />
+        </Route>
+
+        {/* Accessories */}
+
+        <Route path="*">
+          <NotFound />
         </Route>
         <Route path={`${path}:petId`}>
           <ProductDetail />
         </Route>
       </Switch>
+
       {/* <Route path="pets/:petId/comments" exact>
           <Comments />
         </Route> */}

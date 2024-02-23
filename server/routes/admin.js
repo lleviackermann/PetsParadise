@@ -19,7 +19,6 @@ router.get("/getAllEmployee", getAllEmployee);
 router.get("/getAllProducts", getAllProducts);
 router.get("/getAllOrders", getAllOrders);
 router.get("/getAllFeedbacks", getAllFeedbacks);
-router.post("/sendFeedback", sendFeedback);
 router.post("/makeAnnouncement", makeAnnouncement);
 router.get("/getAllAnnouncements", getAllAnnouncements);
 router.get("/getDashboardContents", getDashboardContents);

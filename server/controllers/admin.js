@@ -169,6 +169,7 @@ export const getAllFeedbacks = async (req, res, next) => {
 export const sendFeedback = async (req, res, next) => {
     try {
         const { name, email, message } = req.body;
+        console.log(name, email, message);
         const newMessage = new Message({
             name,
             email,
