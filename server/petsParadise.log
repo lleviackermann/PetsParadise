@@ -468,7 +468,7 @@ Fri, 23 Feb 2024 08:43:40 GMT GET /auth/order 201 341.648 ms
 Fri, 23 Feb 2024 08:43:40 GMT OPTIONS /appointment 204 0.360 ms
 Fri, 23 Feb 2024 08:43:41 GMT GET /appointment 201 82.452 ms
 Fri, 23 Feb 2024 08:43:51 GMT OPTIONS /appointment/services 204 0.159 ms
-Fri, 23 Feb 2024 08:43:51 GMT POST /appointment/services 201 228.759 ms
+Fri, 23 Feb 2024 08:43:51 GMT POST /appointment/service 201 228.759 ms
 Fri, 23 Feb 2024 08:43:57 GMT OPTIONS /appointment 204 0.171 ms
 Fri, 23 Feb 2024 08:43:58 GMT GET /appointment 201 325.073 ms
 Fri, 23 Feb 2024 08:44:02 GMT OPTIONS /auth/order 204 0.927 ms
@@ -522,4 +522,8 @@ Fri, 23 Feb 2024 08:59:05 GMT OPTIONS /auth/orders 204 0.183 ms
 Fri, 23 Feb 2024 08:59:07 GMT OPTIONS /auth/order 204 0.229 ms
 Fri, 23 Feb 2024 08:59:08 GMT GET /auth/order 201 347.190 ms
 Fri, 23 Feb 2024 08:59:11 GMT GET /auth/orders 201 6617.873 ms
-Fri, 23 Feb 2024 09:08:34 GMT GET /updatecount 200 478.836 ms
+Fri, 23 Feb 2024 08:56:07 GMT OPTIONS /profile/admin/getDashboardContents 204 1.123 ms
+Fri, 23 Feb 2024 08:56:07 GMT GET /profile/admin/getDashboardContents 200 285.335 ms
+Fri, 23 Feb 2024 09:02:20 GMT OPTIONS /profile/admin/getDashboardContents 204 1.572 ms
+Fri, 23 Feb 2024 09:02:21 GMT GET /profile/admin/getDashboardContents 304 977.414 ms
+Fri, 23 Feb 2024 09:03:34 GMT GET /updatecount 200 139.496 ms
