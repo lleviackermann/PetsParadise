@@ -471,10 +471,12 @@ section .container .home-content {
   flex-wrap: wrap;
 }
 .form-content button {
+  font-size: 20px;
   color: white;
   background-color: var(--first-color);
   display: block;
   width: auto;
+  padding: 10px 20px;
   margin: 15px auto 5px auto;
   border: 2px solid var(--first-color);
   border-radius: 30px;
