@@ -7,8 +7,8 @@ const HeaderCartButton = (props) => {
   const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
   let cart = useSelector((state) => state.auth.cart);
   console.log(cart);
-  if(cart == undefined){
-    cart = []
+  if (cart == undefined) {
+    cart = [];
   }
   const numberOfCartItems = cart.reduce(
     (quantity, item) => quantity + item.quantity,
