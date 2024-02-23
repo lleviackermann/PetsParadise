@@ -1,4 +1,4 @@
-import "./servicesLandingPage.css";
+import "./servicesLandingPage.module.css";
 import PackageSection from "./PackageSection";
 import AppointmentSection from "./Appointment";
 import GallerySection from "./GallerySection";

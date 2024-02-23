@@ -16,7 +16,7 @@ const PetFood = () => {
       <Features />
       <Categories />
       <Products />
-      <Review />
+      {/* <Review /> */}
     </div>
   );
 };

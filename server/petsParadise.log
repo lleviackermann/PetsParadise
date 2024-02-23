@@ -185,3 +185,6 @@ Thu, 22 Feb 2024 22:09:10 GMT OPTIONS /profile/admin/getAllProducts 204 0.103 ms
 Thu, 22 Feb 2024 22:09:10 GMT GET /profile/admin/getAllProducts 304 235.990 ms
 Thu, 22 Feb 2024 22:09:11 GMT OPTIONS /profile/admin/getAllEmployee 204 0.102 ms
 Thu, 22 Feb 2024 22:09:12 GMT GET /profile/admin/getAllEmployee 304 86.693 ms
+Fri, 23 Feb 2024 05:56:07 GMT GET /updatecount 200 174.865 ms
+Fri, 23 Feb 2024 05:56:17 GMT GET /pets/dog 201 86.111 ms
+Fri, 23 Feb 2024 05:56:23 GMT GET /pets/cat 201 106.289 ms
