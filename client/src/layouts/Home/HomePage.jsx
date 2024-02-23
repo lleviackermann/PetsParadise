@@ -16,12 +16,12 @@ import customerService from "./customer-service.png";
 import TypingEffect from "./TypingEffect";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/ui-slice";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 let firstVisit = true;
 
 export default function HomePage() {
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const [contactUs, setContactUs] = useState({
     name: "",
@@ -78,36 +78,45 @@ export default function HomePage() {
 
   const handleServicesClick = () => {};
   const handleContactUsClick = () => {};
-  const goToDogsPage = () => { history.push("/pets/dogs") };
-  const goToCatsPage = () => { history.push("/pets/cats") };
-  const goToServicesPage = () => { history.push("/pets/services") };
-  const goToProductsPage = () => { history.push("/pets/products") };
-  const goToVetCarePage = () => { history.push("/pets/vetcare") };
-  const goToPetsFoodPage = () => { history.push("/pets/petfoods") };
+  const goToDogsPage = () => {
+    history.push("/pets/dogs");
+  };
+  const goToCatsPage = () => {
+    history.push("/pets/cats");
+  };
+  const goToServicesPage = () => {
+    history.push("/pets/services");
+  };
+  const goToProductsPage = () => {
+    history.push("/pets/products");
+  };
+  const goToVetCarePage = () => {
+    history.push("/pets/vetcare");
+  };
+  const goToPetsFoodPage = () => {
+    history.push("/pets/petfoods");
+  };
 
-  const handleContactUsSubmit = async (event) => { 
+  const handleContactUsSubmit = async (event) => {
     event.preventDefault();
     // console.log("csrf ", csrfToken);
-    const response = await fetch(
-      `http://localhost:8000/sendFeedback`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:JSON.stringify({
-          name: contactUs.name,
-          email: contactUs.email,
-          message: contactUs.message,
-        })
-      }
-    );
+    const response = await fetch(`http://localhost:8000/sendFeedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: contactUs.name,
+        email: contactUs.email,
+        message: contactUs.message,
+      }),
+    });
     setContactUs({
       name: "",
       email: "",
       message: "",
-    })
-   };
+    });
+  };
   const handleNameChange = (evt) => {
     setContactUs({ ...contactUs, name: evt.target.value });
   };
@@ -509,7 +518,9 @@ export default function HomePage() {
       </section>
 
       <section className="contact" id="contact-us">
-        <p className="services--heading contact-head small topic-text">Feedback Form</p>
+        <p className="services--heading contact-head small topic-text">
+          Feedback Form
+        </p>
 
         <div className="contact-container">
           <div className="content">
