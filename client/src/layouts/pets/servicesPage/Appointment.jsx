@@ -22,8 +22,18 @@ function AppointmentSection(props) {
     setDate(event.target.value);
   };
   const SelectTime = (event) => {
-    setTime(event.target.value);
+    const selectedTime = event.target.value;
+    const oneHourLater = new Date();
+    oneHourLater.setHours(oneHourLater.getHours() + 1);
+  
+    if (date === currentDate && selectedTime < oneHourLater.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })) {
+      event.preventDefault();
+      alert("Please make sure you book appointment at least one hour before desired appointment time.");
+    } else {
+      setTime(selectedTime);
+    }
   };
+  
   const SubmitHandler = (event) => {
     event.preventDefault();
     if (!loggedIn) {
@@ -91,6 +101,10 @@ function AppointmentSection(props) {
     }, 3000);
   };
 
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
   return (
     <section className="appointment" id="appointment">
       <div className="appointment-content">
@@ -130,6 +144,7 @@ function AppointmentSection(props) {
               name="seldate"
               id="seldate"
               onChange={SelectDate}
+              min={currentDate}
             />
             <br />
             <label htmlFor="seltime">
@@ -140,6 +155,7 @@ function AppointmentSection(props) {
               name="seltime"
               id="seltime"
               onChange={SelectTime}
+              min= {date == currentDate ? currentTime : ""} 
             />
             <br />
             <button type="submit" className="btn a-app">
