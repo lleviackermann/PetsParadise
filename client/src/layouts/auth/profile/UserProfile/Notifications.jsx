@@ -3,11 +3,11 @@ import classes from "./Notifications.module.css";
 
 const Notifications = () => {
   const notifications = [
-    { id: "m1", message: "hello1" },
-    { id: "m2", message: "hello2" },
-    { id: "m3", message: "hello3" },
-    { id: "m4", message: "hello4" },
-    { id: "m5", message: "hello5" },
+    { id: Math.random(), message: "hello1" },
+    { id: Math.random(), message: "hello2" },
+    { id: Math.random(), message: "hello3" },
+    { id: Math.random(), message: "hello4" },
+    { id: Math.random(), message: "hello5" },
   ];
 
   return (

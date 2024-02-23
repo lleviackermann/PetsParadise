@@ -309,9 +309,13 @@ export const getProductDetails = async (req, res) => {
 
 export const getStatistics = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
-  const user = await User.findById(token.id);
-  let orders = await Order.find({ userId: token.id });
-  let appointments = await Appointment.find({ userId: token.id });
+  let query = {};
+  console.log(token);
+  if (token != null) {
+    query = { userId: token.id };
+  }
+  let orders = await Order.find(query);
+  let appointments = await Appointment.find(query);
   let products = [];
   for (const order of orders) {
     let prod = await Product.findById(order.prodId);
@@ -319,9 +323,9 @@ export const getStatistics = async (req, res) => {
   }
   const countOrdersByStatus = orders.reduce(
     (acc, order) => {
-      if (order.status === "Pending") {
+      if (order && order.status === "Pending") {
         acc.pending++;
-      } else if (order.status === "Delivered") {
+      } else if (order && order.status === "Delivered") {
         acc.delivered++;
       }
       return acc;
@@ -330,11 +334,11 @@ export const getStatistics = async (req, res) => {
   );
   const countAppointmentsByStatus = appointments.reduce(
     (acc, order) => {
-      if (order.status === "Scheduled") {
+      if (order && order.status === "Scheduled") {
         acc.scheduled++;
-      } else if (order.status === "Pending") {
+      } else if (order && order.status === "Pending") {
         acc.pending++;
-      } else if (order.status === "Cancelled") {
+      } else if (order && order.status === "Cancelled") {
         acc.cancelled++;
       }
       return acc;
@@ -343,11 +347,11 @@ export const getStatistics = async (req, res) => {
   );
   const countorderTypeByStatus = products.reduce(
     (acc, order) => {
-      if (order.productType === "pet") {
+      if (order && order.productType === "pet") {
         acc.pet++;
-      } else if (order.productType === "food") {
+      } else if (order && order.productType === "food") {
         acc.food++;
-      } else if (order.productType === "Accessory") {
+      } else if (order && order.productType === "Accessory") {
         acc.accessory++;
       }
       return acc;
@@ -469,7 +473,7 @@ export const getAllOrders = async (req, res) => {
   for (let i = 0; i < orders.length; i++) {
     const user = await User.findById(orders[i].userId);
     const product = await Product.findById(orders[i].prodId);
-    if (user) {
+    if (user && product) {
       const userName = `${user.firstName} ${user.lastName}`;
       orders[i] = orders[i].toObject();
       orders[i]["userName"] = userName;
@@ -477,8 +481,9 @@ export const getAllOrders = async (req, res) => {
       orders[i]["productType"] = product.productType;
     } else {
       orders[i] = orders[i].toObject();
-      orders[i]["userName"] = "Hem donga lanja";
-      orders[i]["productName"] = "Random";
+      console.log(orders[i]);
+      orders[i]["userName"] = "HM Karthik";
+      orders[i]["productName"] = "Pedigree for Adult Dog";
       orders[i]["productType"] = "pets";
     }
   }

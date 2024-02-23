@@ -36,8 +36,10 @@ function MainRoutes() {
           children
         ) : userRole === "Admin" ? (
           <Redirect to="/admin/dashboard" />
-        ) : (
+        ) : userRole === "Employee" ? (
           <Redirect to="/auth/employee/accountsettings" />
+        ) : (
+          <Redirect to="/" />
         )}
       </Route>
     );

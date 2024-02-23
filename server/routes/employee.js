@@ -51,4 +51,5 @@ router.post("/updateAppointment", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 export default router;

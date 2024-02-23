@@ -30,7 +30,7 @@ const UserProfile = () => {
           {activepage === "accountsettings" && (
             <EmployeeAccountSettings employee={employee} />
           )}
-          {activepage === "changepassword" && <ChangePassword />}
+          {/* {activepage === "changepassword" && <ChangePassword />} */}
           <RecoilRoot>
             {activepage === "orders" && <YourOrders />}
             {activepage === "appointments" && <EmployeeAppointments />}
