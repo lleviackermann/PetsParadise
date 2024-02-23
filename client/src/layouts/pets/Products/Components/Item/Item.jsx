@@ -3,10 +3,17 @@ import "./Item.css";
 import { Link } from "react-router-dom";
 
 const Item = (props) => {
+  let imgSrc = props.image;
+  if (!props.image.includes("/src/layouts/pets/Products")) {
+    imgSrc = `/src/layouts/pets/Products/images/${props.image.replace(
+      "../../img/images",
+      ""
+    )}`;
+  }
   return (
     <div className="item">
       <Link to={`/pets/product/${props.id}`}>
-        <img onClick={window.scrollTo(0, 0)} src={props.image} alt="" />
+        <img onClick={window.scrollTo(0, 0)} src={imgSrc} alt="" />
       </Link>
       <p>{props.name}</p>
       <div className="item-prices">

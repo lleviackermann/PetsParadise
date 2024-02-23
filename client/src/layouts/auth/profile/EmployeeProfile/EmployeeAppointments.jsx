@@ -5,30 +5,40 @@ import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeAppointmentStatus } from "../../../../store/auth-actions";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const EmployeeAppointments = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch("http://localhost:8000/auth/appointments", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const appointments = await response.json();
-      console.log(appointments);
-      setData(appointments);
-      setFilteredData(appointments);
-      // handleStatusFilter("Pending");
+      try {
+        const response = await fetch(
+          "http://localhost:8000/auth/appointments",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        const appointments = await response.json();
+        console.log(appointments);
+        setData(appointments);
+        setFilteredData(appointments);
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     sendRequest();
-  }, []);
+  }, [token]);
 
   // useEffect(() => {
   //   handleStatusFilter("Pending");
@@ -247,16 +257,22 @@ const EmployeeAppointments = () => {
             {/* <th scope="col" className={classes.tableHeaderCell}>Accept</th> */}
           </tr>
         </thead>
-        <tbody>
-          {filteredData.map((item, index) => (
-            <tr key={index}>
-              {/* <td data-label="Sno">{index + 1}</td> */}
-              <td data-label="Name">{item.userName}</td>
-              <td data-label="Type">{item.appointmentType}</td>
-              <td data-label="Date">{item.date}</td>
-              <td data-label="Time">{item.time}</td>
-              <td data-label="Pets">{item.number}</td>
-              {/* <td data-label="Status">
+        {loading && (
+          <div style={{ marginLeft: "25rem" }}>
+            <CircularProgress />
+          </div>
+        )}
+        {!loading && (
+          <tbody>
+            {filteredData.map((item, index) => (
+              <tr key={index}>
+                {/* <td data-label="Sno">{index + 1}</td> */}
+                <td data-label="Name">{item.userName}</td>
+                <td data-label="Type">{item.appointmentType}</td>
+                <td data-label="Date">{item.date}</td>
+                <td data-label="Time">{item.time}</td>
+                <td data-label="Pets">{item.number}</td>
+                {/* <td data-label="Status">
                 <div>
                   {item.status}
                   {item.status === "Pending" && (
@@ -267,31 +283,32 @@ const EmployeeAppointments = () => {
                   )}
                 </div>
               </td> */}
-              <td data-label="Total">Rs.{item.package}</td>
+                <td data-label="Total">Rs.{item.package}</td>
 
-              <td data-label="Operation">
-                {item.status === "Pending" && (
-                  <>
-                    <button
-                      onClick={() => AppointmentHandler("Scheduled", index)}
-                    >
-                      Accept
-                    </button>
-                    &nbsp;
-                    <button
-                      onClick={() => AppointmentHandler("Cancelled", index)}
-                    >
-                      Cancel
-                    </button>
-                  </>
-                )}
-                {item.status !== "Pending" && item.status}
-              </td>
+                <td data-label="Operation">
+                  {item.status === "Pending" && (
+                    <>
+                      <button
+                        onClick={() => AppointmentHandler("Scheduled", index)}
+                      >
+                        Accept
+                      </button>
+                      &nbsp;
+                      <button
+                        onClick={() => AppointmentHandler("Cancelled", index)}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
+                  {item.status !== "Pending" && item.status}
+                </td>
 
-              {/* <td data-label="Total"></td> */}
-            </tr>
-          ))}
-        </tbody>
+                {/* <td data-label="Total"></td> */}
+              </tr>
+            ))}
+          </tbody>
+        )}
       </table>
     </div>
   );

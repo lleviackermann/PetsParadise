@@ -35,6 +35,7 @@ const ShopCategory = (props) => {
       <div className="shopcategory-products">
         {data.map((item, i) => {
           if (props.category === item.petType) {
+            console.log(item.src);
             return (
               <Item
                 key={i}

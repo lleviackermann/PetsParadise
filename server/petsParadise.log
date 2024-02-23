@@ -185,3 +185,10 @@ Thu, 22 Feb 2024 22:09:10 GMT OPTIONS /profile/admin/getAllProducts 204 0.103 ms
 Thu, 22 Feb 2024 22:09:10 GMT GET /profile/admin/getAllProducts 304 235.990 ms
 Thu, 22 Feb 2024 22:09:11 GMT OPTIONS /profile/admin/getAllEmployee 204 0.102 ms
 Thu, 22 Feb 2024 22:09:12 GMT GET /profile/admin/getAllEmployee 304 86.693 ms
+Fri, 23 Feb 2024 06:11:38 GMT GET /food 201 169.846 ms
+Fri, 23 Feb 2024 06:11:51 GMT GET /accessory 201 119.251 ms
+Fri, 23 Feb 2024 06:11:54 GMT GET /accessory 201 159.134 ms
+Fri, 23 Feb 2024 06:11:56 GMT GET /accessory 201 86.827 ms
+Fri, 23 Feb 2024 06:12:00 GMT GET /accessory 201 306.250 ms
+Fri, 23 Feb 2024 06:12:01 GMT GET /accessory 201 232.032 ms
+Fri, 23 Feb 2024 06:12:03 GMT GET /food 201 202.858 ms

@@ -5,11 +5,13 @@ import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeOrderStatus } from "../../../../store/auth-actions";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const YourOrders = () => {
   const token = useSelector((state) => state.auth.userToken);
   const [originalData, setOriginalData] = useState([]);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   const handleAcceptOrCancel = async (option, index) => {
@@ -39,19 +41,25 @@ const YourOrders = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch("http://localhost:8000/auth/orders", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      const orderData = await response.json();
-      setOriginalData(orderData);
-      setData(orderData);
+      try {
+        const response = await fetch("http://localhost:8000/auth/orders", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+        const orderData = await response.json();
+        setOriginalData(orderData);
+        setData(orderData);
+      } catch (error) {
+        console.error("Error fetching order data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     sendRequest();
-  }, []);
+  }, [token]);
   // useEffect(() => {
   //   handleStatusFilter("Pending");
   // }, []);
@@ -187,32 +195,39 @@ const YourOrders = () => {
             </th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td data-label="OrderDate">
-                  {new Date(item.createdAt).toLocaleDateString()}
-                </td>
-                <td data-label="UserName">{item.userName}</td>
-                <td data-label="UserName">{item.productName}</td>
-                <td data-label="ProductType">{item && item.productType}</td>
-                <td data-label="Total">${item.amount * item.quantity}</td>
-                <td data-label="Operation">
-                  {item.status === "Pending" && (
-                    <button
-                      onClick={() => handleAcceptOrCancel("accept", index)}
-                    >
-                      Accept
-                    </button>
-                  )}
-                  {item.status !== "Pending" && item.status}
-                  &nbsp;&nbsp;
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
+        {loading && (
+          <div style={{ marginLeft: "25rem" }}>
+            <CircularProgress />
+          </div>
+        )}
+        {!loading && (
+          <tbody>
+            {data.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td data-label="OrderDate">
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </td>
+                  <td data-label="UserName">{item.userName}</td>
+                  <td data-label="UserName">{item.productName}</td>
+                  <td data-label="ProductType">{item && item.productType}</td>
+                  <td data-label="Total">${item.amount * item.quantity}</td>
+                  <td data-label="Operation">
+                    {item.status === "Pending" && (
+                      <button
+                        onClick={() => handleAcceptOrCancel("accept", index)}
+                      >
+                        Accept
+                      </button>
+                    )}
+                    {item.status !== "Pending" && item.status}
+                    &nbsp;&nbsp;
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        )}
       </table>
     </div>
   );
