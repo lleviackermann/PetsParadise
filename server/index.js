@@ -23,7 +23,6 @@ import adminRoutes from "./routes/admin.js";
 import { verifyToken } from "./middleware/authverfication.js";
 import { sendFeedback } from "./controllers/admin.js";
 import { errorHandler } from "./middleware/errormiddleware.js";
-// import Count from "./models/Count.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
