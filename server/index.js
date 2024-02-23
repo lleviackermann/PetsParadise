@@ -66,25 +66,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// app.use(async (req, res, next) => {
-//   const ip = req.ip || req.connect.remoteAddress;
-
-//   let visit = await Visit.findOne({ ip });
-
-//   if (!visit) {
-//     // If the user is visiting for the first time, create a new visit record
-//     visit = new Visit({ ip });
-//   }
-
-//   // Increment the visit count
-//   visit.count += 1;
-
-//   // Save the updated visit record
-//   await visit.save();
-
-//   next();
-// });
-
 app.use("/auth", authRoutes);
 app.use("/employee", employeeRoutes);
 app.use("/post", dataRoutes);
