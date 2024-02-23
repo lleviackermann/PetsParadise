@@ -1,5 +1,6 @@
 const Background = () => {
   return (
+    <div className="background-image">
     <div className="background-content">
       <h1>provide an exceptional patient experience</h1>
       <p>
@@ -10,8 +11,7 @@ const Background = () => {
       </p>
       <a href="#">Read more</a>
     </div>
+    </div>
   );
 };
 export default Background;
-
-

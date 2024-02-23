@@ -89,11 +89,11 @@ const ProductDisplay = (props) => {
           <div className="productdisplay-right-price-old">${product.price}</div>
           <div className="productdisplay-right-price-new">${product.price}</div>
         </div>
-        <div className="productdisplay-right-description">
+        {/* <div className="productdisplay-right-description">
           A lightweight, usually knitted, pullover shirt, close-fitting and with
           a round neckline and short sleeves, worn as an undershirt or outer
           garment.
-        </div>
+        </div> */}
         <div className="productdisplay-right-size">
           <h1>Select Size</h1>
           <div className="productdisplay-right-sizes">
@@ -111,12 +111,12 @@ const ProductDisplay = (props) => {
         >
           ADD TO CART
         </button>
-        <p className="productdisplay-right-category">
+        {/* <p className="productdisplay-right-category">
           <span>Category :</span>Women , T-Shirt, Crop Top
         </p>
         <p className="productdisplay-right-category">
           <span>Tags :</span>Modern, Latest
-        </p>
+        </p> */}
       </div>
     </div>
   );
