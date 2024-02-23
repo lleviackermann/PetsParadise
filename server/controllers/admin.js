@@ -6,7 +6,7 @@ import Announcement from "../models/Announcement.js";
 import Message from "../models/Message.js";
 import Count from "../models/Count.js";
 import Admin from "../models/Admin.js";
-import { lineChartDataGenerator, topUsersHelper, topVetsHelper } from "../helpers/adminHelpers.js";
+import { barChartDataGenerator, lineChartDataGenerator, pieChartDataGenerator, topUsersHelper } from "../helpers/adminHelpers.js";
 
 
 // Customers Page
@@ -66,7 +66,7 @@ export const getAllProducts = async (req, res, next) => {
                 breed: product.breed_group,
             }
         })
-        return res.status(200).json(products);
+        return res.status(200).json(formattedProductsData);
     } catch (err) {
         next(err);
     }
@@ -81,11 +81,11 @@ export const getAllOrders = async (req, res, next) => {
             return {
                 id: order._id,
                 prodId: order.prodId,
+                time: order.createdAt.toLocaleString(),
                 customerName: order.userId.firstName + " " + order.userId.lastName,
                 amount: order.amount,
                 status: order.status,
                 quantity: order.quantity,
-                assigned: order.assigned,
             }
         });
         return res.status(200).json(formattedOrdersData);
@@ -147,7 +147,7 @@ export const getAllAnnouncements = async (req, res, next) => {
 
 
 // Feedback Page
-export const getAllMessages = async (req, res, next) => {
+export const getAllFeedbacks = async (req, res, next) => {
     try {
         const messages = await Message.find();
         const formattedMessages = messages.map((message) => {
@@ -166,9 +166,10 @@ export const getAllMessages = async (req, res, next) => {
     }
 }
 
-export const createMessage = async (req, res, next) => {
+export const sendFeedback = async (req, res, next) => {
     try {
         const { name, email, message } = req.body;
+        console.log(name, email, message);
         const newMessage = new Message({
             name,
             email,
@@ -188,18 +189,33 @@ export const getDashboardContents = async (req, res, next) => {
         const count = await Count.findOne({ countId: 100 });
         const admin = await Admin.findOne({ adminId: "admin101" });
         const topUsers = await topUsersHelper();
-        const topVets = await topVetsHelper();
-        const lineData = await lineChartDataGenerator();
-        
+        const lineChartSalesData = await lineChartDataGenerator();
+        const pieOrdersData = await pieChartDataGenerator();
+        const barProductData = await barChartDataGenerator();
         const formattedData = {
             totalViews: count.countViews,
             totalSales: count.countSales,
             totalExpenses: admin.expenses,
             totalProducts: count.countProducts,
-            topUsers: topUsers,
-            topVets: topVets,
+            topUsers: topUsers.slice(0,5),
+            salesData: lineChartSalesData,
+            ordersData: pieOrdersData,
+            productsData: barProductData,
         }
         return res.status(200).json(formattedData);
+    } catch(err) {
+        next(err);
+    }
+}
+
+export const addExpenses = async (req, res, next) => {
+    try {
+        const { amount } = req.body;
+        const admin = await Admin.findOne({ adminId: "admin101" });
+        const updatedExpense = Number(admin.expenses) + Number(amount);
+        const updatedAdmin = await Admin.findOneAndUpdate({ adminId: "admin101"}, { expenses: updatedExpense }, { new: true});
+        updatedAdmin.password = "";
+        return res.status(200).json(updatedAdmin);
     } catch(err) {
         next(err);
     }

@@ -1,79 +1,41 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 import Topbar from "../Components/Topbar";
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from '../theme';
 import { useHistory } from 'react-router-dom'
+import { announcementColumnData } from '../columnsData';
+import { useSelector } from 'react-redux';
 
 const Announcements = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const history = useHistory();
+  const verifyToken = useSelector((state) => state.auth.userToken);
 
-
-  const columns = [
-    { field: "id", headerName: "ID", align: "center", },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-      headerAlign: 'center',
-      align: "center",
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      headerAlign: 'center',
-      align: "center",
-    },
-    {
-      field: "userType",
-      headerName: "UserType",
-      flex: 0.5,
-      headerAlign: 'center',
-      align: "center",
-    },
-    {
-      field: "message",
-      headerName: "Message",
-      flex: 2,
-      headerAlign: 'center',
-      align: "center",
-    },
-  ];
-
-  const messages = [
-    {
-      id: 1,
-      name: "Suprit kumar",
-      email: "Hello",
-      userType: "All",
-      message: "Hello, and welcome to my website",
-    },
-    {
-      id: 2,
-      name: "Suprit kumar",
-      email: "Hello",
-      userType: "All",
-      message: "Hello, and welcome to my website",
-    },
-    {
-      id: 3,
-      name: "Suprit kumar",
-      email: "Hello",
-      userType: "All",
-      message: "Hello, and welcome to my website, Hello, and welcome to my website, Hello, and welcome to my website  Hello, and welcome to my website",
-    },
-    {
-      id: 4,
-      name: "Suprit kumar",
-      email: "Hello",
-      userType: "All",
-      message: "Hello, and welcome to my website",
-    },
-  ]
+  const [allAnnouncements, setAllAnnouncements] = useState([]);
+  const getData = async() => {
+    try {
+      const response = await fetch('http://localhost:8000/profile/admin/getAllAnnouncements', {
+        method: 'GET',
+        headers: {
+          "Authorization": verifyToken,
+        }
+      });   
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setAllAnnouncements(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleClick = () => {
     history.push("/admin/sendmessages");
@@ -81,7 +43,7 @@ const Announcements = () => {
 
 
   return (
-    <>
+    <Box sx={{height: "100vh",overflow: "auto"}}>
       <Topbar title="Announcements" message="Check your messages!" />
       <Box display="flex" justifyContent="space-between">
         <Box marginLeft="1rem" padding="4px"  
@@ -105,17 +67,19 @@ const Announcements = () => {
         }} onClick={handleClick}>+ Send Messages</button>
       </Box>
       <Box m="20px">
-        <Box
+      <Box
           m="20px 0 0 0"
           height="75vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-cell": {
-              // borderBottom: "none",
-              fontSize: 18,
-              padding: "10px",
+            "& .MuiDataGrid-row": {
+              paddingTop: "22px",
+            },
+            "& .MuiDataGrid-row .MuiDataGrid-cell": {
+              fontSize: 20,
+              paddingBottom: "22px",
             },
             "& .name-column--cell": {
               color: colors.greenAccent[300],
@@ -123,7 +87,10 @@ const Announcements = () => {
             "& .MuiDataGrid-columnHeaders": {
               backgroundColor: colors.blueAccent[700],
               borderBottom: "none",
-              fontSize: 22,
+              fontSize: 23,
+              fontWeight: 700,
+              textWrap: "wrap",
+
             },
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
@@ -140,13 +107,12 @@ const Announcements = () => {
           <DataGrid 
           autoHeight 
           getRowHeight={() => 'auto'} 
-          checkboxSelection 
-          rows={messages} 
-          columns={columns} 
+          rows={allAnnouncements} 
+          columns={announcementColumnData} 
           />
         </Box>
       </Box>
-    </>
+    </Box>
   )
 }
 

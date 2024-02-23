@@ -109,37 +109,38 @@ function Products() {
           showMore ? classes.showMore : classes.viewSearch
         }`}
       >
-        {filteredProducts.map((item, index) =>{
+        {filteredProducts.map((item, index) => {
           return (
-          <div key={index} className={`${item.petType} ${classes.items}`}>
-            <img
-              className={classes.imgsrc}
-              src={
-                "/src/layouts/pets/petsFood" +
-                item.src.substring(
-                  item.src.indexOf("../../img") + "../../img".length
-                )
-              }
-              alt={item.name}
-              style={{ width: "190px", height: "250px" }}
-            />
-            <div className={classes.des}>
-              <h3 className={classes.title}>{item.name}</h3>
-              <div className={classes.prices} style={{ fontSize: "1.5rem" }}>
-                <BsCurrencyRupee />
-                {item.price}
+            <div key={index} className={`${item.petType} ${classes.items}`}>
+              <img
+                className={classes.imgsrc}
+                src={
+                  "/src/layouts/pets/petsFood" +
+                  item.src.substring(
+                    item.src.indexOf("../../img") + "../../img".length
+                  )
+                }
+                alt={item.name}
+                style={{ width: "190px", height: "250px" }}
+              />
+              <div className={classes.des}>
+                <h3 className={classes.title}>{item.name}</h3>
+                <div className={classes.prices} style={{ fontSize: "1.5rem" }}>
+                  <BsCurrencyRupee />
+                  {item.price}
+                </div>
+              </div>
+              <div className={classes.productCart}>
+                <button
+                  onClick={addToCart.bind(null, item._id)}
+                  className={classes.btn}
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
-            <div className={classes.productCart}>
-              <button
-                onClick={addToCart.bind(null, item._id)}
-                className={classes.btn}
-              >
-                Add to cart
-              </button>
-            </div>
-          </div>
-        )})}
+          );
+        })}
       </div>
       <div className={classes.viewMore}>
         <center>
