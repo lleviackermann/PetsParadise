@@ -12,7 +12,6 @@ import {
   Typography,
   colors,
 } from "@mui/material";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import StatBox from "../Components/StatBox";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
