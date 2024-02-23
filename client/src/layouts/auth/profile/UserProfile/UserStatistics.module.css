@@ -5,6 +5,7 @@
   width: 100%;
   padding: 20px;
   height: 530px;
+  overflow-y: scroll;
 }
 
 .charts {
