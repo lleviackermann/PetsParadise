@@ -283,7 +283,7 @@ export const orderItems = async (req, res) => {
     await user.populate("orders");
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOrderedItems = async (req, res) => {
@@ -447,39 +447,118 @@ export const submitReview = async (req, res) => {
   res.status(201).send({ status });
 };
 
+// export const getAllAppointments = async (req, res) => {
+//   const appointments = await Appointment.find();
+//   for (let i = 0; i < appointments.length; i++) {
+//     const user = await User.findById(appointments[i].userId);
+//     if (user) {
+//       const userName = `${user.firstName} ${user.lastName}`;
+//       appointments[i] = appointments[i].toObject();
+//       appointments[i]["userName"] = userName;
+//     } else {
+//       // await Appointment.findByIdAndDelete(appointments[i]._id);
+//       console.log("User not found for appointment:", appointments[i]._id);
+//     }
+//   }
+//   res.status(201).send(appointments);
+// };
+
 export const getAllAppointments = async (req, res) => {
-  const appointments = await Appointment.find();
-  for (let i = 0; i < appointments.length; i++) {
-    const user = await User.findById(appointments[i].userId);
-    if (user) {
-      const userName = `${user.firstName} ${user.lastName}`;
-      appointments[i] = appointments[i].toObject();
-      appointments[i]["userName"] = userName;
-    } else {
-      console.log("User not found for appointment:", appointments[i]._id);
-    }
+  try {
+    const appointments = await Appointment.aggregate([
+      {
+        $lookup: {
+          from: "users", // Assuming the collection name for users is "users"
+          localField: "userId",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      {
+        $addFields: {
+          user: { $arrayElemAt: ["$user", 0] } // Convert array to object
+        }
+      },
+      {
+        $addFields: {
+          userName: { $concat: ["$user.firstName", " ", "$user.lastName"] }
+        }
+      },
+      {
+        $project: {
+          user: 0 // Exclude user field from the output
+        }
+      }
+    ]);
+
+    res.status(200).send(appointments);
+  } catch (error) {
+    res.status(500).send({ message: "Internal server error" });
   }
-  res.status(201).send(appointments);
 };
 
-export const getAllOrders = async (req, res) => {
-  const orders = await Order.find();
-  for (let i = 0; i < orders.length; i++) {
-    const user = await User.findById(orders[i].userId);
-    const product = await Product.findById(orders[i].prodId);
-    if (user && product) {
-      const userName = `${user.firstName} ${user.lastName}`;
-      orders[i] = orders[i].toObject();
-      orders[i]["userName"] = userName;
-      orders[i]["productName"] = product.name;
-      orders[i]["productType"] = product.productType;
-    } else {
-      orders[i] = orders[i].toObject();
-      orders[i]["userName"] = "HM Karthik";
-      orders[i]["productName"] = "Pedigree for Adult Dog";
-      orders[i]["productType"] = "pets";
-    }
-  }
 
-  res.status(201).send(orders);
+// export const getAllOrders = async (req, res) => {
+//   const orders = await Order.find();
+//   for (let i = 0; i < orders.length; i++) {
+//     const user = await User.findById(orders[i].userId);
+//     const product = await Product.findById(orders[i].prodId);
+//     if (user && product) {
+//       const userName = `${user.firstName} ${user.lastName}`;
+//       orders[i] = orders[i].toObject();
+//       orders[i]["userName"] = userName;
+//       orders[i]["productName"] = product.name;
+//       orders[i]["productType"] = product.productType;
+//     } else {
+//       await Order.findOneAndDelete(orders[i]._id)
+//     }
+//   }
+
+//   res.status(201).send(orders);
+// };
+
+export const getAllOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "prodId",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
+      {
+        $addFields: {
+          user: { $arrayElemAt: ["$user", 0] }, 
+          product: { $arrayElemAt: ["$product", 0] } 
+        }
+      },
+      {
+        $addFields: {
+          userName: { $concat: ["$user.firstName", " ", "$user.lastName"] },
+          productName: "$product.name",
+          productType: "$product.productType"
+        }
+      },
+      {
+        $project: {
+          user: 0, 
+          product: 0
+        }
+      }
+    ]);
+    return res.status(200).send(orders);
+  } catch (error) {
+    next(err)
+  }
 };
+
