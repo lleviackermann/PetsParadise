@@ -83,6 +83,9 @@ export const loginUser = (mail, password) => {
     if (/^E\d{3}/.test(mail)) {
       flag = "Employee";
     }
+    if (/^M\d{3}/.test(mail)) {
+      flag = "Manager";
+    }
     const response = await fetch("http://localhost:8000/auth/login", {
       method: "POST",
       headers: {
@@ -135,14 +138,16 @@ export const loginUser = (mail, password) => {
         };
         dispatch(authActions.login({ token, user, cart: null }));
       }
-      if (flag === "Employee") {
+      if (flag === "Employee" || flag === "Manager") {
         const { token, person } = data;
-        console.log(person);
+        // console.log("person", person);
         const user = {
           firstName: person.name,
           lastName: " ",
           email: person.email,
-          role: "Employee",
+          role: flag,
+          specialization: person.role,
+          id: person._id,
         };
         console.log(user);
         dispatch(authActions.login({ token, user, cart: null }));

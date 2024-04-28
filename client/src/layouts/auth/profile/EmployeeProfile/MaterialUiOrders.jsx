@@ -5,42 +5,82 @@ import { EmployeeSuccesfulProvider } from "./Providers/EmployeeSuccesfulProvider
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeOrderStatus } from "../../../../store/auth-actions";
-import CircularProgress from "@mui/material/CircularProgress";
+import { DataGrid } from "@mui/x-data-grid";
 
-const YourOrders = () => {
-  const token = useSelector((state) => state.auth.userToken);
+const MaterialUiOrders = () => {
   const employeeDetails = useSelector((state) => state.auth.userInfo);
-  console.log(employeeDetails);
+  const columns = [
+    {
+      field: "createdAt",
+      headerName: "Date",
+      width: 150,
+      valueGetter: (params) => {
+        const createdAt = params.row.createdAt;
+        return new Date(createdAt).toLocaleDateString();
+      },
+    },
+    { field: "userName", headerName: "User Name", width: 200 },
+    { field: "productName", headerName: "Product Name", width: 250 },
+    {
+      field: "amount",
+      headerName: "Total",
+      type: "number",
+      width: 100,
+      valueGetter: (params) => {
+        const row = params.row;
+        return row.amount * row.quantity;
+      },
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      type: "number",
+      width: 100,
+      renderCell: (params) => {
+        const status = params.row.status;
+        if (status === "Pending") {
+          return (
+            <button
+              onClick={() => handleAcceptOrCancel("accept", params.row.id)}
+            >
+              Accept
+            </button>
+          );
+        } else {
+          return status;
+        }
+      },
+    },
+  ];
+
+  const token = useSelector((state) => state.auth.userToken);
   const [originalData, setOriginalData] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  console.log(data);
 
   const handleAcceptOrCancel = async (option, index) => {
-    const selectedOrder = data[index];
+    alert("button clicked", index);
+    console.log(index);
+    // const selectedOrder = data[index];
+    const selectedOrder = data.find((obj) => obj._id === index);
     dispatch(changeOrderStatus(option, selectedOrder._id, token));
     setOriginalData((prevData) =>
       prevData.map((order) =>
         order._id === selectedOrder._id
-          ? {
-              ...order,
-              status: "Delivered",
-            }
+          ? { ...order, status: "Delivered" }
           : order
       )
     );
     setData((prevData) =>
       prevData.map((order) =>
         order._id === selectedOrder._id
-          ? {
-              ...order,
-              status: "Delivered",
-            }
+          ? { ...order, status: "Delivered" }
           : order
       )
     );
   };
-
   useEffect(() => {
     const sendRequest = async () => {
       try {
@@ -55,9 +95,12 @@ const YourOrders = () => {
           }
         );
         const orderData = await response.json();
-        setOriginalData(orderData);
-        setData(orderData);
-        console.log(orderData);
+        const modifiedOrderData = orderData.map((order) => ({
+          ...order,
+          id: order._id,
+        }));
+        setOriginalData(modifiedOrderData);
+        setData(modifiedOrderData);
       } catch (error) {
         console.error("Error fetching order data:", error);
       } finally {
@@ -66,9 +109,6 @@ const YourOrders = () => {
     };
     sendRequest();
   }, [token]);
-  // useEffect(() => {
-  //   handleStatusFilter("Pending");
-  // }, []);
 
   const [selectedorder, setselectedorder] = useState(0);
   const [ordersuccesscont, setordersuccesscont] = useRecoilState(
@@ -119,10 +159,10 @@ const YourOrders = () => {
       filteredOrders = [...originalData];
     } else {
       filteredOrders = data.filter((order) => {
+        console.log("pType", order.productType, category);
         return order.productType === category;
       });
     }
-    console.log(originalData);
     setData(filteredOrders);
   };
 
@@ -130,7 +170,7 @@ const YourOrders = () => {
     <div className={classes.yourorders}>
       <h1 className={classes.mainhead1}>Your Orders</h1>
       {ordersuccesscont && (
-        <EmployeeSuccessful
+        <OrderSuccessful
           order={selectedorder}
           message={`Order ID: ${selectedorder}`}
         />
@@ -154,89 +194,23 @@ const YourOrders = () => {
           </select>
         </div>
       </div>
-      <table className={classes.yourorderstable}>
-        <thead>
-          <tr>
-            <th scope="col" className={classes.tableHeaderCell}>
-              <span
-                onClick={() => handleDateFilter("Descending")}
-                className={classes.arrowIcon}
-              >
-                &#9650;
-              </span>
-              &nbsp; Date &nbsp;
-              <span
-                onClick={() => handleDateFilter("Ascending")}
-                className={classes.arrowIcon}
-              >
-                &#9660;
-              </span>
-            </th>
-            <th scope="col" className={classes.tableHeaderCell}>
-              User Name
-            </th>
-            <th scope="col" className={classes.tableHeaderCell}>
-              Product Name
-            </th>
-            <th scope="col" className={classes.tableHeaderCell}>
-              Product Type
-            </th>
-            <th scope="col" className={classes.tableHeaderCell}>
-              <span
-                onClick={() => handleTotalAmountFilter("Descending")}
-                className={classes.arrowIcon}
-              >
-                &#9650;
-              </span>
-              &nbsp; Total &nbsp;
-              <span
-                onClick={() => handleTotalAmountFilter("Ascending")}
-                className={classes.arrowIcon}
-              >
-                &#9660;
-              </span>
-            </th>
-            <th scope="col" className={classes.tableHeaderCell}>
-              Product
-            </th>
-          </tr>
-        </thead>
-        {loading && (
-          <div style={{ marginLeft: "25rem" }}>
-            <CircularProgress />
-          </div>
-        )}
-        {!loading && (
-          <tbody>
-            {data.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td data-label="OrderDate">
-                    {new Date(item.createdAt).toLocaleDateString()}
-                  </td>
-                  <td data-label="UserName">{item.userName}</td>
-                  <td data-label="UserName">{item.productName}</td>
-                  <td data-label="ProductType">{item && item.productType}</td>
-                  <td data-label="Total">${item.amount * item.quantity}</td>
-                  <td data-label="Operation">
-                    {item.status === "Pending" && (
-                      <button
-                        onClick={() => handleAcceptOrCancel("accept", index)}
-                      >
-                        Accept
-                      </button>
-                    )}
-                    {item.status !== "Pending" && item.status}
-                    &nbsp;&nbsp;
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        )}
-      </table>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10, 20, 50]}
+          disableColumnSelector
+          //   checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </div>
     </div>
   );
 };
 
-export default YourOrders;
+export default MaterialUiOrders;

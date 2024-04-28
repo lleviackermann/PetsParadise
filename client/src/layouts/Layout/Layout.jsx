@@ -11,7 +11,9 @@ function Layout(props) {
   let userRole = "User";
   if (
     userInfo != null &&
-    (userInfo.role === "Employee" || userInfo.role === "Admin")
+    (userInfo.role === "Employee" ||
+      userInfo.role === "Admin" ||
+      userInfo.role === "Manager")
   ) {
     userRole = userInfo.role;
   }

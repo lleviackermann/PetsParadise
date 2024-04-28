@@ -20,6 +20,7 @@ import {
   validateOtp,
   resetPassword,
 } from "../controllers/passwordReset.js";
+import { getAllEmployee } from "../controllers/admin.js";
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.post("/addToCart", addToCart);
 router.post("/removeFromCart", removeFromCart);
 router.post("/order", orderItems);
 router.get("/order", getOrderedItems);
+router.get("/getEmployees", getAllEmployee);
 router.get("/product/:productId", getProductDetails);
 router.post("/review", submitReview);
 router.get("/appointments", getAllAppointments);

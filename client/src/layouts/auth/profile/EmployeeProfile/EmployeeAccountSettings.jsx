@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./EmployeeAccountSettings.module.css";
 
 const EmployeeAccountSettings = ({ employee }) => {
-  console.log("Hello");
+  console.log(employee);
   return (
     <div className={classes.accountsettings}>
       <h1 className={classes.mainhead1}>Personal Information</h1>
@@ -10,7 +10,7 @@ const EmployeeAccountSettings = ({ employee }) => {
       <div className={classes.form}>
         <div className={classes.formGroup} style={{ fontSize: "1.5rem" }}>
           <strong>Name:</strong>
-          <span>{ employee.name}</span>
+          <span>{employee.name}</span>
         </div>
         <div className={classes.formGroup} style={{ fontSize: "1.5rem" }}>
           <strong>Email:</strong>

@@ -116,7 +116,7 @@ export const login = async (req, res) => {
   let person;
   if (flag == "Admin") {
     person = await Admin.findOne({ adminId: userId });
-  } else if (flag == "Employee") {
+  } else if (flag == "Employee" || flag == "Manager") {
     person = await Employee.findOne({ employeeId: userId });
   } else if (flag == "User") {
     person = await User.findOne({ email: userId });
@@ -245,21 +245,29 @@ export const orderItems = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    const employees = await Employee.find({ role: "orders" });
     await user.populate("cart.productId");
     const cart = user.cart;
     let totalPrice = 0;
     for (const item of cart) {
+      const randomIndex = Math.floor(Math.random() * employees.length);
+      console.log(employees.length);
+      const randomEmployee = employees[randomIndex];
+      console.log(randomIndex);
       const order = new Order({
         prodId: item.productId._id,
         userId: user._id,
         status: "Pending",
+        assigned: randomEmployee._id,
         amount: item.productId.price,
         quantity: item.quantity,
       });
       totalPrice += item.productId.price * item.quantity;
       const savedOrder = await order.save();
       user.orders.push(savedOrder._id);
+
+      randomEmployee.orders.push(savedOrder._id);
+      await randomEmployee.save();
     }
 
     const count = await Count.findOne({ countId: "100" });

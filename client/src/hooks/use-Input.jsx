@@ -16,6 +16,7 @@ let employeePasswords = [
   "employee@5",
   "employee@6",
   "admin123",
+  "manager@1",
 ];
 
 const validation = (type, value) => {
@@ -27,13 +28,16 @@ const validation = (type, value) => {
     if (/^E\d{3}/.test(value) && value.length == 4) {
       return true;
     }
+    if (/^M\d{3}/.test(value) && value.length == 4) {
+      return true;
+    }
     return /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(value);
   }
   if (type === "name") {
     return /^[A-Z][a-zA-Z]{2,}$/.test(value);
   }
   if (type === "password") {
-    if (employeePasswords.includes(value)) {
+    if (employeePasswords.includes(value) || value.startsWith("employee@")) {
       return true;
     }
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(value);

@@ -36,7 +36,7 @@ function MainRoutes() {
           children
         ) : userRole === "Admin" ? (
           <Redirect to="/admin/dashboard" />
-        ) : userRole === "Employee" ? (
+        ) : userRole === "Employee" || userRole === "Manager" ? (
           <Redirect to="/auth/employee/accountsettings" />
         ) : (
           <Redirect to="/" />
@@ -74,7 +74,7 @@ function MainRoutes() {
             <ProtectedRoute
               path="/auth/employee/:activepage"
               userRole={userRole}
-              allowedRoles={["Employee"]}
+              allowedRoles={["Employee", "Manager"]}
             >
               <RecoilRoot>
                 <EmployeeProfile />

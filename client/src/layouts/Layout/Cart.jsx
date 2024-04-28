@@ -30,6 +30,7 @@ const Cart = (props) => {
     </ul>
   );
   const orderItems = () => {
+    alert("Ordering Items");
     const orderItems = async () => {
       const response = await fetch("http://localhost:8000/auth/order", {
         method: "POST",

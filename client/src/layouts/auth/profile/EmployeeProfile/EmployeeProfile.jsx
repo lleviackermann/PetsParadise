@@ -10,12 +10,14 @@ import Notifications from "./EmployeeNotifications";
 import EmployeeSidebar from "./EmployeeSidebar";
 import { RecoilRoot } from "recoil";
 import { useSelector } from "react-redux";
+import MaterialUiOrders from "./MaterialUiOrders";
+import ManageEmployee from "./ManageEmployee";
 
 const UserProfile = () => {
   const { activepage } = useParams();
   const userInfo = useSelector((state) => state.auth.userInfo);
   console.log(userInfo);
-  const [employee, setUser] = useState({
+  const [employee, setEmployee] = useState({
     name: userInfo.firstName + " " + userInfo.lastName,
     email: userInfo.email,
   });
@@ -36,6 +38,9 @@ const UserProfile = () => {
             {activepage === "appointments" && <EmployeeAppointments />}
             {activepage === "notifications" && <Notifications />}
             {activepage === "statistics" && <UserStatistics />}
+            {activepage === "Muiorders" && <MaterialUiOrders />}
+            {activepage === "manageEmployees" &&
+              userInfo.role === "Manager" && <ManageEmployee />}
           </RecoilRoot>
         </div>
       </div>

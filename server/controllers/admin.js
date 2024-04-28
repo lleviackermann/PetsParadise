@@ -225,13 +225,12 @@ export const addExpenses = async (req, res, next) => {
   }
 };
 
-
-export const deleteOrder = async(req, res, next) => {
+export const deleteOrder = async (req, res, next) => {
   try {
     console.log(req.body);
     const { idToDelete } = req.body;
 
-    for(let i = 0; i < idToDelete.length; i++) {
+    for (let i = 0; i < idToDelete.length; i++) {
       await Order.findByIdAndDelete(idToDelete[i]);
     }
     const orders = await Order.find().populate("userId");
@@ -247,7 +246,7 @@ export const deleteOrder = async(req, res, next) => {
       };
     });
     return res.status(200).json(formattedOrdersData);
-  } catch(err) {
+  } catch (err) {
     next(err);
   }
-}
+};

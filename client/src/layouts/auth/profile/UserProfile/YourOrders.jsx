@@ -23,7 +23,11 @@ const YourOrders = () => {
             Authorization: "Bearer " + token,
           },
         });
-        const orderData = await response.json();
+        let orderData = await response.json();
+        orderData.orders = orderData.orders.filter((order) => order !== null);
+        orderData.products = orderData.products.filter(
+          (product) => product !== null
+        );
         setOriginalData(orderData.orders);
         setData(orderData.orders);
         setProdData(orderData.products);

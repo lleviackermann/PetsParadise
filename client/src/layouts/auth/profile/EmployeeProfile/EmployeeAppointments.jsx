@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classes from "./EmployeeOrders.module.css";
-import OrderSuccessful from "./Order/OrderSuccessful";
-import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
+import EmployeeSuccessful from "./Employee/EmployeeSuccessful";
+import { EmployeeSuccesfulProvider } from "./Providers/EmployeeSuccesfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeAppointmentStatus } from "../../../../store/auth-actions";
@@ -9,16 +9,18 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const EmployeeAppointments = () => {
   const [data, setData] = useState([]);
+  const employeeDetails = useSelector((state) => state.auth.userInfo);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
+  console.log(filteredData);
 
   useEffect(() => {
     const sendRequest = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/auth/appointments",
+          `http://localhost:8000/employee/${employeeDetails.id}/appointments`,
           {
             method: "GET",
             headers: {
@@ -46,7 +48,7 @@ const EmployeeAppointments = () => {
 
   const [selectedappointment, setselectedappointmentid] = useState(0);
   const [appointmentsuccesscount, setappointmentsuccesscount] = useRecoilState(
-    orderSuccessfulProvider
+    EmployeeSuccesfulProvider
   );
 
   const handleTypeFilter = (type) => {
@@ -283,7 +285,7 @@ const EmployeeAppointments = () => {
                   )}
                 </div>
               </td> */}
-                <td data-label="Total">Rs.{item.package}</td>
+                <td data-label="Total">Rs.{item.pack}</td>
 
                 <td data-label="Operation">
                   {item.status === "Pending" && (
