@@ -9,6 +9,8 @@ import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
 import Review from "../models/Review.js";
 
+// const redis = new Redis();
+
 // User Register
 export const registerUser = async (req, res) => {
   try {
@@ -71,7 +73,6 @@ export const registerEmployee = async (req, res) => {
       { countId: "100" },
       { countEmployees: employees }
     );
-
     return res.status(201).json(savedEmployee);
   } catch (error) {
     return res.status(500).json({ error: error.message });

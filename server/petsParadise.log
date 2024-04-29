@@ -1661,3 +1661,13 @@ Sun, 28 Apr 2024 16:37:11 GMT OPTIONS /auth/statistics 204 0.821 ms
 Sun, 28 Apr 2024 16:37:16 GMT GET /auth/statistics 201 5373.894 ms
 Sun, 28 Apr 2024 16:37:28 GMT GET /employee/getEmployees 304 116.620 ms
 Sun, 28 Apr 2024 16:37:30 GMT GET /updatecount 200 149.382 ms
+Sun, 28 Apr 2024 18:31:25 GMT GET /updatecount 200 238.928 ms
+Sun, 28 Apr 2024 18:31:27 GMT GET /food 201 129.829 ms
+Sun, 28 Apr 2024 18:31:32 GMT GET /pets/dog 201 46.900 ms
+Sun, 28 Apr 2024 18:31:51 GMT GET /food 201 95.750 ms
+Sun, 28 Apr 2024 18:31:51 GMT GET /accessory 201 67.703 ms
+Sun, 28 Apr 2024 18:32:14 GMT GET /pets/dog 201 43.991 ms
+Sun, 28 Apr 2024 18:32:15 GMT GET /food 201 64.177 ms
+Sun, 28 Apr 2024 18:32:33 GMT OPTIONS /auth/login 204 0.543 ms
+Sun, 28 Apr 2024 18:32:33 GMT POST /auth/login 200 177.318 ms
+Sun, 28 Apr 2024 18:32:35 GMT GET /employee/getEmployees 304 187.457 ms
