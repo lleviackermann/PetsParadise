@@ -8,7 +8,7 @@ import Order from "../models/Order.js";
 import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
 import Review from "../models/Review.js";
-import { client } from "../lib/db.js";
+// import { client } from "../lib/db.js";
 
 // const redis = new Redis();
 
@@ -285,7 +285,7 @@ export const orderItems = async (req, res) => {
     await user.populate("orders");
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOrderedItems = async (req, res) => {

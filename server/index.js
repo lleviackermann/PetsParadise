@@ -49,6 +49,7 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -80,9 +81,10 @@ app.use("/appointment", appointmentRoutes);
 app.use("/profile/admin", verifyToken, adminRoutes);
 app.post("/sendFeedback", sendFeedback);
 
-app.get("/csrf-token", (req, res) => {
-  return res.status(200).json({ csrfToken: req.csrfToken() });
-});
+// app.get("/csrf-token", (req, res) => {
+//   return res.status(200).json({ csrfToken: req.csrfToken() });
+// });
+
 app.get("/", async (req, res) => {
   console.log("Home request");
   res.render("index.ejs");
@@ -97,11 +99,11 @@ app.get("/updatecount", async (req, res) => {
   res.json({ views });
 });
 
-app.get("/upload", async (req, res) => {
-  res.render("upload.ejs");
-});
+// app.get("/upload", async (req, res) => {
+//   res.render("upload.ejs");
+// });
 
-app.post("/upload");
+// app.post("/upload");
 
 const PORT = process.env.PORT || 6001;
 
@@ -150,5 +152,6 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Server Started Successfully on port ${PORT}`);
     });
+
   })
   .catch((error) => console.log(error));
