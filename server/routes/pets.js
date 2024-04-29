@@ -1,5 +1,7 @@
 import express from "express";
 import Product from "../../server/models/Product.js";
+import { client } from "../lib/db.js";
+import { cache } from "ejs";
 const router = express.Router();
 
 /**
@@ -112,12 +114,111 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/Cat'
  */
 
+// router.get("/dog", async (req, res) => {
+//   client.hgetall(`Products:dogs`, async (err, cachedData) => {
+//     if (err) {
+//       console.error("Redis error:", err);
+//       return res.status(500).send({ error: "Internal Server Error" });
+//     }
+//     let pets;
+//     if (cachedData && Object.keys(cachedData).length !== 0) {
+//       console.log("Retrieved dogs data from Redis cache");
+//       const parsedData = {};
+//       for (const key in cachedData) {
+//         parsedData[key] = JSON.parse(cachedData[key]);
+//       }
+//       pets = parsedData;
+//       return res.status(300).send(parsedData);
+//     }
+//   });
+//   console.log(
+//     `Data for dogs not present in Redis Cache, calculating and adding to the database`
+//   );
+//   const pets = await Product.find({ productType: "pet", petType: "dog" });
+//   pets.forEach((pet, index) => {
+//     client.hset("Products:dogs", index, JSON.stringify(pet));
+//   });
+
+//   return res.status(201).send(pets);
+// });
+
 router.get("/dog", async (req, res) => {
-  const pets = await Product.find({ productType: "pet", petType: "dog" });
-  return res.status(201).send(pets);
+  console.log("got request");
+  let pets;
+
+  client.hgetall("Products:dogs", async (err, cachedData) => {
+    if (err) {
+      console.error("Redis error:", err);
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+
+    if (cachedData && Object.keys(cachedData).length !== 0) {
+      console.log("Retrieved dogs data from Redis cache");
+      const cachedPets = Object.values(cachedData).map(JSON.parse);
+
+      // Send the cached data to the client
+      res.status(200).send(cachedPets);
+    } else {
+      console.log(
+        `Data for dogs not present in Redis Cache, calculating and adding to the database`
+      );
+
+      try {
+        // Fetch data from the database
+        pets = await Product.find({ productType: "pet", petType: "dog" });
+        console.log(pets);
+
+        // Update the cache with the fetched data
+        const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
+        client.hmset("Products:dogs", ...petData);
+
+        // Send the fetched data to the client
+        res.status(200).send(pets);
+      } catch (error) {
+        console.error("Database error:", error);
+        return res.status(500).send({ error: "Internal Server Error" });
+      }
+    }
+  });
 });
+
 router.get("/cat", async (req, res) => {
-  const pets = await Product.find({ productType: "pet", petType: "cat" });
-  return res.status(201).send(pets);
+  console.log("got request");
+  let pets;
+
+  client.hgetall("Products:cats", async (err, cachedData) => {
+    if (err) {
+      console.error("Redis error:", err);
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+
+    if (cachedData && Object.keys(cachedData).length !== 0) {
+      console.log("Retrieved cats data from Redis cache");
+      const cachedPets = Object.values(cachedData).map(JSON.parse);
+
+      res.status(200).send(cachedPets);
+    } else {
+      console.log(
+        `Data for cats not present in Redis Cache, calculating and adding to the database`
+      );
+
+      try {
+        pets = await Product.find({ productType: "pet", petType: "cat" });
+        const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
+        client.hmset("Products:cats", ...petData);
+
+        // Send the fetched data to the client
+        res.status(200).send(pets);
+      } catch (error) {
+        console.error("Database error:", error);
+        return res.status(500).send({ error: "Internal Server Error" });
+      }
+    }
+  });
 });
+
+// router.get("/cat", async (req, res) => {
+//   const pets = await Product.find({ productType: "pet", petType: "cat" });
+//   return res.status(201).send(pets);
+// });
 export default router;

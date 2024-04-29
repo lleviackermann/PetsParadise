@@ -484,7 +484,7 @@ export const getStatistics = async (req, res) => {
       }
     );
 
-    console.log("Senfing statistics");
+    console.log("Sending statistics");
     res.status(201).send({
       orderStatistics,
       appointmentStatistics,

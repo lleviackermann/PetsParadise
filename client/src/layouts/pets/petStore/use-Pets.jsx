@@ -23,7 +23,14 @@ function usePets(pet, priceRange) {
   useEffect(() => {
     setIsLoading(true);
     const fetchPets = async () => {
-      const response = await fetch("http://localhost:8000/pets/" + pet);
+      const response = await fetch("http://localhost:8000/pets/" + pet, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: "Bearer " + token,
+          "Cache-Control": "no-cache",
+        },
+      });
       if (!response.ok) {
         throw new Error(
           "Something Went Wrong,Please try again after some time "

@@ -35,6 +35,16 @@ const client = new Redis({
   port: process.env.REDIS_PORT,
   password: process.env.REDIS_PWD,
 });
+
+// client.del("Products:cats", async (err, response) => {
+//   if (err) {
+//     console.error("Redis error:", err);
+//     return res.status(500).send({ error: "Internal Server Error" });
+//   }
+
+//   console.log("Deleted cached data for dogs");
+// });
+
 // client.del("statistics", (err, response) => {
 //   if (err) {
 //     console.error("Error deleting key from Redis:", err);
