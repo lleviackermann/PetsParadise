@@ -2153,12 +2153,3 @@ Mon, 29 Apr 2024 11:02:22 GMT OPTIONS /auth/statistics 204 0.310 ms
 Mon, 29 Apr 2024 11:02:22 GMT GET /auth/statistics 300 3.748 ms
 Mon, 29 Apr 2024 11:02:22 GMT GET /auth/order 201 1677.644 ms
 Mon, 29 Apr 2024 11:02:25 GMT GET /updatecount 200 79.015 ms
-Mon, 29 Apr 2024 17:34:30 GMT GET / 200 10.648 ms
-Mon, 29 Apr 2024 17:34:30 GMT GET /favicon.ico 404 1.803 ms
-Mon, 29 Apr 2024 17:39:44 GMT GET /api-docs 301 1.928 ms
-Mon, 29 Apr 2024 17:39:44 GMT GET /api-docs/ 200 2.224 ms
-Mon, 29 Apr 2024 17:39:44 GMT GET /api-docs/swagger-ui.css 200 2.080 ms
-Mon, 29 Apr 2024 17:39:44 GMT GET /api-docs/swagger-ui-init.js 200 0.396 ms
-Mon, 29 Apr 2024 17:39:44 GMT GET /api-docs/swagger-ui-standalone-preset.js 200 2.899 ms
-Mon, 29 Apr 2024 17:39:44 GMT GET /api-docs/swagger-ui-bundle.js 200 1.827 ms
-Mon, 29 Apr 2024 17:39:45 GMT GET /api-docs/favicon-32x32.png 200 3.222 ms
