@@ -1,6 +1,8 @@
 import express from 'express'
 import { 
+    addEmployee,
     addExpenses,
+    addProduct,
     deleteOrder,
     getAllAnnouncements, 
     getAllEmployee, 
@@ -9,8 +11,8 @@ import {
     getAllProducts, 
     getAllUsers, 
     getDashboardContents, 
-    makeAnnouncement, 
-    sendFeedback
+    makeAnnouncement,
+    removeEmployees, 
 } from '../controllers/admin.js';
 
 
@@ -333,6 +335,9 @@ router.post("/makeAnnouncement", makeAnnouncement);
 router.get("/getAllAnnouncements", getAllAnnouncements);
 router.get("/getDashboardContents", getDashboardContents);
 router.post("/addExpenses", addExpenses);
-router.post("/deleteOrders", deleteOrder);
+router.delete("/deleteOrders", deleteOrder);
+router.post("/add-product", addProduct);
+router.post("/add-employee", addEmployee);
+router.delete("/remove-employees", removeEmployees);
 
 export default router;
