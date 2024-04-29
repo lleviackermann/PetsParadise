@@ -227,7 +227,6 @@ export const addExpenses = async (req, res, next) => {
 
 export const deleteOrder = async (req, res, next) => {
   try {
-    console.log(req.body);
     const { idToDelete } = req.body;
 
     for (let i = 0; i < idToDelete.length; i++) {
@@ -250,3 +249,116 @@ export const deleteOrder = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const addProduct = async(req, res, next) => {
+  try {
+    const {
+      name,
+      price,
+      src,
+      productType,
+      petType,
+      breed_group,
+      index
+    } = req.body;
+
+    const newProduct = new Product({
+      name,
+      price,
+      src,
+      productType,
+      petType,
+      breed_group,
+      index
+    });
+
+    await newProduct.save();
+
+    return res.send(200).json({ product: newProduct });
+
+  } catch(err) {
+    next(err);
+  }
+}
+
+
+export const deleteProducts = async (req, res, next) => {
+  try {
+    const { productsIdToDelte } = req.body;
+
+    for( let i = 0; i < productsIdToDelte.length; i++) {
+      await Product.findByIdAndDelete(productsIdToDelte[i]);
+    }
+    const products = await Product.find();
+    const formattedProductsData = products.map((product) => {
+      return {
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        petType: product.petType,
+        rating: product.rating,
+        breed: product.breed_group,
+      };
+    });
+    return res.status(200).json(formattedProductsData);
+  } catch(err) {
+    next(err);
+  }
+}
+
+// Register Employee
+export const addEmployee = async (req, res, next) => {
+  try {
+    const { name, employeeId, email, password, role } = req.body;
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    const newEmployee = new Employee({
+      name,
+      employeeId,
+      email,
+      password: passwordHash,
+      role,
+    });
+
+    const savedEmployee = await newEmployee.save();
+    savedEmployee.password = "";
+    const count = await Count.findOne({ countId: "100" });
+    const employees = count.countEmployees + 1;
+    await Count.findOneAndUpdate(
+      { countId: "100" },
+      { countEmployees: employees }
+    );
+
+    return res.status(201).json(savedEmployee);
+  } catch (error) {
+    next(error)
+  }
+};
+
+
+// Remove Employee
+export const removeEmployees = async (req, res, next) => {
+  try {
+    const { employeesIdToDelete } = req.body;
+
+    for( let i = 0; i < employeesIdToDelete.length; i++) {
+      await Employee.findByIdAndDelete(employeesIdToDelete[i]);
+    }
+    const employees = await Employee.find();
+    const formattedEmployeesData = employees.map((employee) => {
+      return {
+        id: employee.employeeId,
+        name: employee.name,
+        email: employee.email,
+        role: employee.role,
+        appointments: employee.appointments.length,
+        ordersDelievered: employee.orders.length,
+      };
+    });
+    return res.status(200).json(formattedEmployeesData);
+  } catch(err) {
+    next(err);
+  }
+}
