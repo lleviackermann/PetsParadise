@@ -23,7 +23,6 @@ import {
 import { getAllEmployee } from "../controllers/admin.js";
 
 const router = express.Router();
-
 router.post("/register/user", registerUser);
 router.post("/register/employee", registerEmployee);
 router.post("/register/admin", registerAdmin);

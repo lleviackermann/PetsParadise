@@ -8,6 +8,7 @@ import Order from "../models/Order.js";
 import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
 import Review from "../models/Review.js";
+import { client } from "../lib/db.js";
 
 // const redis = new Redis();
 
@@ -284,7 +285,7 @@ export const orderItems = async (req, res) => {
     await user.populate("orders");
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getOrderedItems = async (req, res) => {
@@ -313,121 +314,182 @@ export const getStatistics = async (req, res) => {
   if (token != null) {
     query = { userId: token.id };
   }
-  let orders = await Order.find(query);
-  let appointments = await Appointment.find(query);
-  let products = [];
-  for (const order of orders) {
-    let prod = await Product.findById(order.prodId);
-    products.push(prod);
-  }
-  const countOrdersByStatus = orders.reduce(
-    (acc, order) => {
-      if (order && order.status === "Pending") {
-        acc.pending++;
-      } else if (order && order.status === "Delivered") {
-        acc.delivered++;
-      }
-      return acc;
-    },
-    { pending: 0, delivered: 0 }
-  );
-  const countAppointmentsByStatus = appointments.reduce(
-    (acc, order) => {
-      if (order && order.status === "Scheduled") {
-        acc.scheduled++;
-      } else if (order && order.status === "Pending") {
-        acc.pending++;
-      } else if (order && order.status === "Cancelled") {
-        acc.cancelled++;
-      }
-      return acc;
-    },
-    { scheduled: 0, cancelled: 0, pending: 0 }
-  );
-  const countorderTypeByStatus = products.reduce(
-    (acc, order) => {
-      if (order && order.productType === "pet") {
-        acc.pet++;
-      } else if (order && order.productType === "food") {
-        acc.food++;
-      } else if (order && order.productType === "Accessory") {
-        acc.accessory++;
-      }
-      return acc;
-    },
-    { pet: 0, food: 0, accessory: 0 }
-  );
-  const orderStatistics = [
-    {
-      data: [
-        {
-          id: 0,
-          value: countOrdersByStatus.delivered,
-          label: "delivered",
-          color: "#ffe4c1",
-        },
-        {
-          id: 1,
-          value: countOrdersByStatus.pending,
-          label: "pending",
-          color: "#c1d1ff",
-        },
-      ],
-    },
-  ];
+  console.log(query);
+  console.log("Before retrieving data from Redis");
 
-  const appointmentStatistics = [
-    {
-      data: [
-        {
-          id: 0,
-          value: countAppointmentsByStatus.scheduled,
-          label: "Scheduled",
-          color: "#ffe4c1",
-        },
-        {
-          id: 1,
-          value: countAppointmentsByStatus.cancelled,
-          label: "Cancelled",
-          color: "#c1d1ff",
-        },
-        {
-          id: 2,
-          value: countAppointmentsByStatus.pending,
-          label: "Pending",
-          color: "#c1ffc1",
-        },
-      ],
-    },
-  ];
-  const orderTypeStatistics = [
-    {
-      data: [
-        {
-          id: 0,
-          value: countorderTypeByStatus.pet,
-          label: "pets",
-          color: "#ffe4c1",
-        },
-        {
-          id: 1,
-          value: countorderTypeByStatus.food,
-          label: "food",
-          color: "#c1d1ff",
-        },
-        {
-          id: 2,
-          value: countorderTypeByStatus.accessory,
-          label: "accessories",
-          color: "#c1ffc1",
-        },
-      ],
-    },
-  ];
-  res.status(201).send({
-    orderStatistics,
-    appointmentStatistics,
-    orderTypeStatistics,
+  client.hgetall(`Statistics:${token.id}`, async (err, cachedData) => {
+    if (err) {
+      console.error("Redis error:", err);
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+    let statistics;
+
+    if (cachedData && Object.keys(cachedData).length !== 0) {
+      console.log(`Retrieved statistics for user ${token.id} from Redis cache`);
+      const parsedData = {};
+      for (const key in cachedData) {
+        parsedData[key] = JSON.parse(cachedData[key]);
+      }
+
+      statistics = parsedData;
+      return res.status(300).send(statistics);
+    }
+
+    // // else {
+    console.log(
+      `Statistics for user ${token.id} not found in Redis cache, calculating...`
+    );
+
+    let orders, appointments, products;
+    try {
+      orders = await Order.find(query);
+      appointments = await Appointment.find(query);
+      products = [];
+      for (const order of orders) {
+        let prod = await Product.findById(order.prodId);
+        products.push(prod);
+      }
+    } catch (error) {
+      console.error("Error fetching data from MongoDB:", error);
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+
+    const countOrdersByStatus = orders.reduce(
+      (acc, order) => {
+        if (order && order.status === "Pending") {
+          acc.pending++;
+        } else if (order && order.status === "Delivered") {
+          acc.delivered++;
+        }
+        return acc;
+      },
+      { pending: 0, delivered: 0 }
+    );
+    const countAppointmentsByStatus = appointments.reduce(
+      (acc, order) => {
+        if (order && order.status === "Scheduled") {
+          acc.scheduled++;
+        } else if (order && order.status === "Pending") {
+          acc.pending++;
+        } else if (order && order.status === "Cancelled") {
+          acc.cancelled++;
+        }
+        return acc;
+      },
+      { scheduled: 0, cancelled: 0, pending: 0 }
+    );
+    const countorderTypeByStatus = products.reduce(
+      (acc, order) => {
+        if (order && order.productType === "pet") {
+          acc.pet++;
+        } else if (order && order.productType === "food") {
+          acc.food++;
+        } else if (order && order.productType === "Accessory") {
+          acc.accessory++;
+        }
+        return acc;
+      },
+      { pet: 0, food: 0, accessory: 0 }
+    );
+
+    const orderStatistics = [
+      {
+        data: [
+          {
+            id: 0,
+            value: countOrdersByStatus.delivered,
+            label: "delivered",
+            color: "#ffe4c1",
+          },
+          {
+            id: 1,
+            value: countOrdersByStatus.pending,
+            label: "pending",
+            color: "#c1d1ff",
+          },
+        ],
+      },
+    ];
+
+    const appointmentStatistics = [
+      {
+        data: [
+          {
+            id: 0,
+            value: countAppointmentsByStatus.scheduled,
+            label: "Scheduled",
+            color: "#ffe4c1",
+          },
+          {
+            id: 1,
+            value: countAppointmentsByStatus.cancelled,
+            label: "Cancelled",
+            color: "#c1d1ff",
+          },
+          {
+            id: 2,
+            value: countAppointmentsByStatus.pending,
+            label: "Pending",
+            color: "#c1ffc1",
+          },
+        ],
+      },
+    ];
+    const orderTypeStatistics = [
+      {
+        data: [
+          {
+            id: 0,
+            value: countorderTypeByStatus.pet,
+            label: "pets",
+            color: "#ffe4c1",
+          },
+          {
+            id: 1,
+            value: countorderTypeByStatus.food,
+            label: "food",
+            color: "#c1d1ff",
+          },
+          {
+            id: 2,
+            value: countorderTypeByStatus.accessory,
+            label: "accessories",
+            color: "#c1ffc1",
+          },
+        ],
+      },
+    ];
+    statistics = {
+      orderStatistics,
+      appointmentStatistics,
+      orderTypeStatistics,
+    };
+
+    console.log(statistics);
+
+    client.hmset(
+      `Statistics:${token.id}`,
+      "orderStatistics",
+      JSON.stringify(orderStatistics),
+      "appointmentStatistics",
+      JSON.stringify(appointmentStatistics),
+      "orderTypeStatistics",
+      JSON.stringify(orderTypeStatistics),
+      (err, response) => {
+        if (err) {
+          console.error("Error storing data in Redis cache:", err);
+        } else {
+          console.log(`Stored statistics for user ${token.id} in Redis cache`);
+        }
+      }
+    );
+
+    console.log("Senfing statistics");
+    res.status(201).send({
+      orderStatistics,
+      appointmentStatistics,
+      orderTypeStatistics,
+    });
   });
 };
 
@@ -472,24 +534,24 @@ export const getAllAppointments = async (req, res) => {
           from: "users", // Assuming the collection name for users is "users"
           localField: "userId",
           foreignField: "_id",
-          as: "user"
-        }
+          as: "user",
+        },
       },
       {
         $addFields: {
-          user: { $arrayElemAt: ["$user", 0] } // Convert array to object
-        }
+          user: { $arrayElemAt: ["$user", 0] }, // Convert array to object
+        },
       },
       {
         $addFields: {
-          userName: { $concat: ["$user.firstName", " ", "$user.lastName"] }
-        }
+          userName: { $concat: ["$user.firstName", " ", "$user.lastName"] },
+        },
       },
       {
         $project: {
-          user: 0 // Exclude user field from the output
-        }
-      }
+          user: 0, // Exclude user field from the output
+        },
+      },
     ]);
 
     res.status(200).send(appointments);
@@ -497,7 +559,6 @@ export const getAllAppointments = async (req, res) => {
     res.status(500).send({ message: "Internal server error" });
   }
 };
-
 
 // export const getAllOrders = async (req, res) => {
 //   const orders = await Order.find();
@@ -526,40 +587,39 @@ export const getAllOrders = async (req, res, next) => {
           from: "users",
           localField: "userId",
           foreignField: "_id",
-          as: "user"
-        }
+          as: "user",
+        },
       },
       {
         $lookup: {
           from: "products",
           localField: "prodId",
           foreignField: "_id",
-          as: "product"
-        }
+          as: "product",
+        },
       },
       {
         $addFields: {
-          user: { $arrayElemAt: ["$user", 0] }, 
-          product: { $arrayElemAt: ["$product", 0] } 
-        }
+          user: { $arrayElemAt: ["$user", 0] },
+          product: { $arrayElemAt: ["$product", 0] },
+        },
       },
       {
         $addFields: {
           userName: { $concat: ["$user.firstName", " ", "$user.lastName"] },
           productName: "$product.name",
-          productType: "$product.productType"
-        }
+          productType: "$product.productType",
+        },
       },
       {
         $project: {
-          user: 0, 
-          product: 0
-        }
-      }
+          user: 0,
+          product: 0,
+        },
+      },
     ]);
     return res.status(200).send(orders);
   } catch (error) {
-    next(err)
+    next(err);
   }
 };
-

@@ -5,10 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 const UserStatistics = () => {
   // const [data, setData] = useState(null);
+  // alert("In user statistics");
   const [orders, setOrders] = useState([
     {
       data: [
-        { id: 0, value: 10, label: "delivered", color: "#ffe4c1" },
+        { id: 0, value: 20, label: "delivered", color: "#ffe4c1" },
         { id: 1, value: 5, label: "pending", color: "#c1d1ff" },
       ],
     },
@@ -33,14 +34,19 @@ const UserStatistics = () => {
   const token = useSelector((state) => state.auth.userToken);
   useEffect(() => {
     const sendRequest = async () => {
+      console.log("Sent Request");
       const response = await fetch("http://localhost:8000/auth/statistics", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
         },
       });
+      console.log(response);
       const data = await response.json();
+      console.log("data received", data, typeof data);
       setOrders(data.orderStatistics);
       setAppointments(data.appointmentStatistics);
       setOrderType(data.orderTypeStatistics);
