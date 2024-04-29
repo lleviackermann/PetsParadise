@@ -27,6 +27,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
+
+// Swagger
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express' 
+
 app.use(
   morgan(":date[web] :method :url :status :response-time ms", {
     stream: fs.createWriteStream(path.join(__dirname, "petsParadise.log"), {
@@ -98,8 +103,44 @@ app.get("/upload", async (req, res) => {
 
 app.post("/upload");
 
-app.use(errorHandler);
 const PORT = process.env.PORT || 6001;
+
+const options = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Pets Paradise API Documentation',
+      version: '1.0.0',
+      description: 'API documentation for Pets Paradise application.',
+    },
+    servers: [
+      {
+        url: `http://localhost:${PORT}/`,
+        description: 'Local server',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+
+const specs = swaggerJSDoc(options)
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+)
+
+app.use(errorHandler);  
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
