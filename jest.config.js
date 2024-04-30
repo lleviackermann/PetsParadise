@@ -8,7 +8,7 @@
 //     "^@testing-library/react$": "@testing-library/react/esm",
 //   },
 // };
-export default {
+module.exports = {
   type: "module",
   // Add other Jest configuration options as needed
   preset: "ts-jest",

@@ -1,7 +1,6 @@
 {
   "name": "pet-paradise",
   "version": "1.0.0",
-  "type": "module",
   "description": "Our website is like a big online store just for pets! You can find everything from pets themselves to their food and toys. We even help connect pets in need of homes with loving families, and we have lots of helpful tips for taking care of your furry friends.",
   "main": "index.js",
   "dependencies": {
