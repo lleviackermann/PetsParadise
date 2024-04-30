@@ -1,6 +1,21 @@
-// @ts-nocheck
+// export default {
+//   // other configurations...
+//   testEnvironment: "node",
+//   transform: {
+//     "^.+\\.jsx?$": "babel-jest",
+//   },
+//   moduleNameMapper: {
+//     "^@testing-library/react$": "@testing-library/react/esm",
+//   },
+// };
 module.exports = {
+  type: "module",
+  // Add other Jest configuration options as needed
+  preset: "ts-jest",
+  testEnvironment: "node",
+  moduleFileExtensions: ["js", "jsx", "json", "node"],
   transform: {
-    "^.+\\.jsx?$": "babel-jest", // Transform JSX files with Babel
+    "^.+\\.jsx?$": "babel-jest",
   },
+  // Add any other necessary configuration options
 };
