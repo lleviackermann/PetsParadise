@@ -1,9 +1,10 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -11,21 +12,58 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Cache dependencies
+        uses: actions/cache@v2
         with:
-          node-version: '14'
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Node.js and dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run unit tests
-        run: npm run test:unit
+  test:
+    needs: build
+    runs-on: ubuntu-latest
 
-      - name: Run integration tests
-        run: npm run test:integration
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Run user authentication tests
-        run: npm run test:auth
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Node.js and dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Print success message
+        run: echo "Tests passed. Everything is working fine!"
+
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Deployment steps
+        # Add deployment steps here, like deploying to a server or a cloud platform
