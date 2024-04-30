@@ -41,6 +41,7 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.24.1",
     "jest": "^29.7.0"
   },
   "scripts": {
@@ -55,6 +56,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lleviackermann/PetsParadise-React/issues"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
   },
   "homepage": "https://github.com/lleviackermann/PetsParadise-React#readme"
 }
