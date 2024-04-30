@@ -8,8 +8,7 @@
 //     "^@testing-library/react$": "@testing-library/react/esm",
 //   },
 // };
-
-module.exports = {
+export default {
   transform: {
     "^.+\\.jsx?$": "babel-jest",
   },
