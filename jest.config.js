@@ -1,6 +1,9 @@
-// @ts-nocheck
-module.exports = {
+export default {
+  // other configurations...
   transform: {
-    "^.+\\.jsx?$": "babel-jest", // Transform JSX files with Babel
+    "^.+\\.jsx?$": "babel-jest",
+  },
+  moduleNameMapper: {
+    "^@testing-library/react$": "@testing-library/react/esm",
   },
 };
