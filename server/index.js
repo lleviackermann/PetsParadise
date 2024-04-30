@@ -11,6 +11,7 @@ import cors from "cors";
 import fs from "fs";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
+import Product from "./models/Product.js";
 import authRoutes from "./routes/auth.js";
 import dataRoutes from "./routes/data.js";
 import foodRoutes from "./routes/food.js";
@@ -49,6 +50,7 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -80,13 +82,29 @@ app.use("/appointment", appointmentRoutes);
 app.use("/profile/admin", verifyToken, adminRoutes);
 app.post("/sendFeedback", sendFeedback);
 
-app.get("/csrf-token", (req, res) => {
-  return res.status(200).json({ csrfToken: req.csrfToken() });
-});
+// app.get("/csrf-token", (req, res) => {
+//   return res.status(200).json({ csrfToken: req.csrfToken() });
+// });
+
 app.get("/", async (req, res) => {
   console.log("Home request");
   res.render("index.ejs");
 });
+
+const check = async() => {
+  const products = await Product.find();
+  const productType = new Set();
+  const petType = new Set();
+  const breed_group = new Set();
+  products.forEach((product) => {
+    productType.add(product.productType);
+    petType.add(product.petType);
+    breed_group.add(product.breed_group)
+  });
+  console.log(productType);
+  console.log(petType);
+  console.log(breed_group)
+}
 
 app.get("/updatecount", async (req, res) => {
   const count = await Count.findOne({ countId: "100" });
@@ -97,11 +115,11 @@ app.get("/updatecount", async (req, res) => {
   res.json({ views });
 });
 
-app.get("/upload", async (req, res) => {
-  res.render("upload.ejs");
-});
+// app.get("/upload", async (req, res) => {
+//   res.render("upload.ejs");
+// });
 
-app.post("/upload");
+// app.post("/upload");
 
 const PORT = process.env.PORT || 6001;
 
@@ -146,5 +164,6 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Server Started Successfully on port ${PORT}`);
     });
+    // check();
   })
   .catch((error) => console.log(error));

@@ -13,6 +13,8 @@ import Announcements from "../Layouts/Announcements";
 import Orders from "../Layouts/Orders";
 import SendMessages from "../Layouts/SendMessages";
 import { useSelector } from 'react-redux';
+import AddEmployee from "../Layouts/AddEmployee";
+import AddProduct from "../Layouts/AddProduct";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -55,6 +57,12 @@ function App() {
                 </Route>
                 <Route path="/admin/sendmessages" exact>
                   <SendMessages />
+                </Route>
+                <Route path="/admin/addEmployee" exact>
+                  <AddEmployee />
+                </Route>
+                <Route path="/admin/addProduct" exact>
+                  <AddProduct />
                 </Route>
               </Switch>
             </Box>

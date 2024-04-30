@@ -6,6 +6,7 @@ import Announcement from "../models/Announcement.js";
 import Message from "../models/Message.js";
 import Count from "../models/Count.js";
 import Admin from "../models/Admin.js";
+import bcrypt from "bcrypt";
 import {
   barChartDataGenerator,
   lineChartDataGenerator,

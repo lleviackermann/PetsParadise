@@ -15,14 +15,14 @@ const Announcements = () => {
   const verifyToken = useSelector((state) => state.auth.userToken);
 
   const [allAnnouncements, setAllAnnouncements] = useState([]);
-  const getData = async() => {
+  const getData = async () => {
     try {
       const response = await fetch('http://localhost:8000/profile/admin/getAllAnnouncements', {
         method: 'GET',
         headers: {
           "Authorization": verifyToken,
         }
-      });   
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -32,7 +32,7 @@ const Announcements = () => {
       console.error('Error:', error);
     }
   }
-  
+
   useEffect(() => {
     getData();
   }, []);
@@ -43,12 +43,12 @@ const Announcements = () => {
 
 
   return (
-    <Box sx={{height: "100vh",overflow: "auto"}}>
+    <Box sx={{ height: "100vh", overflow: "auto" }}>
       <Topbar title="Announcements" message="Check your messages!" />
       <Box display="flex" justifyContent="space-between">
-        <Box marginLeft="1rem" padding="4px"  
-        fontStyle="bold" width="fit-content" borderBottom="2px solid" borderColor={colors.greenAccent[400]}
-        display="flex" justifyContent="center" alignContent="center"
+        <Box marginLeft="1rem" padding="4px"
+          fontStyle="bold" width="fit-content" borderBottom="2px solid" borderColor={colors.greenAccent[400]}
+          display="flex" justifyContent="center" alignContent="center"
         >
           <Typography variant='h3'>Your Messages</Typography>
         </Box>
@@ -67,7 +67,7 @@ const Announcements = () => {
         }} onClick={handleClick}>+ Send Messages</button>
       </Box>
       <Box m="20px">
-      <Box
+        <Box
           m="20px 0 0 0"
           height="75vh"
           sx={{
@@ -104,11 +104,11 @@ const Announcements = () => {
             },
           }}
         >
-          <DataGrid 
-          autoHeight 
-          getRowHeight={() => 'auto'} 
-          rows={allAnnouncements} 
-          columns={announcementColumnData} 
+          <DataGrid
+            autoHeight
+            getRowHeight={() => 'auto'}
+            rows={allAnnouncements}
+            columns={announcementColumnData}
           />
         </Box>
       </Box>
