@@ -10,10 +10,11 @@
 // };
 
 export default {
-  // other configurations...
   testEnvironment: "node",
   transform: {
     "^.+\\.jsx?$": "babel-jest",
   },
   extensionsToTreatAsEsm: [".jsx"],
+  testPathIgnorePatterns: ["/node_modules/"],
+  transformIgnorePatterns: ["/node_modules/"],
 };
