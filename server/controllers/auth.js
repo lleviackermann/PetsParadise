@@ -123,7 +123,7 @@ export const login = async (req, res) => {
   } else if (flag == "User") {
     person = await User.findOne({ email: userId });
   }
-
+  console.log(flag, userId, password);
   if (!person) return res.status(400).json({ msg: "User does not exist. " });
   const matched = bcrypt.compareSync(password, person.password);
   // if (flag == "Admin") {
@@ -291,6 +291,9 @@ export const orderItems = async (req, res) => {
 export const getOrderedItems = async (req, res) => {
   const token = jwt.decode(req.headers.authorization.split(" ")[1]);
   let orders = [];
+  // const explain = await Order.find({ userId: token.id }).explain();
+
+  // console.log(explain.executionStats);
   orders = await Order.find({ userId: token.id });
   let products = [];
   for (const order of orders) {
@@ -531,7 +534,7 @@ export const getAllAppointments = async (req, res) => {
     const appointments = await Appointment.aggregate([
       {
         $lookup: {
-          from: "users", // Assuming the collection name for users is "users"
+          from: "users",
           localField: "userId",
           foreignField: "_id",
           as: "user",
@@ -539,7 +542,7 @@ export const getAllAppointments = async (req, res) => {
       },
       {
         $addFields: {
-          user: { $arrayElemAt: ["$user", 0] }, // Convert array to object
+          user: { $arrayElemAt: ["$user", 0] },
         },
       },
       {
@@ -549,7 +552,7 @@ export const getAllAppointments = async (req, res) => {
       },
       {
         $project: {
-          user: 0, // Exclude user field from the output
+          user: 0,
         },
       },
     ]);
