@@ -1,4 +1,4 @@
-name: CI
+name: Ci
 
 on:
   push:
@@ -40,6 +40,78 @@ jobs:
 
     - name: Print output
       run: echo "Workflow triggered on ${{ github.ref }} branch" # Print the branch name
+2:22 pm
+React Testing for Beginners: Start Here!
+Ready to master React testing? This tutorial covers the essentials of React Testing Library with Vitest / Jest. Get hands-on and start writing better tests ...
+youtube.com
+https://youtu.be/8Xwq35cPwYg?si=nsHIIOiJtCzBTS8b
+2:57 pm
+name: CI/CD Pipeline
 
-      - name: Run user authentication tests
-        run: npm run test:auth
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Node.js and dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        run: npm install
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Node.js and dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Print success message
+        run: echo "Tests passed. Everything is working fine!"
+
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Deployment steps
+        # Add deployment steps here, like deploying to a server or a cloud platform
