@@ -9,9 +9,9 @@
 //   },
 // };
 export default {
+  preset: "ts-jest",
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    "^.+\\.tsx?$": "ts-jest",
   },
-  testPathIgnorePatterns: ["/node_modules/"],
-  transformIgnorePatterns: ["/node_modules/"],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 };
