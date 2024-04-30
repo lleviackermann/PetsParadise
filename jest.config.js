@@ -9,9 +9,9 @@
 //   },
 // };
 export default {
+  type: "module",
+  // Add other Jest configuration options as needed
   preset: "ts-jest",
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-  },
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  testEnvironment: "node",
+  // Add any other necessary configuration options
 };
