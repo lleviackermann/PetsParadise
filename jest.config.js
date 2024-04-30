@@ -9,12 +9,10 @@
 //   },
 // };
 
-export default {
-  testEnvironment: "node",
+module.exports = {
   transform: {
     "^.+\\.jsx?$": "babel-jest",
   },
-  extensionsToTreatAsEsm: [".jsx"],
   testPathIgnorePatterns: ["/node_modules/"],
   transformIgnorePatterns: ["/node_modules/"],
 };
