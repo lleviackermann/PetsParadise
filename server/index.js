@@ -29,6 +29,8 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 
+//test2
+
 // Swagger
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
@@ -91,7 +93,7 @@ app.get("/", async (req, res) => {
   res.render("index.ejs");
 });
 
-const check = async() => {
+const check = async () => {
   const products = await Product.find();
   const productType = new Set();
   const petType = new Set();
@@ -99,12 +101,12 @@ const check = async() => {
   products.forEach((product) => {
     productType.add(product.productType);
     petType.add(product.petType);
-    breed_group.add(product.breed_group)
+    breed_group.add(product.breed_group);
   });
   console.log(productType);
   console.log(petType);
-  console.log(breed_group)
-}
+  console.log(breed_group);
+};
 
 app.get("/updatecount", async (req, res) => {
   const count = await Count.findOne({ countId: "100" });
