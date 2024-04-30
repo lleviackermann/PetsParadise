@@ -11,6 +11,7 @@ import cors from "cors";
 import fs from "fs";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
+import Product from "./models/Product.js";
 import authRoutes from "./routes/auth.js";
 import dataRoutes from "./routes/data.js";
 import foodRoutes from "./routes/food.js";
@@ -90,6 +91,21 @@ app.get("/", async (req, res) => {
   res.render("index.ejs");
 });
 
+const check = async() => {
+  const products = await Product.find();
+  const productType = new Set();
+  const petType = new Set();
+  const breed_group = new Set();
+  products.forEach((product) => {
+    productType.add(product.productType);
+    petType.add(product.petType);
+    breed_group.add(product.breed_group)
+  });
+  console.log(productType);
+  console.log(petType);
+  console.log(breed_group)
+}
+
 app.get("/updatecount", async (req, res) => {
   const count = await Count.findOne({ countId: "100" });
   console.log(count);
@@ -148,6 +164,6 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Server Started Successfully on port ${PORT}`);
     });
-
+    // check();
   })
   .catch((error) => console.log(error));

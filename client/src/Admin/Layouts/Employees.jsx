@@ -5,11 +5,13 @@ import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { tokens } from '../theme';
 import { employeeColumnsData } from "../columnsData";
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 const Employees = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const apiRef = useGridApiRef();
+  const history = useHistory();
   const [allEmployees, setAllEmployees] = useState([]);
   const verifyToken = useSelector((state) => state.auth.userToken);
 
@@ -35,6 +37,9 @@ const Employees = () => {
     getData();
   }, []);
 
+  const goToAddProduct = () => {
+    history.push("/admin/addEmployee")
+  };
   const deleteSelectedRows = () => {
     apiRef.current.getSelectedRows().forEach((value) => {console.log(value.id)});
   }
@@ -49,6 +54,19 @@ const Employees = () => {
         >
           <Typography variant='h3' fontSize="30px" fontWeight="700">Your Employees</Typography>
         </Box>
+        <button style={{
+          padding: "10px 20px",
+          cursor: "pointer",
+          fontSize: 22,
+          color: "white",
+          border: "3px",
+          borderColor: colors.greenAccent[400],
+          borderStyle: "dashed",
+          marginRight: "2rem",
+          background: "transparent",
+          borderRadius: "10px",
+          borderSpacing: "1px"
+        }} onClick={goToAddProduct}>+ Add Employee </button>
       </Box>
       <Box m="20px">
         <Box
@@ -94,6 +112,7 @@ const Employees = () => {
             rows={allEmployees}
             columns={employeeColumnsData}
             apiRef={apiRef}
+            checkboxSelection
             disableColumnSelector
             disableRowSelectionOnClick
           />
