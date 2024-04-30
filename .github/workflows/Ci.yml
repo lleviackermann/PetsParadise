@@ -27,4 +27,5 @@ jobs:
       - name: Run integration tests
         run: npm run test:integration
 
-      # Add more steps for other tests as needed
+      - name: Run user authentication tests
+        run: npm run test:auth
