@@ -114,34 +114,6 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/Cat'
  */
 
-// router.get("/dog", async (req, res) => {
-//   client.hgetall(`Products:dogs`, async (err, cachedData) => {
-//     if (err) {
-//       console.error("Redis error:", err);
-//       return res.status(500).send({ error: "Internal Server Error" });
-//     }
-//     let pets;
-//     if (cachedData && Object.keys(cachedData).length !== 0) {
-//       console.log("Retrieved dogs data from Redis cache");
-//       const parsedData = {};
-//       for (const key in cachedData) {
-//         parsedData[key] = JSON.parse(cachedData[key]);
-//       }
-//       pets = parsedData;
-//       return res.status(300).send(parsedData);
-//     }
-//   });
-//   console.log(
-//     `Data for dogs not present in Redis Cache, calculating and adding to the database`
-//   );
-//   const pets = await Product.find({ productType: "pet", petType: "dog" });
-//   pets.forEach((pet, index) => {
-//     client.hset("Products:dogs", index, JSON.stringify(pet));
-//   });
-
-//   return res.status(201).send(pets);
-// });
-
 router.get("/dog", async (req, res) => {
   console.log("got request");
   let pets;
@@ -217,8 +189,4 @@ router.get("/cat", async (req, res) => {
   });
 });
 
-// router.get("/cat", async (req, res) => {
-//   const pets = await Product.find({ productType: "pet", petType: "cat" });
-//   return res.status(201).send(pets);
-// });
 export default router;
