@@ -4,6 +4,7 @@ import {
     addExpenses,
     addProduct,
     deleteOrder,
+    deleteProducts,
     getAllAnnouncements, 
     getAllEmployee, 
     getAllFeedbacks, 
@@ -337,6 +338,7 @@ router.get("/getDashboardContents", getDashboardContents);
 router.post("/addExpenses", addExpenses);
 router.delete("/deleteOrders", deleteOrder);
 router.post("/add-product", addProduct);
+router.delete("/remove-products", deleteProducts);
 router.post("/add-employee", addEmployee);
 router.delete("/remove-employees", removeEmployees);
 

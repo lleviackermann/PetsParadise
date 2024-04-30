@@ -94,7 +94,7 @@ export const productsColumnData = [
         field: "id",
         headerName: "ProductId",
         headerAlign: 'center',
-        flex: 1,
+        flex: 2,
         align: "center",
     },
     {

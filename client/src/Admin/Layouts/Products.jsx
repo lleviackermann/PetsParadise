@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import Topbar from "../Components/Topbar";
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { tokens } from '../theme';
 import { productsColumnData } from "../columnsData";
 import { useSelector } from 'react-redux';
+import { baseURL } from '../../api/api';
+import { useHistory } from 'react-router-dom';
 
 const Products = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const apiRef = useGridApiRef();
+  const history = useHistory(); 
   const [allProducts, setAllProducts] = useState([]);
   const verifyToken = useSelector((state) => state.auth.userToken);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const getData = async() => {
+  const getData = async () => {
     try {
       const response = await fetch('http://localhost:8000/profile/admin/getAllProducts', {
         method: 'GET',
         headers: {
           "Authorization": verifyToken,
         }
-      });   
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -30,17 +35,49 @@ const Products = () => {
       console.error('Error:', error);
     }
   }
-  
+
   useEffect(() => {
     getData();
   }, []);
 
-  const deleteSelectedRows = () => {
-    apiRef.current.getSelectedRows().forEach((value) => {console.log(value.id)});
+  const buttonStyle = isButtonDisabled ? { cursor: 'not-allowed', fontSize: "1rem" } : {fontSize: "1rem"};
+
+  const deleteSelectedRows = async () => {
+    const productsIdToDelte = [];
+    apiRef.current.getSelectedRows().forEach((value) => { productsIdToDelte.push(value.id) });
+    try {
+      const response = await fetch(`${baseURL}profile/admin/remove-products`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": verifyToken,
+        },
+        body: JSON.stringify({
+          productsIdToDelte
+        })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setAllProducts(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
+  const changeRowsCount = () => {
+    const updatedCount = Number(apiRef.current.getSelectedRows().size);
+    if(updatedCount > 0) setIsButtonDisabled(false);
+    else setIsButtonDisabled(true);
+  } 
+
+  const goToAddProduct = () => {
+    history.push("/admin/addProduct")
+  };
+
   return (
-    <Box sx={{height: "100vh",overflow: "auto"}}>
+    <Box sx={{ height: "100vh", overflow: "auto" }}>
       <Topbar title="Products" message="See all Products!" />
       <Box display="flex" justifyContent="space-between" alignContent="center">
         <Box marginLeft="1rem" padding="8px"
@@ -49,8 +86,31 @@ const Products = () => {
         >
           <Typography variant='h3' fontSize="30px" fontWeight="700">Your Products</Typography>
         </Box>
+        <button style={{
+          padding: "10px 20px",
+          cursor: "pointer",
+          fontSize: 22,
+          color: "white",
+          border: "3px",
+          borderColor: colors.greenAccent[400],
+          borderStyle: "dashed",
+          marginRight: "2rem",
+          background: "transparent",
+          borderRadius: "10px",
+          borderSpacing: "1px"
+        }} onClick={goToAddProduct}>+ Add Product </button>
       </Box>
       <Box m="20px">
+        <Button
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          style={buttonStyle}
+          color='error'
+          onClick={deleteSelectedRows}
+          disabled={isButtonDisabled}
+        >
+          <b>Delete The Selected Products</b>
+        </Button>
         <Box
           m="20px 0 0 0"
           height="75vh"
@@ -94,6 +154,8 @@ const Products = () => {
             rows={allProducts}
             columns={productsColumnData}
             apiRef={apiRef}
+            checkboxSelection
+            onRowSelectionModelChange={changeRowsCount}
             disableColumnSelector
             disableRowSelectionOnClick
           />
