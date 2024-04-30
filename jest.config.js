@@ -13,5 +13,9 @@ export default {
   // Add other Jest configuration options as needed
   preset: "ts-jest",
   testEnvironment: "node",
+  moduleFileExtensions: ["js", "jsx", "json", "node"],
+  transform: {
+    "^.+\\.jsx?$": "babel-jest",
+  },
   // Add any other necessary configuration options
 };
