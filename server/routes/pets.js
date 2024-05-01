@@ -1,7 +1,6 @@
 import express from "express";
 import Product from "../../server/models/Product.js";
-import { client } from "../lib/db.js";
-import { cache } from "ejs";
+import { getOrSetCache, client } from "../lib/db.js";
 const router = express.Router();
 
 /**
@@ -118,106 +117,84 @@ router.get("/dog", async (req, res) => {
   console.log("got request");
   let pets;
 
-  client.hgetall("Products:dogs", async (err, cachedData) => {
-    if (err) {
-      console.error("Redis error:", err);
+  getOrSetCache("Products:dogs", 60, async () => {
+    try {
+      pets = await Product.find({ productType: "pet", petType: "dog" });
+
+      // const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
+      return pets;
+    } catch (error) {
+      console.error("Database error:", error);
       return res.status(500).send({ error: "Internal Server Error" });
     }
-
-    if (cachedData && Object.keys(cachedData).length !== 0) {
-      console.log("Retrieved dogs data from Redis cache");
-      const cachedPets = Object.values(cachedData).map(JSON.parse);
-
-      // Send the cached data to the client
-      res.status(200).send(cachedPets);
-    } else {
-      console.log(
-        `Data for dogs not present in Redis Cache, calculating and adding to the database`
-      );
-
-      try {
-        pets = await Product.find({ productType: "pet", petType: "dog" });
-        console.log(pets);
-
-        const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
-        client.hmset("Products:dogs", ...petData, (err, response) => {
-          if (err) {
-            console.error("Error storing data in Redis:", err);
-          } else {
-            console.log("Data stored in Redis for key 'Products:dogs'");
-            client.expire("Products:dogs", 600, (err, reply) => {
-              if (err) {
-                console.error(
-                  "Error setting expiration time for key 'Products:dogs':",
-                  err
-                );
-              } else {
-                console.log(
-                  "Expiration time set for key 'Products:dogs': 3600 seconds"
-                );
-              }
-            });
-          }
-        });
-
-        res.status(200).send(pets);
-      } catch (error) {
-        console.error("Database error:", error);
-        return res.status(500).send({ error: "Internal Server Error" });
-      }
-    }
+  }).then((pets) => {
+    res.status(200).send(pets);
   });
+
+  // client.hgetall("Products:dogs", async (err, cachedData) => {
+  //   if (err) {
+  //     console.error("Redis error:", err);
+  //     return res.status(500).send({ error: "Internal Server Error" });
+  //   }
+
+  //   if (cachedData && Object.keys(cachedData).length !== 0) {
+  //     console.log("Retrieved dogs data from Redis cache");
+  //     const cachedPets = Object.values(cachedData).map(JSON.parse);
+
+  //     // Send the cached data to the client
+  //     res.status(200).send(cachedPets);
+  //   } else {
+  //     console.log(
+  //       `Data for dogs not present in Redis Cache, calculating and adding to the database`
+  //     );
+
+  //     try {
+  //       pets = await Product.find({ productType: "pet", petType: "dog" });
+  //       console.log(pets);
+
+  //       const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
+  //       client.hmset("Products:dogs", ...petData, (err, response) => {
+  //         if (err) {
+  //           console.error("Error storing data in Redis:", err);
+  //         } else {
+  //           console.log("Data stored in Redis for key 'Products:dogs'");
+  //           client.expire("Products:dogs", 600, (err, reply) => {
+  //             if (err) {
+  //               console.error(
+  //                 "Error setting expiration time for key 'Products:dogs':",
+  //                 err
+  //               );
+  //             } else {
+  //               console.log(
+  //                 "Expiration time set for key 'Products:dogs': 3600 seconds"
+  //               );
+  //             }
+  //           });
+  //         }
+  //       });
+
+  //       res.status(200).send(pets);
+  //     } catch (error) {
+  //       console.error("Database error:", error);
+  //       return res.status(500).send({ error: "Internal Server Error" });
+  //     }
+  //   }
+  // });
 });
 
 router.get("/cat", async (req, res) => {
   console.log("got request");
   let pets;
-
-  client.hgetall("Products:cats", async (err, cachedData) => {
-    if (err) {
-      console.error("Redis error:", err);
+  getOrSetCache("Products:cats", 60, async () => {
+    try {
+      pets = await Product.find({ productType: "pet", petType: "cat" });
+      return pets;
+    } catch (error) {
+      console.error("Database error:", error);
       return res.status(500).send({ error: "Internal Server Error" });
     }
-
-    if (cachedData && Object.keys(cachedData).length !== 0) {
-      console.log("Retrieved cats data from Redis cache");
-      const cachedPets = Object.values(cachedData).map(JSON.parse);
-
-      res.status(200).send(cachedPets);
-    } else {
-      console.log(
-        `Data for cats not present in Redis Cache, calculating and adding to the database`
-      );
-
-      try {
-        pets = await Product.find({ productType: "pet", petType: "cat" });
-        const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
-        client.hmset("Products:cats", ...petData, (err, response) => {
-          if (err) {
-            console.error("Error storing data in Redis:", err);
-          } else {
-            console.log("Data stored in Redis for key 'Products:dogs'");
-            client.expire("Products:cats", 600, (err, reply) => {
-              if (err) {
-                console.error(
-                  "Error setting expiration time for key 'Products:dogs':",
-                  err
-                );
-              } else {
-                console.log(
-                  "Expiration time set for key 'Products:dogs': 3600 seconds"
-                );
-              }
-            });
-          }
-        });
-
-        res.status(200).send(pets);
-      } catch (error) {
-        console.error("Database error:", error);
-        return res.status(500).send({ error: "Internal Server Error" });
-      }
-    }
+  }).then((pets) => {
+    res.status(200).send(pets);
   });
 });
 

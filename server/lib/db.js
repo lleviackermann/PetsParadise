@@ -1,83 +1,78 @@
-// import { createClient } from "redis";
+import { createClient } from "redis";
 
-// const client = createClient({
-//   password: process.env.REDIS_PWD,
-//   socket: {
-//     host: process.env.REDIS_HOST,
-//     port: process.env.REDIS_PORT,
-//   },
-// });
-
-// // (async () => {
-// //   await client.connect();
-// // })();
-
-// client.on("connect", () => {
-//   console.log("Connected to Redis");
-// });
-// client.on("error", (err) => console.error("Redis connection error:", err));
-
-// if (!client["connecting"]) {
-//   client.connect((err) => {
-//     if (err) {
-//       console.error("Error connecting to Redis:", err);
-//     } else {
-//       console.log("Connected to Redis");
-//     }
-//   });
-// }
-
-// export { client };
-
-import Redis from "ioredis";
-const client = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PWD,
+const client = createClient({
+  password: "SZcl3PhXT61b8X8Ptl7AfH3FpQ6J1DQh",
+  socket: {
+    host: "redis-12651.c212.ap-south-1-1.ec2.redns.redis-cloud.com",
+    port: 12651,
+  },
+});
+(async () => {
+  await client.connect();
+})();
+client.on("connect", () => {
+  console.log("Redis client connected");
 });
 
-// client.del("Products:dogs", async (err, response) => {
-//   if (err) {
-//     console.error("Redis error:", err);
-//     return res.status(500).send({ error: "Internal Server Error" });
-//   }
+client.on("error", (err) => {
+  console.error("Redis connection error:", err);
+});
 
-//   console.log("Deleted cached data for dogs");
-// });
+//helper function for redis
+async function getOrSetCache(key, ex, cb) {
+  return new Promise(async (resolve, reject) => {
+    client
+      .get(key)
+      .then(async (data) => {
+        if (data != null) {
+          console.log("Found in cache");
+          // console.log(data);
+          return resolve(JSON.parse(data));
+        }
+        cb()
+          .then(async (freshData) => {
+            // console.log(freshData);
+            await client.setEx(key, ex, JSON.stringify(freshData));
+            resolve(freshData);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
 
-// client.del("statistics", (err, response) => {
-//   if (err) {
-//     console.error("Error deleting key from Redis:", err);
-//     // Handle error
-//   } else {
-//     console.log("Key deleted from Redis:", response);
-//     // Handle success
-//   }
-// });
-// client.del("Statistics", (err, response) => {
-//   if (err) {
-//     console.error("Error removing userStatistics from Redis cache:", err);
-//   } else {
-//     console.log("Removed userStatistics from Redis cache");
-//   }
-// });
+export { getOrSetCache, client };
 
-// client.del(`Statistics:${""}`, (err, response) => {
-//   if (err) {
-//     console.error("Error removing data from Redis cache:", err);
-//   } else {
-//     console.log(`Removed statistics for user ${1} from Redis cache`);
-//   }
-// });
-
-// client.del(`employee:65d773fc825ca180b0eedb24:orders`, (err, response) => {
-//   if (err) {
-//     console.error("Error removing data from Redis cache:", err);
-//   } else {
-//     console.log(`Removed statistics for user ${1} from Redis cache`);
-//   }
-// });
-
-// const h = await client.hgetall(`userStatistics:65d5665a446e054454d2b591`);
-// console.log(h);
-export { client };
+// exports.getOrders = async (req, res, next) => {
+//   const userId = req.userId;
+//   getOrSetCache(`orders?userId=${userId}`, 30, async () => {
+//     try {
+//       const orders = await Order.find({ "user.userId": userId });
+//       const updatedOrders = orders.map((order) => {
+//         return {
+//           user: order.user,
+//           total: order.total,
+//           orderPlaced: order.createdAt.toLocaleDateString(),
+//           id: order._id.toString(),
+//         };
+//       });
+//       return updatedOrders;
+//     } catch (error) {
+//       console.log(error);
+//       throw new Error("some error occured");
+//     }
+//   })
+//     .then((data) => {
+//       res.status(201).json({
+//         message: "Fetched Orders Successfully.",
+//         orders: data,
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
