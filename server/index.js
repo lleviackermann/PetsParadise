@@ -142,9 +142,10 @@ const specs = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(errorHandler);
-
+const MONGO_URL = process.env.MONGO_URL;
+console.log(MONGO_URL);
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
