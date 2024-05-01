@@ -1,32 +1,15 @@
 version: "3.8"
 services:
-  mongodb:
-    image: "mongo"
-    volumes:
-      - data:/data/db
-
   server:
     build: ./server
+    container_name: pets_server
     ports:
       - "8000:8000"
-    volumes:
-      - logs:/app/logs
-      - ./backend:/app
-      - /app/node_modules
-    depends_on:
-      - mongodb
 
   client:
     build: ./client
+    container_name: pets_client
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend/src:/app/src
     stdin_open: true
     tty: true
-    depends_on:
-      - server
-
-volumes:
-  data:
-  logs:

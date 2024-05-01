@@ -285,7 +285,7 @@ export const orderItems = async (req, res) => {
     await user.populate("orders");
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOrderedItems = async (req, res) => {
@@ -328,188 +328,193 @@ export const getStatistics = async (req, res) => {
   console.log(query);
   console.log("Before retrieving data from Redis");
 
-  client.hgetall(`Statistics:${cache}`, async (err, cachedData) => {
-    if (err) {
-      console.error("Redis error:", err);
-      return res.status(500).send({ error: "Internal Server Error" });
-    }
-    let statistics;
+  client.hGetAll(`Statistics:${cache}`)
+    .then(
+      async (err, cachedData) => {
+        let statistics;
 
-    if (cachedData && Object.keys(cachedData).length !== 0) {
-      console.log(`Retrieved statistics for user ${cache} from Redis cache`);
-      const parsedData = {};
-      for (const key in cachedData) {
-        parsedData[key] = JSON.parse(cachedData[key]);
-      }
+        if (cachedData && Object.keys(cachedData).length !== 0) {
+          console.log(`Retrieved statistics for user ${cache} from Redis cache`);
+          const parsedData = {};
+          for (const key in cachedData) {
+            parsedData[key] = JSON.parse(cachedData[key]);
+          }
 
-      statistics = parsedData;
-      return res.status(300).send(statistics);
-    }
-
-    // // else {
-    console.log(
-      `Statistics for user ${2} not found in Redis cache, calculating...`
-    );
-
-    let orders, appointments, products;
-    try {
-      orders = await Order.find(query);
-      appointments = await Appointment.find(query);
-      products = [];
-      for (const order of orders) {
-        let prod = await Product.findById(order.prodId);
-        products.push(prod);
-      }
-    } catch (error) {
-      console.error("Error fetching data from MongoDB:", error);
-      return res.status(500).send({ error: "Internal Server Error" });
-    }
-
-    console.log(orders);
-
-    const countOrdersByStatus = orders.reduce(
-      (acc, order) => {
-        if (order && order.status === "Pending") {
-          acc.pending++;
-        } else if (order && order.status === "Delivered") {
-          acc.delivered++;
+          statistics = parsedData;
+          return res.status(300).send(statistics);
         }
-        return acc;
-      },
-      { pending: 0, delivered: 0 }
-    );
-    const countAppointmentsByStatus = appointments.reduce(
-      (acc, order) => {
-        if (order && order.status === "Scheduled") {
-          acc.scheduled++;
-        } else if (order && order.status === "Pending") {
-          acc.pending++;
-        } else if (order && order.status === "Cancelled") {
-          acc.cancelled++;
+
+        // // else {
+        console.log(
+          `Statistics for user ${2} not found in Redis cache, calculating...`
+        );
+
+        let orders, appointments, products;
+        try {
+          orders = await Order.find(query);
+          appointments = await Appointment.find(query);
+          products = [];
+          for (const order of orders) {
+            let prod = await Product.findById(order.prodId);
+            products.push(prod);
+          }
+        } catch (error) {
+          console.error("Error fetching data from MongoDB:", error);
+          return res.status(500).send({ error: "Internal Server Error" });
         }
-        return acc;
-      },
-      { scheduled: 0, cancelled: 0, pending: 0 }
-    );
-    const countorderTypeByStatus = products.reduce(
-      (acc, order) => {
-        if (order && order.productType === "pet") {
-          acc.pet++;
-        } else if (order && order.productType === "food") {
-          acc.food++;
-        } else if (order && order.productType === "Accessory") {
-          acc.accessory++;
-        }
-        return acc;
-      },
-      { pet: 0, food: 0, accessory: 0 }
-    );
 
-    const orderStatistics = [
-      {
-        data: [
-          {
-            id: 0,
-            value: countOrdersByStatus.delivered,
-            label: "delivered",
-            color: "#ffe4c1",
-          },
-          {
-            id: 1,
-            value: countOrdersByStatus.pending,
-            label: "pending",
-            color: "#c1d1ff",
-          },
-        ],
-      },
-    ];
+        console.log(orders);
 
-    const appointmentStatistics = [
-      {
-        data: [
-          {
-            id: 0,
-            value: countAppointmentsByStatus.scheduled,
-            label: "Scheduled",
-            color: "#ffe4c1",
-          },
-          {
-            id: 1,
-            value: countAppointmentsByStatus.cancelled,
-            label: "Cancelled",
-            color: "#c1d1ff",
-          },
-          {
-            id: 2,
-            value: countAppointmentsByStatus.pending,
-            label: "Pending",
-            color: "#c1ffc1",
-          },
-        ],
-      },
-    ];
-    const orderTypeStatistics = [
-      {
-        data: [
-          {
-            id: 0,
-            value: countorderTypeByStatus.pet,
-            label: "pets",
-            color: "#ffe4c1",
-          },
-          {
-            id: 1,
-            value: countorderTypeByStatus.food,
-            label: "food",
-            color: "#c1d1ff",
-          },
-          {
-            id: 2,
-            value: countorderTypeByStatus.accessory,
-            label: "accessories",
-            color: "#c1ffc1",
-          },
-        ],
-      },
-    ];
-    statistics = {
-      orderStatistics,
-      appointmentStatistics,
-      orderTypeStatistics,
-    };
-
-    console.log(statistics);
-
-    client.hmset(
-      `Statistics:${cache}`,
-      "orderStatistics",
-      JSON.stringify(orderStatistics),
-      "appointmentStatistics",
-      JSON.stringify(appointmentStatistics),
-      "orderTypeStatistics",
-      JSON.stringify(orderTypeStatistics),
-      (err, response) => {
-        if (err) {
-          console.error("Error storing data in Redis cache:", err);
-        } else {
-          console.log(`Stored statistics for user ${cache} in Redis cache`);
-          // Set expiration time for the cache
-          client.expire(`Statistics:${cache}`, 60, (err, reply) => {
-            if (err) {
-              console.error("Error setting expiration time for cache:", err);
-            } else {
-              console.log(`Expiration time set for cache: ${60} seconds`);
+        const countOrdersByStatus = orders.reduce(
+          (acc, order) => {
+            if (order && order.status === "Pending") {
+              acc.pending++;
+            } else if (order && order.status === "Delivered") {
+              acc.delivered++;
             }
-          });
-        }
+            return acc;
+          },
+          { pending: 0, delivered: 0 }
+        );
+        const countAppointmentsByStatus = appointments.reduce(
+          (acc, order) => {
+            if (order && order.status === "Scheduled") {
+              acc.scheduled++;
+            } else if (order && order.status === "Pending") {
+              acc.pending++;
+            } else if (order && order.status === "Cancelled") {
+              acc.cancelled++;
+            }
+            return acc;
+          },
+          { scheduled: 0, cancelled: 0, pending: 0 }
+        );
+        const countorderTypeByStatus = products.reduce(
+          (acc, order) => {
+            if (order && order.productType === "pet") {
+              acc.pet++;
+            } else if (order && order.productType === "food") {
+              acc.food++;
+            } else if (order && order.productType === "Accessory") {
+              acc.accessory++;
+            }
+            return acc;
+          },
+          { pet: 0, food: 0, accessory: 0 }
+        );
+
+        const orderStatistics = [
+          {
+            data: [
+              {
+                id: 0,
+                value: countOrdersByStatus.delivered,
+                label: "delivered",
+                color: "#ffe4c1",
+              },
+              {
+                id: 1,
+                value: countOrdersByStatus.pending,
+                label: "pending",
+                color: "#c1d1ff",
+              },
+            ],
+          },
+        ];
+
+        const appointmentStatistics = [
+          {
+            data: [
+              {
+                id: 0,
+                value: countAppointmentsByStatus.scheduled,
+                label: "Scheduled",
+                color: "#ffe4c1",
+              },
+              {
+                id: 1,
+                value: countAppointmentsByStatus.cancelled,
+                label: "Cancelled",
+                color: "#c1d1ff",
+              },
+              {
+                id: 2,
+                value: countAppointmentsByStatus.pending,
+                label: "Pending",
+                color: "#c1ffc1",
+              },
+            ],
+          },
+        ];
+        const orderTypeStatistics = [
+          {
+            data: [
+              {
+                id: 0,
+                value: countorderTypeByStatus.pet,
+                label: "pets",
+                color: "#ffe4c1",
+              },
+              {
+                id: 1,
+                value: countorderTypeByStatus.food,
+                label: "food",
+                color: "#c1d1ff",
+              },
+              {
+                id: 2,
+                value: countorderTypeByStatus.accessory,
+                label: "accessories",
+                color: "#c1ffc1",
+              },
+            ],
+          },
+        ];
+        statistics = {
+          orderStatistics,
+          appointmentStatistics,
+          orderTypeStatistics,
+        };
+
+        console.log(statistics);
+
+        client.hmset(
+          `Statistics:${cache}`,
+          "orderStatistics",
+          JSON.stringify(orderStatistics),
+          "appointmentStatistics",
+          JSON.stringify(appointmentStatistics),
+          "orderTypeStatistics",
+          JSON.stringify(orderTypeStatistics),
+          (err, response) => {
+            if (err) {
+              console.error("Error storing data in Redis cache:", err);
+            } else {
+              console.log(`Stored statistics for user ${cache} in Redis cache`);
+              // Set expiration time for the cache
+              client.expire(`Statistics:${cache}`, 60, (err, reply) => {
+                if (err) {
+                  console.error("Error setting expiration time for cache:", err);
+                } else {
+                  console.log(`Expiration time set for cache: ${60} seconds`);
+                }
+              });
+            }
+          }
+        );
+        res.status(201).send({
+          orderStatistics,
+          appointmentStatistics,
+          orderTypeStatistics,
+        });
       }
-    );
-    res.status(201).send({
-      orderStatistics,
-      appointmentStatistics,
-      orderTypeStatistics,
-    });
-  });
+    )
+    .catch((err) => {
+      if (err) {
+        console.error("Redis error:", err);
+        return res.status(500).send({ error: "Internal Server Error" });
+      }
+    })
 };
 
 export const submitReview = async (req, res) => {

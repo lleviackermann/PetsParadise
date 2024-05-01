@@ -13,7 +13,6 @@ import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import Product from "./models/Product.js";
 import authRoutes from "./routes/auth.js";
-import dataRoutes from "./routes/data.js";
 import foodRoutes from "./routes/food.js";
 import petRoutes from "./routes/pets.js";
 import appointmentRoutes from "./routes/appointment.js";
@@ -61,7 +60,6 @@ app.use(
   })
 );
 
-// app.use(csrf({ cookie: true }));
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 const storage = multer.diskStorage({
@@ -76,7 +74,6 @@ const upload = multer({ storage });
 
 app.use("/auth", authRoutes);
 app.use("/employee", employeeRoutes);
-app.use("/post", dataRoutes);
 app.use("/pets", petRoutes);
 app.use("/food", foodRoutes);
 app.use("/accessory", accessoryRoutes);
@@ -84,9 +81,6 @@ app.use("/appointment", appointmentRoutes);
 app.use("/profile/admin", verifyToken, adminRoutes);
 app.post("/sendFeedback", sendFeedback);
 
-// app.get("/csrf-token", (req, res) => {
-//   return res.status(200).json({ csrfToken: req.csrfToken() });
-// });
 
 app.get("/", async (req, res) => {
   console.log("Home request");
@@ -117,11 +111,6 @@ app.get("/updatecount", async (req, res) => {
   res.json({ views });
 });
 
-// app.get("/upload", async (req, res) => {
-//   res.render("upload.ejs");
-// });
-
-// app.post("/upload");
 
 const PORT = process.env.PORT || 6001;
 

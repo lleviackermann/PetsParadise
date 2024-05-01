@@ -1,83 +1,46 @@
-// import { createClient } from "redis";
+import { createClient } from "redis";
 
-// const client = createClient({
-//   password: process.env.REDIS_PWD,
-//   socket: {
-//     host: process.env.REDIS_HOST,
-//     port: process.env.REDIS_PORT,
-//   },
-// });
-
-// // (async () => {
-// //   await client.connect();
-// // })();
-
-// client.on("connect", () => {
-//   console.log("Connected to Redis");
-// });
-// client.on("error", (err) => console.error("Redis connection error:", err));
-
-// if (!client["connecting"]) {
-//   client.connect((err) => {
-//     if (err) {
-//       console.error("Error connecting to Redis:", err);
-//     } else {
-//       console.log("Connected to Redis");
-//     }
-//   });
-// }
-
-// export { client };
-
-import Redis from "ioredis";
-const client = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PWD,
+const client = createClient({
+    password: 'uFbhY11x0qVyMJGpsQGERGtGW7quLhzP',
+    socket: {
+        host: 'redis-17198.c330.asia-south1-1.gce.redns.redis-cloud.com',
+        port: 17198
+    }
+});
+(async () => {
+  await client.connect();
+})();
+client.on('connect', () => {
+  console.log('Redis client connected');
 });
 
-// client.del("Products:dogs", async (err, response) => {
-//   if (err) {
-//     console.error("Redis error:", err);
-//     return res.status(500).send({ error: "Internal Server Error" });
-//   }
+client.on('error', (err) => {
+  console.error('Redis connection error:', err);
+});
 
-//   console.log("Deleted cached data for dogs");
-// });
+async function getOrSetCache(key, ex, cb) {
+  return new Promise(async (resolve, reject) => {
+    client.get(key)
+      .then(
+        async (data) => {
+          if (data != null) {
+            return resolve(JSON.parse(data)); //convert to json
+          }
+          cb()
+            .then(async (freshData) => {
+              await client.setEx(key, ex, JSON.stringify(freshData)); //convert to string
+              resolve(freshData);
+            })
+            .catch((err) => {
+              reject(err);
+            })
+        }
+      )
+      .catch((err) => {
+        reject(err);
+      })
+  })
+};
 
-// client.del("statistics", (err, response) => {
-//   if (err) {
-//     console.error("Error deleting key from Redis:", err);
-//     // Handle error
-//   } else {
-//     console.log("Key deleted from Redis:", response);
-//     // Handle success
-//   }
-// });
-// client.del("Statistics", (err, response) => {
-//   if (err) {
-//     console.error("Error removing userStatistics from Redis cache:", err);
-//   } else {
-//     console.log("Removed userStatistics from Redis cache");
-//   }
-// });
 
-// client.del(`Statistics:${""}`, (err, response) => {
-//   if (err) {
-//     console.error("Error removing data from Redis cache:", err);
-//   } else {
-//     console.log(`Removed statistics for user ${1} from Redis cache`);
-//   }
-// });
-
-// client.del(`employee:65d773fc825ca180b0eedb24:orders`, (err, response) => {
-//   if (err) {
-//     console.error("Error removing data from Redis cache:", err);
-//   } else {
-//     console.log(`Removed statistics for user ${1} from Redis cache`);
-//   }
-// });
-
-// const h = await client.hgetall(`userStatistics:65d5665a446e054454d2b591`);
-// console.log(h);
-export { client };
+export { client }
