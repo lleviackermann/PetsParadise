@@ -12,6 +12,8 @@ describe('POST /auth/login', () => {
         expect(response.body).toHaveProperty('token');
     });
 
+
+    
     it("should return 401 Error and a error if password is wrong", async () => {
         const response = await request(baseURL)
             .post('auth/login')
