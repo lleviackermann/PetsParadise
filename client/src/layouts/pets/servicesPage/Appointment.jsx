@@ -2,7 +2,7 @@ import { useState } from "react";
 import servicesImages from "./servicesImages";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
-import classes from "./servicesLandingPage.module.css"; 
+import classes from "./servicesLandingPage.module.css";
 
 function AppointmentSection(props) {
   const [pack, setPack] = useState("");
@@ -27,9 +27,19 @@ function AppointmentSection(props) {
     const oneHourLater = new Date();
     oneHourLater.setHours(oneHourLater.getHours() + 1);
 
-    if (date === currentDate && selectedTime < oneHourLater.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })) {
+    if (
+      date === currentDate &&
+      selectedTime <
+        oneHourLater.toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+    ) {
       event.preventDefault();
-      alert("Please make sure you book appointment at least one hour before desired appointment time.");
+      alert(
+        "Please make sure you book appointment at least one hour before desired appointment time."
+      );
     } else {
       setTime(selectedTime);
     }
@@ -102,18 +112,22 @@ function AppointmentSection(props) {
     }, 3000);
   };
 
-  const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString().split("T")[0];
 
-  const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+  const currentTime = new Date().toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
-    <section className={classes.appointment} id="appointment"> 
-      <div className={classes["appointment-content"]}> 
-        <div className={classes["section-title"]}> 
+    <section className={classes.appointment} id="appointment">
+      <div className={classes["appointment-content"]}>
+        <div className={classes["section-title"]}>
           <h1>Appointment</h1>
           <span>book at your convenience</span>
         </div>
-        <div className={classes["form-content"]}> 
+        <div className={classes["form-content"]}>
           <form action="services/appointment" onSubmit={SubmitHandler}>
             <label htmlFor="selpack">
               Select the {props.page === servicesImages ? "package" : "doctor"}{" "}
@@ -159,7 +173,7 @@ function AppointmentSection(props) {
               min={date == currentDate ? currentTime : ""}
             />
             <br />
-            <button type="submit" className={classes["btn a-app"]}> 
+            <button type="submit" className={classes["btn a-app"]}>
               Confirm appointment
             </button>
           </form>
