@@ -3,7 +3,7 @@ name: Node.JS CI/CD
 on:
   push:
     paths:
-    - 'Server/**'
+    - 'server/**'
     branches: ["master"]
 
 jobs:
