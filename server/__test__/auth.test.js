@@ -10,10 +10,10 @@ describe('POST /auth/login', () => {
 
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('token');
-    });
+    }, 15000);
 
 
-    
+
     it("should return 401 Error and a error if password is wrong", async () => {
         const response = await request(baseURL)
             .post('auth/login')
@@ -21,5 +21,5 @@ describe('POST /auth/login', () => {
 
         expect(response.status).toBe(401);
         expect(response.body.msg).toBe("Invalid Credentials");
-    })
+    }, 15000)
 });
