@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeOrderStatus } from "../../../../store/auth-actions";
 import { DataGrid } from "@mui/x-data-grid";
+import { baseURL } from "../../../../api/api";
 
 const MaterialUiOrders = () => {
   const employeeDetails = useSelector((state) => state.auth.userInfo);
@@ -84,7 +85,7 @@ const MaterialUiOrders = () => {
     const sendRequest = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/employee/${employeeDetails.id}/orders`,
+          `${baseURL}employee/${employeeDetails.id}/orders`,
           {
             method: "GET",
             headers: {

@@ -3,6 +3,7 @@ import classes from "./EmployeeStatistics.module.css";
 import { PieChart } from "@mui/x-charts/PieChart";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "react-redux";
+import { baseURL } from "../../../../api/api";
 
 const UserStatistics = () => {
   const [loading, setLoading] = useState(true);
@@ -19,9 +20,9 @@ const UserStatistics = () => {
     employeeDetails.specialization === "orders" ||
     employeeDetails.specialization === "appointments"
   ) {
-    requestString = `http://localhost:8000/employee/${employeeDetails.id}/statistics`;
+    requestString = `${baseURL}employee/${employeeDetails.id}/statistics`;
   } else {
-    requestString = "http://localhost:8000/auth/statistics";
+    requestString = `${baseURL}auth/statistics`;
   }
 
   useEffect(() => {

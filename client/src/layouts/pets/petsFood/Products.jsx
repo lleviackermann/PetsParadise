@@ -5,6 +5,7 @@ import images from "./foodservicesLandingPage/images";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../store/cart-actions";
 import { uiActions } from "../../../store/ui-slice";
+import { baseURL } from "../../../api/api";
 
 function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -37,7 +38,7 @@ function Products() {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const response = await fetch("http://localhost:8000/food");
+        const response = await fetch(`${baseURL}food`);
         const data = await response.json();
         setFilteredProducts(data);
         setData(data);

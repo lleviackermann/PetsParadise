@@ -1,10 +1,11 @@
 import { authActions } from "./auth-slice";
 import { uiActions } from "./ui-slice";
 const adminMailId = "admin101";
+import { baseURL } from "../api/api";
 
 export const sendReview = (prodId, userToken, review) => {
   return async (dispatch) => {
-    const response = await fetch("http://localhost:8000/auth/review", {
+    const response = await fetch(`${baseURL}auth/review`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,20 +23,17 @@ export const sendReview = (prodId, userToken, review) => {
 export const changeOrderStatus = (option, orderId, token) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        "http://localhost:8000/employee/updateOrder",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({
-            orderId: orderId,
-            status: option === "accept" ? "Delivered" : "Cancelled",
-          }),
-        }
-      );
+      const response = await fetch(`${baseURL}employee/updateOrder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          status: option === "accept" ? "Delivered" : "Cancelled",
+        }),
+      });
 
       if (response.ok) {
       } else {
@@ -49,20 +47,17 @@ export const changeOrderStatus = (option, orderId, token) => {
 export const changeAppointmentStatus = (option, appId, token) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        "http://localhost:8000/employee/updateAppointment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({
-            appId,
-            status: option,
-          }),
-        }
-      );
+      const response = await fetch(`${baseURL}/employee/updateAppointment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          appId,
+          status: option,
+        }),
+      });
 
       if (response.ok) {
       } else {
@@ -86,7 +81,7 @@ export const loginUser = (mail, password) => {
     if (/^M\d{3}/.test(mail)) {
       flag = "Manager";
     }
-    const response = await fetch("http://localhost:8000/auth/login", {
+    const response = await fetch(`${baseURL}auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,7 +157,7 @@ export const loginUser = (mail, password) => {
 export const registerUser = (firstName, lastName, mail, password) => {
   return async (dispatch) => {
     const sendRequest = async () => {
-      const response = await fetch("http://localhost:8000/auth/register/user", {
+      const response = await fetch(`${baseURL}auth/register/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -229,7 +224,7 @@ export const verifyUser = () => {
     if (mail === adminMailId && password === adminMailPassword) {
       flag = "Admin";
     }
-    const response = await fetch(`http://localhost:8000/auth/login}`, {
+    const response = await fetch(`${baseURL}auth/login}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -256,25 +251,22 @@ export const forgetPass = (mail, otpNo = 0, password = "") => {
   return async (dispatch) => {
     let message = "";
     if (otpNo == 0) {
-      const response = await fetch(
-        `http://localhost:8000/auth/forgotPassword`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            flag: "User",
-            email: mail,
-          }),
-        }
-      );
+      const response = await fetch(`${baseURL}auth/forgotPassword`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          flag: "User",
+          email: mail,
+        }),
+      });
       message = await response.json();
       if (message.status === "success") {
         dispatch(authActions.otpSent());
       }
     } else if (password === "") {
-      const response = await fetch(`http://localhost:8000/auth/validateOtp`, {
+      const response = await fetch(`${baseURL}auth/validateOtp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -289,20 +281,17 @@ export const forgetPass = (mail, otpNo = 0, password = "") => {
         dispatch(authActions.otpVerified());
       }
     } else if (password !== "") {
-      const response = await fetch(
-        `http://localhost:8000/auth/changePassword`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            password: password,
-            email: mail,
-            flag: "User",
-          }),
-        }
-      );
+      const response = await fetch(`${baseURL}auth/changePassword`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: password,
+          email: mail,
+          flag: "User",
+        }),
+      });
       message = await response.json();
       if (message.status === "success") {
         dispatch(authActions.passwordChanged());
@@ -322,7 +311,7 @@ export const forgetPass = (mail, otpNo = 0, password = "") => {
 export const resetPassword = (mail, oldPassword, newPassword) => {
   console.log(mail);
   return async (dispatch) => {
-    const response = await fetch(`http://localhost:8000/auth/resetPassword`, {
+    const response = await fetch(`${baseURL}auth/resetPassword`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

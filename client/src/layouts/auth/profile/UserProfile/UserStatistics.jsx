@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./UserStatistics.module.css";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useSelector, useDispatch } from "react-redux";
+import { baseURL } from "../../../../api/api";
 
 const UserStatistics = () => {
   // const [data, setData] = useState(null);
@@ -35,7 +36,7 @@ const UserStatistics = () => {
   useEffect(() => {
     const sendRequest = async () => {
       console.log("Sent Request");
-      const response = await fetch("http://localhost:8000/auth/statistics", {
+      const response = await fetch(`${baseURL}auth/statistics`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

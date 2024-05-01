@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReviewDisplay from "./ReviewDisplay";
 import ReviewSubmit from "./ReviewSubmit";
 import classes from "./petfoodLandingPage.module.css";
+import { baseURL } from "../../../api/api";
 
 function Review() {
   const [review, setReview] = useState("");
@@ -17,7 +18,7 @@ function Review() {
       return;
     }
     const sendRequest = async () => {
-      const response = await fetch("http://localhost:8000/review");
+      const response = await fetch(`${baseURL}review`);
     };
     sendRequest();
   };

@@ -20,7 +20,8 @@ import { useTheme } from "@emotion/react";
 import LineChart from "../Components/BasicLineChart";
 import BasicPieChart from "../Components/BasicPieChart";
 import BasicBarGraph from "../Components/BasicBarGraph";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { baseURL } from "../../api/api";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -30,12 +31,12 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     const response = await fetch(
-      `http://localhost:8000/profile/admin/getDashboardContents`,
+      `${baseURL}profile/admin/getDashboardContents`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": verifyToken,
+          Authorization: verifyToken,
         },
       }
     );
@@ -43,23 +44,19 @@ const Dashboard = () => {
     setFormattedData(json);
   };
   const addExpenseFunction = async () => {
-    const response = await fetch(
-      `http://localhost:8000/profile/admin/addExpenses`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": verifyToken,
-        },
-        body: JSON.stringify({
-          amount: amount
-        })
-      }
-    );
+    const response = await fetch(`${baseURL}profile/admin/addExpenses`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: verifyToken,
+      },
+      body: JSON.stringify({
+        amount: amount,
+      }),
+    });
     fetchData();
     setAmount(0);
-
-  }
+  };
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -509,7 +506,9 @@ const Dashboard = () => {
                   marginTop: "10px",
                 }}
               >
-                <Button variant="contained" onClick={addExpenseFunction}
+                <Button
+                  variant="contained"
+                  onClick={addExpenseFunction}
                   sx={{
                     backgroundColor: colors.greenAccent[500],
                     color: colors.grey[800],

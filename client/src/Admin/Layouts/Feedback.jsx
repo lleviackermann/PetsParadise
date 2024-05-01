@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Topbar from "../Components/Topbar";
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
-import { tokens } from '../theme';
+import { tokens } from "../theme";
 import { feedbackColumnsData } from "../columnsData";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { baseURL } from "../../api/api";
 
 const Feedback = () => {
   const theme = useTheme();
@@ -13,41 +14,52 @@ const Feedback = () => {
   const [allFeedbacks, setAllFeedbacks] = useState([]);
   const verifyToken = useSelector((state) => state.auth.userToken);
 
-  const getData = async() => {
+  const getData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/profile/admin/getAllFeedbacks', {
-        method: 'GET',
+      const response = await fetch(`${baseURL}profile/admin/getAllFeedbacks`, {
+        method: "GET",
         headers: {
-          "Authorization": verifyToken,
-        }
-      });   
+          Authorization: verifyToken,
+        },
+      });
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setAllFeedbacks(data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  }
-  
+  };
+
   useEffect(() => {
     getData();
   }, []);
 
   const deleteSelectedRows = () => {
-    apiRef.current.getSelectedRows().forEach((value) => {console.log(value.id)});
-  }
+    apiRef.current.getSelectedRows().forEach((value) => {
+      console.log(value.id);
+    });
+  };
 
   return (
-    <Box sx={{height: "100vh",overflow: "auto"}}>
+    <Box sx={{ height: "100vh", overflow: "auto" }}>
       <Topbar title="Feedbacks" message="See Feedbacks of your users!" />
       <Box display="flex" justifyContent="space-between" alignContent="center">
-        <Box marginLeft="1rem" padding="8px"
-          fontStyle="bold" width="fit-content" borderBottom="2px solid" borderColor={colors.greenAccent[400]}
-          display="flex" justifyContent="center" alignContent="center"
+        <Box
+          marginLeft="1rem"
+          padding="8px"
+          fontStyle="bold"
+          width="fit-content"
+          borderBottom="2px solid"
+          borderColor={colors.greenAccent[400]}
+          display="flex"
+          justifyContent="center"
+          alignContent="center"
         >
-          <Typography variant='h3' fontSize="30px" fontWeight="700">Feedbacks</Typography>
+          <Typography variant="h3" fontSize="30px" fontWeight="700">
+            Feedbacks
+          </Typography>
         </Box>
       </Box>
       <Box m="20px">
@@ -74,7 +86,6 @@ const Feedback = () => {
               fontSize: 23,
               fontWeight: 700,
               textWrap: "wrap",
-
             },
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
@@ -90,7 +101,7 @@ const Feedback = () => {
         >
           <DataGrid
             autoHeight
-            getRowHeight={() => 'auto'}
+            getRowHeight={() => "auto"}
             rows={allFeedbacks}
             columns={feedbackColumnsData}
             apiRef={apiRef}
@@ -100,7 +111,7 @@ const Feedback = () => {
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Feedback
+export default Feedback;

@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { orderSuccessfulProvider } from "../Providers/OrderSuccessfulProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { sendReview } from "../../../../../store/auth-actions";
+import { baseURL } from "../../../../../api/api";
 
 const OrderSuccessful = ({ order, message, redirecto }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -22,16 +23,13 @@ const OrderSuccessful = ({ order, message, redirecto }) => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch(
-        "http://localhost:8000/auth/product/" + order.prodId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await fetch(`${baseURL}auth/product/` + order.prodId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
       const productData = await response.json();
       setData(productData);
       console.log(productData);

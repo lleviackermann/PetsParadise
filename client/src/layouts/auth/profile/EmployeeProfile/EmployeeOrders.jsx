@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeOrderStatus } from "../../../../store/auth-actions";
 import CircularProgress from "@mui/material/CircularProgress";
+import { baseURL } from "../../../../api/api";
 
 const YourOrders = () => {
   const token = useSelector((state) => state.auth.userToken);
@@ -45,7 +46,7 @@ const YourOrders = () => {
     const sendRequest = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/employee/${employeeDetails.id}/orders`,
+          `${baseURL}employee/${employeeDetails.id}/orders`,
           {
             method: "GET",
             headers: {

@@ -1,12 +1,13 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
 import Topbar from "../Components/Topbar";
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from '../theme';
-import { useHistory } from 'react-router-dom'
-import { announcementColumnData } from '../columnsData';
-import { useSelector } from 'react-redux';
+import { tokens } from "../theme";
+import { useHistory } from "react-router-dom";
+import { announcementColumnData } from "../columnsData";
+import { useSelector } from "react-redux";
+import { baseURL } from "../../api/api";
 
 const Announcements = () => {
   const theme = useTheme();
@@ -17,21 +18,24 @@ const Announcements = () => {
   const [allAnnouncements, setAllAnnouncements] = useState([]);
   const getData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/profile/admin/getAllAnnouncements', {
-        method: 'GET',
-        headers: {
-          "Authorization": verifyToken,
+      const response = await fetch(
+        `${baseURL}profile/admin/getAllAnnouncements`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: verifyToken,
+          },
         }
-      });
+      );
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setAllAnnouncements(data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -39,32 +43,43 @@ const Announcements = () => {
 
   const handleClick = () => {
     history.push("/admin/sendmessages");
-  }
-
+  };
 
   return (
     <Box sx={{ height: "100vh", overflow: "auto" }}>
       <Topbar title="Announcements" message="Check your messages!" />
       <Box display="flex" justifyContent="space-between">
-        <Box marginLeft="1rem" padding="4px"
-          fontStyle="bold" width="fit-content" borderBottom="2px solid" borderColor={colors.greenAccent[400]}
-          display="flex" justifyContent="center" alignContent="center"
+        <Box
+          marginLeft="1rem"
+          padding="4px"
+          fontStyle="bold"
+          width="fit-content"
+          borderBottom="2px solid"
+          borderColor={colors.greenAccent[400]}
+          display="flex"
+          justifyContent="center"
+          alignContent="center"
         >
-          <Typography variant='h3'>Your Messages</Typography>
+          <Typography variant="h3">Your Messages</Typography>
         </Box>
-        <button style={{
-          padding: "10px 20px",
-          cursor: "pointer",
-          fontSize: 22,
-          color: "white",
-          border: "3px",
-          borderColor: colors.greenAccent[400],
-          borderStyle: "dashed",
-          marginRight: "2rem",
-          background: "transparent",
-          borderRadius: "10px",
-          borderSpacing: "1px"
-        }} onClick={handleClick}>+ Send Messages</button>
+        <button
+          style={{
+            padding: "10px 20px",
+            cursor: "pointer",
+            fontSize: 22,
+            color: "white",
+            border: "3px",
+            borderColor: colors.greenAccent[400],
+            borderStyle: "dashed",
+            marginRight: "2rem",
+            background: "transparent",
+            borderRadius: "10px",
+            borderSpacing: "1px",
+          }}
+          onClick={handleClick}
+        >
+          + Send Messages
+        </button>
       </Box>
       <Box m="20px">
         <Box
@@ -90,7 +105,6 @@ const Announcements = () => {
               fontSize: 23,
               fontWeight: 700,
               textWrap: "wrap",
-
             },
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
@@ -106,14 +120,14 @@ const Announcements = () => {
         >
           <DataGrid
             autoHeight
-            getRowHeight={() => 'auto'}
+            getRowHeight={() => "auto"}
             rows={allAnnouncements}
             columns={announcementColumnData}
           />
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Announcements
+export default Announcements;

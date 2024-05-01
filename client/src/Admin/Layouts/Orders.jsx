@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Topbar from "../Components/Topbar";
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
-import { tokens } from '../theme';
+import { tokens } from "../theme";
 import { ordersColumnData } from "../columnsData";
-import { useSelector } from 'react-redux';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useSelector } from "react-redux";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { baseURL } from "../../api/api";
 
 const Orders = () => {
   const theme = useTheme();
@@ -17,21 +18,21 @@ const Orders = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/profile/admin/getAllOrders', {
-        method: 'GET',
+      const response = await fetch(`${baseURL}profile/admin/getAllOrders`, {
+        method: "GET",
         headers: {
-          "Authorization": verifyToken,
-        }
+          Authorization: verifyToken,
+        },
       });
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setAllOrders(data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -39,46 +40,59 @@ const Orders = () => {
 
   const deleteSelectedRows = async () => {
     const idToDelete = [];
-    apiRef.current.getSelectedRows().forEach((value) => { idToDelete.push(value.id) });
+    apiRef.current.getSelectedRows().forEach((value) => {
+      idToDelete.push(value.id);
+    });
     console.log(idToDelete);
     try {
-      const response = await fetch('http://localhost:8000/profile/admin/deleteOrders', {
-        method: 'DELETE',
+      const response = await fetch(`${baseURL}profile/admin/deleteOrders`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": verifyToken,
+          Authorization: verifyToken,
         },
         body: JSON.stringify({
-          idToDelete: idToDelete
-        })
+          idToDelete: idToDelete,
+        }),
       });
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setAllOrders(data);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  }
+  };
 
   const changeRowsCount = () => {
     const updatedCount = Number(apiRef.current.getSelectedRows().size);
-    if(updatedCount > 0) setIsButtonDisabled(false);
+    if (updatedCount > 0) setIsButtonDisabled(false);
     else setIsButtonDisabled(true);
-  }
+  };
 
-  const buttonStyle = isButtonDisabled ? { cursor: 'not-allowed', fontSize: "1rem" } : {fontSize: "1rem"};
+  const buttonStyle = isButtonDisabled
+    ? { cursor: "not-allowed", fontSize: "1rem" }
+    : { fontSize: "1rem" };
 
   return (
     <Box sx={{ height: "100vh", overflow: "auto" }}>
       <Topbar title="Orders" message="Find all orders here!" />
       <Box display="flex" justifyContent="space-between" alignContent="center">
-        <Box marginLeft="1rem" padding="8px"
-          fontStyle="bold" width="fit-content" borderBottom="2px solid" borderColor={colors.greenAccent[400]}
-          display="flex" justifyContent="center" alignContent="center"
+        <Box
+          marginLeft="1rem"
+          padding="8px"
+          fontStyle="bold"
+          width="fit-content"
+          borderBottom="2px solid"
+          borderColor={colors.greenAccent[400]}
+          display="flex"
+          justifyContent="center"
+          alignContent="center"
         >
-          <Typography variant='h3' fontSize="30px" fontWeight="700">Your Orders</Typography>
+          <Typography variant="h3" fontSize="30px" fontWeight="700">
+            Your Orders
+          </Typography>
         </Box>
       </Box>
       <Box m="20px">
@@ -86,7 +100,7 @@ const Orders = () => {
           variant="contained"
           startIcon={<DeleteIcon />}
           style={buttonStyle}
-          color='error'
+          color="error"
           onClick={deleteSelectedRows}
           disabled={isButtonDisabled}
         >
@@ -115,7 +129,6 @@ const Orders = () => {
               fontSize: 23,
               fontWeight: 700,
               textWrap: "wrap",
-
             },
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
@@ -131,7 +144,7 @@ const Orders = () => {
         >
           <DataGrid
             autoHeight
-            getRowHeight={() => 'auto'}
+            getRowHeight={() => "auto"}
             rows={allOrders}
             columns={ordersColumnData}
             apiRef={apiRef}
@@ -142,7 +155,7 @@ const Orders = () => {
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Orders
+export default Orders;

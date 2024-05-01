@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import { changeAppointmentStatus } from "../../../../store/auth-actions";
 import CircularProgress from "@mui/material/CircularProgress";
+import { baseURL } from "../../../../api/api";
 
 const EmployeeAppointments = () => {
   const [data, setData] = useState([]);
@@ -20,7 +21,7 @@ const EmployeeAppointments = () => {
     const sendRequest = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/employee/${employeeDetails.id}/appointments`,
+          `${baseURL}employee/${employeeDetails.id}/appointments`,
           {
             method: "GET",
             headers: {

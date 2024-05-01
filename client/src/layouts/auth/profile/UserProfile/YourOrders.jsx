@@ -5,6 +5,7 @@ import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { baseURL } from "../../../../api/api";
 
 const YourOrders = () => {
   const token = useSelector((state) => state.auth.userToken);
@@ -16,7 +17,7 @@ const YourOrders = () => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const response = await fetch("http://localhost:8000/auth/order", {
+        const response = await fetch(`${baseURL}auth/order`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

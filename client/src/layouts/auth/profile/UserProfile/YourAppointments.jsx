@@ -5,6 +5,7 @@ import { orderSuccessfulProvider } from "./Providers/OrderSuccessfulProvider";
 import { useRecoilState } from "recoil";
 import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { baseURL } from "../../../../api/api";
 
 const YourAppointments = () => {
   const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ const YourAppointments = () => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const response = await fetch("http://localhost:8000/appointment", {
+        const response = await fetch(`${baseURL}appointment`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
