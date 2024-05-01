@@ -8,11 +8,8 @@ import Order from "../models/Order.js";
 import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
 import Review from "../models/Review.js";
-// import { client } from "../lib/db.js";
-import { getOrSetCache, client } from "../lib/db.js";
-import { stringify } from "stylis";
+import { getOrSetCache } from "../lib/db.js";
 
-// const redis = new Redis();
 
 // User Register
 export const registerUser = async (req, res) => {
