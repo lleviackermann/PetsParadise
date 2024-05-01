@@ -41,6 +41,7 @@ const MaterialUiOrders = () => {
         if (status === "Pending") {
           return (
             <button
+              className={classes.button}
               onClick={() => handleAcceptOrCancel("accept", params.row.id)}
             >
               Accept
@@ -61,8 +62,6 @@ const MaterialUiOrders = () => {
   console.log(data);
 
   const handleAcceptOrCancel = async (option, index) => {
-    alert("button clicked", index);
-    console.log(index);
     // const selectedOrder = data[index];
     const selectedOrder = data.find((obj) => obj._id === index);
     dispatch(changeOrderStatus(option, selectedOrder._id, token));
@@ -91,10 +90,13 @@ const MaterialUiOrders = () => {
             headers: {
               "Content-Type": "application/json",
               Authorization: "Bearer " + token,
+              "Cache-Control": "no-cache",
+              Pragma: "no-cache",
             },
           }
         );
         const orderData = await response.json();
+        console.log(orderData);
         const modifiedOrderData = orderData.map((order) => ({
           ...order,
           id: order._id,

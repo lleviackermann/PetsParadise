@@ -1,6 +1,10 @@
 import express from "express";
 import Order from "../../server/models/Order.js";
 import Appointment from "../../server/models/Appointment.js";
+import Employee from "../models/Employee.js";
+import Product from "../models/Product.js";
+import User from "../models/User.js";
+import { client } from "../lib/db.js";
 const router = express.Router();
 
 /**
@@ -176,12 +180,221 @@ router.post("/updateAppointment", async (req, res) => {
       return res.status(404).json({ error: "Appointment not found." });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Appointment updated successfully", order: appointments });
+    return res.status(200).json({
+      message: "Appointment updated successfully",
+      order: appointments,
+    });
   } catch (error) {
     console.error("Error occurred while updating appointment:", error);
     return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/:employeeId/orders", async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const cachedOrders = await client.hgetall(`employee:${employeeId}:orders`);
+
+    if (cachedOrders && Object.keys(cachedOrders).length > 0) {
+      const cachedOrdersArray = Object.values(cachedOrders)
+        .map((order) => {
+          try {
+            return JSON.parse(order);
+          } catch (error) {
+            console.error("Error parsing cached order:", error);
+            console.error("Problematic order:", order); // Log problematic order
+            return null;
+          }
+        })
+        .filter((order) => order !== null);
+      res.json(cachedOrdersArray);
+    } else {
+      console.log("Data not found in cache. Fetching from database...");
+      const employee = await Employee.findById(employeeId).populate({
+        path: "orders",
+        populate: [
+          { path: "userId", select: "firstName lastName" },
+          { path: "prodId", select: "name productType" },
+        ],
+      });
+      if (!employee) {
+        return res.status(404).json({ message: "Employee not found" });
+      }
+      const orders = employee.orders.map((order) => ({
+        _id: order._id,
+        prodId: order.prodId._id,
+        userId: order.userId._id,
+        status: order.status,
+        assigned: order.assigned,
+        amount: order.amount,
+        quantity: order.quantity,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+        userName: `${order.userId.firstName} ${order.userId.lastName}`,
+        productName: order.prodId.name,
+        productType: order.prodId.productType,
+      }));
+      const redisOrders = {};
+      orders.forEach((order) => {
+        redisOrders[order._id.toString()] = JSON.stringify(order);
+      });
+      await client.hmset(`employee:${employeeId}:orders`, redisOrders);
+      await client.expire(`employee:${employeeId}:orders`, 60);
+      res.json(orders);
+    }
+  } catch (error) {
+    console.error("Error getting employee orders:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/:employeeId/appointments", async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const employee = await Employee.findById(employeeId).populate({
+      path: "appointments",
+      populate: [{ path: "userId", select: "firstName lastName" }],
+    });
+    console.log(employee.appointments);
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+    const appointments = employee.appointments.map((appointment) => ({
+      _id: appointment._id,
+      userId: appointment.userId._id,
+      status: appointment.status,
+      appointmentType: appointment.appointmentType,
+      time: appointment.time,
+      pack: appointment.package,
+      number: appointment.number,
+      date: appointment.date,
+      userName: `${appointment.userId.firstName} ${appointment.userId.lastName}`,
+    }));
+    res.status(201).send(appointments);
+  } catch (error) {
+    console.error("Error getting employee orders:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/getEmployees", async (req, res, next) => {
+  console.log("Got request");
+  try {
+    const employees = await Employee.find({
+      $or: [{ role: "orders" }, { role: "appointments" }],
+    }).populate("orders appointments");
+    const formattedEmployeesData = employees.map((employee) => {
+      return {
+        id: employee.employeeId,
+        name: employee.name,
+        email: employee.email,
+        role: employee.role,
+        appointments: employee.appointments,
+        orders: employee.orders,
+      };
+    });
+    return res.status(200).json(formattedEmployeesData);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:employeeId/statistics", async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+
+    const employee = await Employee.findById(employeeId)
+      .populate("orders")
+      .populate("appointments");
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    let statistics = {};
+
+    if (employee.role === "orders") {
+      const countOrdersByStatus = employee.orders.reduce(
+        (acc, order) => {
+          if (order.status === "Pending") {
+            acc.pending++;
+          } else if (order.status === "Delivered") {
+            acc.delivered++;
+          }
+          return acc;
+        },
+        { pending: 0, delivered: 0 }
+      );
+
+      statistics = {
+        orderStatistics: [
+          {
+            data: [
+              {
+                id: 0,
+                value: countOrdersByStatus.delivered,
+                label: "delivered",
+                color: "#ffe4c1",
+              },
+              {
+                id: 1,
+                value: countOrdersByStatus.pending,
+                label: "pending",
+                color: "#c1d1ff",
+              },
+            ],
+          },
+        ],
+      };
+    } else if (employee.role === "appointments") {
+      console.log(employee.appointments);
+      const countAppointmentsByStatus = employee.appointments.reduce(
+        (acc, appointment) => {
+          if (appointment.status === "Scheduled") {
+            acc.scheduled++;
+          } else if (appointment.status === "Pending") {
+            acc.pending++;
+          } else if (appointment.status === "Cancelled") {
+            acc.cancelled++;
+          }
+          return acc;
+        },
+        { scheduled: 0, cancelled: 0, pending: 0 }
+      );
+
+      // Format statistics
+      statistics = {
+        appointmentStatistics: [
+          {
+            data: [
+              {
+                id: 0,
+                value: countAppointmentsByStatus.scheduled,
+                label: "Scheduled",
+                color: "#ffe4c1",
+              },
+              {
+                id: 1,
+                value: countAppointmentsByStatus.cancelled,
+                label: "Cancelled",
+                color: "#c1d1ff",
+              },
+              {
+                id: 2,
+                value: countAppointmentsByStatus.pending,
+                label: "Pending",
+                color: "#c1ffc1",
+              },
+            ],
+          },
+        ],
+      };
+    }
+
+    res.json(statistics);
+  } catch (error) {
+    console.error("Error fetching employee statistics:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 

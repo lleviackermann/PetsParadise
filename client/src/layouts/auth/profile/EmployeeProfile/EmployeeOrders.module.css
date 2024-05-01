@@ -84,7 +84,7 @@
   background-color: rgb(255, 81, 81);
 }
 
-.tableHeaderCell{
+.tableHeaderCell {
   border-right: 1px solid #ccc;
 }
 
@@ -112,6 +112,25 @@
 .arrowIcon {
   cursor: pointer;
   margin-left: 5px;
+}
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 4px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #45a049;
 }
 
 @media screen and (max-width: 1200px) {

@@ -8,7 +8,7 @@ import Order from "../models/Order.js";
 import Count from "../models/Count.js";
 import Appointment from "../models/Appointment.js";
 import Review from "../models/Review.js";
-// import { client } from "../lib/db.js";
+import { client } from "../lib/db.js";
 
 // const redis = new Redis();
 
@@ -285,7 +285,7 @@ export const orderItems = async (req, res) => {
     await user.populate("orders");
     const updatedCart = user.cart;
     res.json({ updatedCart });
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getOrderedItems = async (req, res) => {
@@ -309,15 +309,23 @@ export const getProductDetails = async (req, res) => {
 };
 
 export const getStatistics = async (req, res) => {
-  const token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  let token = null;
+  if (req.headers.authorization) {
+    token = jwt.decode(req.headers.authorization.split(" ")[1]);
+  }
   let query = {};
+  let cache;
   if (token != null) {
     query = { userId: token.id };
+    cache = token.id;
+  }
+  if (token == null) {
+    cache = "";
   }
   console.log(query);
   console.log("Before retrieving data from Redis");
 
-  client.hgetall(`Statistics:${token.id}`, async (err, cachedData) => {
+  client.hgetall(`Statistics:${cache}`, async (err, cachedData) => {
     if (err) {
       console.error("Redis error:", err);
       return res.status(500).send({ error: "Internal Server Error" });
@@ -325,7 +333,7 @@ export const getStatistics = async (req, res) => {
     let statistics;
 
     if (cachedData && Object.keys(cachedData).length !== 0) {
-      console.log(`Retrieved statistics for user ${token.id} from Redis cache`);
+      console.log(`Retrieved statistics for user ${cache} from Redis cache`);
       const parsedData = {};
       for (const key in cachedData) {
         parsedData[key] = JSON.parse(cachedData[key]);
@@ -337,7 +345,7 @@ export const getStatistics = async (req, res) => {
 
     // // else {
     console.log(
-      `Statistics for user ${token.id} not found in Redis cache, calculating...`
+      `Statistics for user ${2} not found in Redis cache, calculating...`
     );
 
     let orders, appointments, products;
@@ -353,6 +361,8 @@ export const getStatistics = async (req, res) => {
       console.error("Error fetching data from MongoDB:", error);
       return res.status(500).send({ error: "Internal Server Error" });
     }
+
+    console.log(orders);
 
     const countOrdersByStatus = orders.reduce(
       (acc, order) => {
@@ -468,7 +478,7 @@ export const getStatistics = async (req, res) => {
     console.log(statistics);
 
     client.hmset(
-      `Statistics:${token.id}`,
+      `Statistics:${cache}`,
       "orderStatistics",
       JSON.stringify(orderStatistics),
       "appointmentStatistics",
@@ -479,12 +489,18 @@ export const getStatistics = async (req, res) => {
         if (err) {
           console.error("Error storing data in Redis cache:", err);
         } else {
-          console.log(`Stored statistics for user ${token.id} in Redis cache`);
+          console.log(`Stored statistics for user ${cache} in Redis cache`);
+          // Set expiration time for the cache
+          client.expire(`Statistics:${cache}`, 60, (err, reply) => {
+            if (err) {
+              console.error("Error setting expiration time for cache:", err);
+            } else {
+              console.log(`Expiration time set for cache: ${60} seconds`);
+            }
+          });
         }
       }
     );
-
-    console.log("Sending statistics");
     res.status(201).send({
       orderStatistics,
       appointmentStatistics,

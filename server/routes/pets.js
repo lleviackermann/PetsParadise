@@ -136,15 +136,30 @@ router.get("/dog", async (req, res) => {
       );
 
       try {
-        // Fetch data from the database
         pets = await Product.find({ productType: "pet", petType: "dog" });
         console.log(pets);
 
-        // Update the cache with the fetched data
         const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
-        client.hmset("Products:dogs", ...petData);
+        client.hmset("Products:dogs", ...petData, (err, response) => {
+          if (err) {
+            console.error("Error storing data in Redis:", err);
+          } else {
+            console.log("Data stored in Redis for key 'Products:dogs'");
+            client.expire("Products:dogs", 600, (err, reply) => {
+              if (err) {
+                console.error(
+                  "Error setting expiration time for key 'Products:dogs':",
+                  err
+                );
+              } else {
+                console.log(
+                  "Expiration time set for key 'Products:dogs': 3600 seconds"
+                );
+              }
+            });
+          }
+        });
 
-        // Send the fetched data to the client
         res.status(200).send(pets);
       } catch (error) {
         console.error("Database error:", error);
@@ -177,9 +192,26 @@ router.get("/cat", async (req, res) => {
       try {
         pets = await Product.find({ productType: "pet", petType: "cat" });
         const petData = pets.map((pet, index) => [index, JSON.stringify(pet)]);
-        client.hmset("Products:cats", ...petData);
+        client.hmset("Products:cats", ...petData, (err, response) => {
+          if (err) {
+            console.error("Error storing data in Redis:", err);
+          } else {
+            console.log("Data stored in Redis for key 'Products:dogs'");
+            client.expire("Products:cats", 600, (err, reply) => {
+              if (err) {
+                console.error(
+                  "Error setting expiration time for key 'Products:dogs':",
+                  err
+                );
+              } else {
+                console.log(
+                  "Expiration time set for key 'Products:dogs': 3600 seconds"
+                );
+              }
+            });
+          }
+        });
 
-        // Send the fetched data to the client
         res.status(200).send(pets);
       } catch (error) {
         console.error("Database error:", error);

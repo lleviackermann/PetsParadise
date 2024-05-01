@@ -36,7 +36,7 @@ const client = new Redis({
   password: process.env.REDIS_PWD,
 });
 
-// client.del("Products:cats", async (err, response) => {
+// client.del("Products:dogs", async (err, response) => {
 //   if (err) {
 //     console.error("Redis error:", err);
 //     return res.status(500).send({ error: "Internal Server Error" });
@@ -54,11 +54,27 @@ const client = new Redis({
 //     // Handle success
 //   }
 // });
-// client.del("userStatistics", (err, response) => {
+// client.del("Statistics", (err, response) => {
 //   if (err) {
 //     console.error("Error removing userStatistics from Redis cache:", err);
 //   } else {
 //     console.log("Removed userStatistics from Redis cache");
+//   }
+// });
+
+// client.del(`Statistics:${""}`, (err, response) => {
+//   if (err) {
+//     console.error("Error removing data from Redis cache:", err);
+//   } else {
+//     console.log(`Removed statistics for user ${1} from Redis cache`);
+//   }
+// });
+
+// client.del(`employee:65d773fc825ca180b0eedb24:orders`, (err, response) => {
+//   if (err) {
+//     console.error("Error removing data from Redis cache:", err);
+//   } else {
+//     console.log(`Removed statistics for user ${1} from Redis cache`);
 //   }
 // });
 
