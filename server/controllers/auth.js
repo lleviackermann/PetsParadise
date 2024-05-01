@@ -111,34 +111,38 @@ export const registerAdmin = async (req, res) => {
 };
 
 // Login
-export const login = async (req, res) => {
-  const { flag, userId, password } = req.body;
-
-  let person;
-  if (flag == "Admin") {
-    person = await Admin.findOne({ adminId: userId });
-  } else if (flag == "Employee" || flag == "Manager") {
-    person = await Employee.findOne({ employeeId: userId });
-  } else if (flag == "User") {
-    person = await User.findOne({ email: userId });
+export const login = async (req, res, next) => {
+  try {
+    const { flag, userId, password } = req.body;
+  
+    let person;
+    if (flag == "Admin") {
+      person = await Admin.findOne({ adminId: userId });
+    } else if (flag == "Employee" || flag == "Manager") {
+      person = await Employee.findOne({ employeeId: userId });
+    } else if (flag == "User") {
+      person = await User.findOne({ email: userId });
+    }
+    console.log(flag, userId, password);
+    if (!person) return res.status(400).json({ msg: "User does not exist. " });
+    const matched = bcrypt.compareSync(password, person.password);
+    // if (flag == "Admin") {
+    //   return res.status(200).json({ person });
+    // }
+    // if (flag === "Employee") {
+    //   return res.status(200).json({ person });
+    // }
+    if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
+  
+    const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
+    if (flag === "User") await person.populate("cart.productId");
+    const cart = person.cart;
+    person.password = "";
+    person.cart = [];
+    return res.status(200).json({ token, person, cart });
+  } catch(err) {
+    next(err);
   }
-  console.log(flag, userId, password);
-  if (!person) return res.status(400).json({ msg: "User does not exist. " });
-  const matched = bcrypt.compareSync(password, person.password);
-  // if (flag == "Admin") {
-  //   return res.status(200).json({ person });
-  // }
-  // if (flag === "Employee") {
-  //   return res.status(200).json({ person });
-  // }
-  if (!matched) return res.status(401).json({ msg: "Invalid Credentials" });
-
-  const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET);
-  if (flag === "User") await person.populate("cart.productId");
-  const cart = person.cart;
-  person.password = "";
-  person.cart = [];
-  return res.status(200).json({ token, person, cart });
 };
 
 // add to cart
