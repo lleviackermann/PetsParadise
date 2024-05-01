@@ -1,3 +1,3 @@
-const baseURL = "https://petsparadiseapi.onrender.com";
+const baseURL = "https://petsparadiseapi.onrender.com/";
 
 export { baseURL };
