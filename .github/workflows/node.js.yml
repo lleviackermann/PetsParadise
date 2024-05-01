@@ -30,8 +30,10 @@ jobs:
         MONGO_URL: ${{ secrets.MONGO_URL }}
         PORT: ${{ secrets.PORT }}
       run: |
+        npm install pm2 -g
         npm install
-        npm start
+        pm2 start index.js
         npm test
+        pm2 stop index
       
       working-directory: server
