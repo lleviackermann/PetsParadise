@@ -86,7 +86,6 @@ app.get("/", async (req, res) => {
   console.log("Home request");
   res.render("index.ejs");
 });
-const PORT = process.env.PORT || 6001;
 
 const check = async () => {
   const products = await Product.find();
@@ -100,6 +99,7 @@ const check = async () => {
   });
 };
 
+const PORT = process.env.PORT || 6001;
 app.get("/updatecount", async (req, res) => {
   const count = await Count.findOne({ countId: "100" });
   console.log(count);

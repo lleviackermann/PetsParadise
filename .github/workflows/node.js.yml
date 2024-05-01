@@ -29,6 +29,7 @@ jobs:
       env:
         MONGO_URL: ${{ secrets.MONGO_URL }}
         PORT: ${{ secrets.PORT }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: |
         npm install pm2 -g
         npm install
