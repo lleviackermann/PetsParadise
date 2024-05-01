@@ -32,8 +32,8 @@ jobs:
       run: |
         npm install pm2 -g
         npm install
-        sleep 20
         pm2 start index.js
+        sleep 20
         npm test
         pm2 stop index
       
