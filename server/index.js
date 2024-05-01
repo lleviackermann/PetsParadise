@@ -98,6 +98,7 @@ const check = async () => {
     breed_group.add(product.breed_group);
   });
 };
+const PORT = process.env.PORT || 6001;
 
 app.get("/updatecount", async (req, res) => {
   const count = await Count.findOne({ countId: "100" });
@@ -109,7 +110,6 @@ app.get("/updatecount", async (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 6001;
 
 const options = {
   swaggerDefinition: {
