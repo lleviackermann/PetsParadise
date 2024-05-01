@@ -5,6 +5,7 @@ import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import { tokens } from '../theme';
 import { ordersColumnData } from "../columnsData";
 import { useSelector } from 'react-redux';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Orders = () => {
   const theme = useTheme();
@@ -12,8 +13,9 @@ const Orders = () => {
   const apiRef = useGridApiRef();
   const [allOrders, setAllOrders] = useState([]);
   const verifyToken = useSelector((state) => state.auth.userToken);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const getData = async() => {
+  const getData = async () => {
     try {
       const response = await fetch('http://localhost:8000/profile/admin/getAllOrders', {
         method: 'GET',
@@ -30,18 +32,18 @@ const Orders = () => {
       console.error('Error:', error);
     }
   }
-  
+
   useEffect(() => {
     getData();
   }, []);
 
   const deleteSelectedRows = async () => {
     const idToDelete = [];
-    apiRef.current.getSelectedRows().forEach((value) => {idToDelete.push(value.id)});
+    apiRef.current.getSelectedRows().forEach((value) => { idToDelete.push(value.id) });
     console.log(idToDelete);
     try {
       const response = await fetch('http://localhost:8000/profile/admin/deleteOrders', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
           "Authorization": verifyToken,
@@ -60,8 +62,16 @@ const Orders = () => {
     }
   }
 
+  const changeRowsCount = () => {
+    const updatedCount = Number(apiRef.current.getSelectedRows().size);
+    if(updatedCount > 0) setIsButtonDisabled(false);
+    else setIsButtonDisabled(true);
+  }
+
+  const buttonStyle = isButtonDisabled ? { cursor: 'not-allowed', fontSize: "1rem" } : {fontSize: "1rem"};
+
   return (
-    <Box sx={{height: "100vh",overflow: "auto"}}>
+    <Box sx={{ height: "100vh", overflow: "auto" }}>
       <Topbar title="Orders" message="Find all orders here!" />
       <Box display="flex" justifyContent="space-between" alignContent="center">
         <Box marginLeft="1rem" padding="8px"
@@ -69,10 +79,19 @@ const Orders = () => {
           display="flex" justifyContent="center" alignContent="center"
         >
           <Typography variant='h3' fontSize="30px" fontWeight="700">Your Orders</Typography>
-          <Button variant='contained' onClick={deleteSelectedRows}>Delete The selected orders</Button>
         </Box>
       </Box>
       <Box m="20px">
+        <Button
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          style={buttonStyle}
+          color='error'
+          onClick={deleteSelectedRows}
+          disabled={isButtonDisabled}
+        >
+          <b>Delete The Selected Orders</b>
+        </Button>
         <Box
           m="20px 0 0 0"
           height="75vh"

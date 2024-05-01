@@ -345,7 +345,7 @@ export const removeEmployees = async (req, res, next) => {
     const { employeesIdToDelete } = req.body;
 
     for( let i = 0; i < employeesIdToDelete.length; i++) {
-      await Employee.findByIdAndDelete(employeesIdToDelete[i]);
+      await Employee.findOneAndDelete({ employeeId: employeesIdToDelete[i] });
     }
     const employees = await Employee.find();
     const formattedEmployeesData = employees.map((employee) => {
