@@ -144,6 +144,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(errorHandler);
 const MONGO_URL = process.env.MONGO_URL;
 console.log(MONGO_URL);
+console.log(PORT);
 mongoose
   .connect(MONGO_URL, {
     useNewUrlParser: true,

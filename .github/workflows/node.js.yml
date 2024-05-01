@@ -27,16 +27,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies and run tests
       env:
-        MONGO_URL: ${{ secrets.MONGO_URL }}
-        PORT: ${{ secrets.PORT }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        OTP_LENGTH: ${{ secrets.OTP_LENGTH }}
-        MAIL_HOST: ${{ secrets.MAIL_HOST }}
-        MAIL_USER: ${{ secrets.MAIL_USER }}
-        MAIL_PASS: ${{ secrets.MAIL_PASS }}
-        REDIS_PWD: ${{ secrets.REDIS_PWD }}
-        REDIS_HOST: ${{ secrets.REDIS_HOST }}
-        REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        MONGO_URL: ${{ secrets.pets.MONGO_URL }}
+        PORT: ${{ secrets.pets.PORT }}
+        JWT_SECRET: ${{ secrets.pets.JWT_SECRET }}
+        OTP_LENGTH: ${{ secrets.pets.OTP_LENGTH }}
+        MAIL_HOST: ${{ secrets.pets.MAIL_HOST }}
+        MAIL_USER: ${{ secrets.pets.MAIL_USER }}
+        MAIL_PASS: ${{ secrets.pets.MAIL_PASS }}
+        REDIS_PWD: ${{ secrets.pets.REDIS_PWD }}
+        REDIS_HOST: ${{ secrets.pets.REDIS_HOST }}
+        REDIS_PORT: ${{ secrets.pets.REDIS_PORT }}
       run: |
         npm install
         npm start
