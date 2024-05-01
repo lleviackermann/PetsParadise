@@ -97,9 +97,6 @@ const check = async () => {
     petType.add(product.petType);
     breed_group.add(product.breed_group);
   });
-  console.log(productType);
-  console.log(petType);
-  console.log(breed_group);
 };
 
 app.get("/updatecount", async (req, res) => {
