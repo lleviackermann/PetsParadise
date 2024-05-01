@@ -44,7 +44,7 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       error: error.message.includes("duplicate key")
-        ? "Duplicate"
+        ? "Email Id already exists"
         : error.message,
     });
   }
