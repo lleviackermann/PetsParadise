@@ -82,11 +82,6 @@ app.use("/profile/admin", verifyToken, adminRoutes);
 app.post("/sendFeedback", sendFeedback);
 
 
-app.get("/", async (req, res) => {
-  console.log("Home request");
-  res.render("index.ejs");
-});
-
 const check = async () => {
   const products = await Product.find();
   const productType = new Set();
