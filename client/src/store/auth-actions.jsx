@@ -47,7 +47,7 @@ export const changeOrderStatus = (option, orderId, token) => {
 export const changeAppointmentStatus = (option, appId, token) => {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${baseURL}/employee/updateAppointment`, {
+      const response = await fetch(`${baseURL}employee/updateAppointment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
