@@ -42,7 +42,6 @@ describe('GET /auth/orders', () => {
     it('Should return a list of orders', async () => {
         const response = await request(baseURL).get('auth/orders');
 
-        console.log(response.body);
         expect(response.status).toBe(200);
         expect(response.body[0]).toHaveProperty('status');
     })

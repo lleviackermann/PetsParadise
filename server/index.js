@@ -139,8 +139,7 @@ const options = {
 };
 
 const MONGO_URL = process.env.MONGO_URL;
-console.log(MONGO_URL);
-console.log(PORT);
+
 const specs = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
