@@ -4,7 +4,8 @@ import Appointment from "../../server/models/Appointment.js";
 import Employee from "../models/Employee.js";
 import Product from "../models/Product.js";
 import User from "../models/User.js";
-import { client } from "../lib/db.js";
+import { getOrSetCache } from "../lib/db.js";
+// import { client } from "../lib/db.js";
 const router = express.Router();
 
 /**
@@ -191,25 +192,9 @@ router.post("/updateAppointment", async (req, res) => {
 });
 
 router.get("/:employeeId/orders", async (req, res) => {
-  try {
-    const { employeeId } = req.params;
-    const cachedOrders = await client.hgetall(`employee:${employeeId}:orders`);
-
-    if (cachedOrders && Object.keys(cachedOrders).length > 0) {
-      const cachedOrdersArray = Object.values(cachedOrders)
-        .map((order) => {
-          try {
-            return JSON.parse(order);
-          } catch (error) {
-            console.error("Error parsing cached order:", error);
-            console.error("Problematic order:", order); // Log problematic order
-            return null;
-          }
-        })
-        .filter((order) => order !== null);
-      res.json(cachedOrdersArray);
-    } else {
-      console.log("Data not found in cache. Fetching from database...");
+  const { employeeId } = req.params;
+  getOrSetCache(`employee:${employeeId}:orders`, 30, async () => {
+    try {
       const employee = await Employee.findById(employeeId).populate({
         path: "orders",
         populate: [
@@ -220,7 +205,7 @@ router.get("/:employeeId/orders", async (req, res) => {
       if (!employee) {
         return res.status(404).json({ message: "Employee not found" });
       }
-      const orders = employee.orders.map((order) => ({
+      const orders = employee.ordersge.map((order) => ({
         _id: order._id,
         prodId: order.prodId._id,
         userId: order.userId._id,
@@ -234,18 +219,13 @@ router.get("/:employeeId/orders", async (req, res) => {
         productName: order.prodId.name,
         productType: order.prodId.productType,
       }));
-      const redisOrders = {};
-      orders.forEach((order) => {
-        redisOrders[order._id.toString()] = JSON.stringify(order);
-      });
-      await client.hmset(`employee:${employeeId}:orders`, redisOrders);
-      await client.expire(`employee:${employeeId}:orders`, 60);
-      res.json(orders);
+      return orders;
+    } catch (err) {
+      console.log(err);
     }
-  } catch (error) {
-    console.error("Error getting employee orders:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+  }).then((data) => {
+    res.json(data);
+  });
 });
 
 router.get("/:employeeId/appointments", async (req, res) => {

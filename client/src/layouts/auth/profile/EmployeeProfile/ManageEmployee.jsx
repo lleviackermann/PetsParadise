@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { DataGrid } from "@mui/x-data-grid";
 import classes from "./ManageEmployee.module.css";
 import Modal from "../../../Ui/Modal";
+import { baseURL } from "../../../../api/api";
 
 const ManageEmployee = () => {
   const [employees, setEmployees] = useState([]);
@@ -63,9 +64,7 @@ const ManageEmployee = () => {
 
   useEffect(() => {
     const sendRequest = async () => {
-      const response = await fetch(
-        "http://localhost:8000/employee/getEmployees"
-      );
+      const response = await fetch(`${baseURL}employee/getEmployees`);
       const data = await response.json();
       setEmployees(data);
       console.log(data);
@@ -117,17 +116,14 @@ const ManageEmployee = () => {
     alert("registering employee");
     const registerEmployee = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8000/auth/register/employee",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              // Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify(employeeData),
-          }
-        );
+        const response = await fetch(`${baseURL}auth/register/employee`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(employeeData),
+        });
         const data = await response.json();
         console.log(data);
       } catch (error) {

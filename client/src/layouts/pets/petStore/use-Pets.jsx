@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { baseURL } from "../../../api/api";
 const catergoryData = {
   dog: [
     { id: 1, checked: false, label: "Sporting" },
@@ -11,6 +12,7 @@ const catergoryData = {
     { id: 3, checked: false, label: "Working" },
   ],
 };
+p;
 
 function usePets(pet, priceRange) {
   const [selectedPrice, setSelectedPrice] = useState(priceRange);
@@ -23,7 +25,7 @@ function usePets(pet, priceRange) {
   useEffect(() => {
     setIsLoading(true);
     const fetchPets = async () => {
-      const response = await fetch("http://localhost:8000/pets/" + pet, {
+      const response = await fetch(`${baseURL}pets/` + pet, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

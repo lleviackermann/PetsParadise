@@ -3,6 +3,7 @@ import servicesImages from "./servicesImages";
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
 import classes from "./servicesLandingPage.module.css";
+import { baseURL } from "../../../api/api";
 
 function AppointmentSection(props) {
   const [pack, setPack] = useState("");
@@ -79,23 +80,20 @@ function AppointmentSection(props) {
       return;
     }
     const sendRequest = async () => {
-      const response = await fetch(
-        "http://localhost:8000/appointment/services",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({
-            pack: pack,
-            number: num,
-            date: date,
-            time: time,
-            appointmentType: props.AppointmentType,
-          }),
-        }
-      );
+      const response = await fetch(`${baseURL}appointment/services`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          pack: pack,
+          number: num,
+          date: date,
+          time: time,
+          appointmentType: props.AppointmentType,
+        }),
+      });
     };
     sendRequest();
     dispatch(

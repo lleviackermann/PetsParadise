@@ -4,6 +4,7 @@ import classes from "../petsFood/petfoodLandingPage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../store/cart-actions";
 import { uiActions } from "../../../store/ui-slice";
+import { baseURL } from "../../../api/api";
 
 const ProductSection = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -35,7 +36,7 @@ const ProductSection = () => {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const response = await fetch("http://localhost:8000/accessory");
+        const response = await fetch(`${baseURL}accessory`);
         const data = await response.json();
         setFilteredProducts(data);
         setData(data);

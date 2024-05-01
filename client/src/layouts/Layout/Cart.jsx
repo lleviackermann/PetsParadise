@@ -4,6 +4,7 @@ import Modal from "../Ui/Modal";
 import CartItem from "./CartItem";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/auth-slice";
+import { baseURL } from "../../api/api";
 const Cart = (props) => {
   let totalAmount = 0;
   const products = useSelector((state) => state.auth.cart);
@@ -32,7 +33,7 @@ const Cart = (props) => {
   const orderItems = () => {
     alert("Ordering Items");
     const orderItems = async () => {
-      const response = await fetch("http://localhost:8000/auth/order", {
+      const response = await fetch(`${baseURL}auth/order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
