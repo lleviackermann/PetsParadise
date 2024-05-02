@@ -39,11 +39,9 @@ const ProductDisplay = (props) => {
       return prod.index === product.index;
     });
 
-    console.log("filteredProduct", filteredProduct);
-
     if (filteredProduct) {
       console.log("returning");
-      return filteredProduct;
+      return filteredProduct.productDetails.src;
     }
 
     return null;
