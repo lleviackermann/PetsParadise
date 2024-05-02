@@ -118,7 +118,6 @@ function Products() {
                 className={classes.imgsrc}
                 src={
                   // "/src/layouts/pets/petsFood"
-                  "/" +
                   item.src.substring(
                     item.src.indexOf("../../img") + "../../img".length
                   )
