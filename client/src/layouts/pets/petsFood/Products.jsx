@@ -38,7 +38,6 @@ function Products() {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        alert("fetching data");
         const response = await fetch(`${baseURL}food`);
         const data = await response.json();
         setFilteredProducts(data);
@@ -118,7 +117,8 @@ function Products() {
               <img
                 className={classes.imgsrc}
                 src={
-                  // "/src/layouts/pets/petsFood" +
+                  // "/src/layouts/pets/petsFood"
+                  "/" +
                   item.src.substring(
                     item.src.indexOf("../../img") + "../../img".length
                   )
