@@ -4,13 +4,14 @@ import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item";
 import Offers from "../Components/Offers/Offers";
 import Navbar from "../Components/Navbar/Navbar";
+import { baseURL } from "../../../../api/api";
 
 const ShopCategory = (props) => {
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const response = await fetch("http://localhost:8000/accessory");
+        const response = await fetch(`${baseURL}accessory`);
         const data = await response.json();
         // setFilteredProducts(data);
         setData(data);
@@ -35,13 +36,29 @@ const ShopCategory = (props) => {
       <div className="shopcategory-products">
         {data.map((item, i) => {
           if (props.category === item.petType) {
-            console.log(item.src);
+            const productImage = () => {
+              const filteredProduct = all_product.find((prod) => {
+                console.log(prod.index, product.index, prod.index === i);
+                return prod.index === product.index;
+              });
+
+              if (filteredProduct) {
+                console.log("returning", filteredProduct);
+                return filteredProduct.productDetails.src;
+              }
+
+              return null;
+            };
+
+            let img = productImage();
+            console.log(img);
+
             return (
               <Item
                 key={i}
                 id={item.index}
                 name={item.name}
-                image={item.src}
+                image={img}
                 new_price={item.price}
                 old_price={item.price}
               />
