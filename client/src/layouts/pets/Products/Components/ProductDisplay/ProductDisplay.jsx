@@ -5,6 +5,7 @@ import star_dull_icon from "../Assets/star_dull_icon.png";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../../../store/cart-actions";
 import { uiActions } from "../../../../../store/ui-slice";
+import all_product from "../Assets/all_product";
 
 const ProductDisplay = (props) => {
   const { product } = props;
@@ -89,12 +90,7 @@ const ProductDisplay = (props) => {
           <div className="productdisplay-right-price-old">${product.price}</div>
           <div className="productdisplay-right-price-new">${product.price}</div>
         </div>
-        {/* <div className="productdisplay-right-description">
-          A lightweight, usually knitted, pullover shirt, close-fitting and with
-          a round neckline and short sleeves, worn as an undershirt or outer
-          garment.
-        </div> */}
-        <div className="productdisplay-right-size">
+        {/* <div className="productdisplay-right-size">
           <h1>Select Size</h1>
           <div className="productdisplay-right-sizes">
             <div>S</div>
@@ -103,7 +99,7 @@ const ProductDisplay = (props) => {
             <div>XL</div>
             <div>XXl</div>
           </div>
-        </div>
+        </div> */}
         <button
           onClick={() => {
             addToCart(product._id);
@@ -111,12 +107,6 @@ const ProductDisplay = (props) => {
         >
           ADD TO CART
         </button>
-        {/* <p className="productdisplay-right-category">
-          <span>Category :</span>Women , T-Shirt, Crop Top
-        </p>
-        <p className="productdisplay-right-category">
-          <span>Tags :</span>Modern, Latest
-        </p> */}
       </div>
     </div>
   );

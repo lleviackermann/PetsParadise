@@ -18,6 +18,7 @@ const Product = () => {
       try {
         const response = await fetch(`${baseURL}accessory`);
         const data = await response.json();
+        console.log(data);
         setData(data);
       } catch (error) {
         setError(error.message || "An error occurred");
