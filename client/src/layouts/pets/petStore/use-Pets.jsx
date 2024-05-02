@@ -12,7 +12,6 @@ const catergoryData = {
     { id: 3, checked: false, label: "Working" },
   ],
 };
-p;
 
 function usePets(pet, priceRange) {
   const [selectedPrice, setSelectedPrice] = useState(priceRange);

@@ -17,6 +17,7 @@ import TypingEffect from "./TypingEffect";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/ui-slice";
 import { useHistory } from "react-router-dom";
+import { baseURL } from "../../api/api";
 
 let firstVisit = true;
 
@@ -34,7 +35,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const response = await fetch("http://localhost:8000/updatecount");
+        const response = await fetch(`${baseURL}8000/updatecount`);
         const responseData = await response.json();
         return responseData.views;
       } catch (error) {
