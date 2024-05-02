@@ -19,6 +19,7 @@ const ShopCategory = (props) => {
     };
     fetchFoodDetails();
   }, []);
+  alert("In shop category");
   console.log(data);
   return (
     <div className="shop-category">
