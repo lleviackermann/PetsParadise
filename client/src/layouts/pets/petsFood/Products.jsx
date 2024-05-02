@@ -42,6 +42,7 @@ function Products() {
         const data = await response.json();
         setFilteredProducts(data);
         setData(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching food details:", error);
       }

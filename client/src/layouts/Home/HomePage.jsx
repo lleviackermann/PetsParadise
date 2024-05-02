@@ -101,7 +101,7 @@ export default function HomePage() {
   const handleContactUsSubmit = async (event) => {
     event.preventDefault();
     // console.log("csrf ", csrfToken);
-    const response = await fetch(`http://localhost:8000/sendFeedback`, {
+    const response = await fetch(`${baseURL}sendFeedback`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -4,6 +4,7 @@ import Breadcrum from "../Components/Breadcrums/Breadcrum";
 import ProductDisplay from "../Components/ProductDisplay/ProductDisplay";
 import DescriptionBox from "../Components/DescriptionBox/DescriptionBox";
 import RelatedProducts from "../Components/RelatedProducts/RelatedProducts";
+import { baseURL } from "../../../../api/api";
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ const Product = () => {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const response = await fetch("http://localhost:8000/accessory");
+        const response = await fetch(`${baseURL}accessory`);
         const data = await response.json();
         setData(data);
       } catch (error) {
