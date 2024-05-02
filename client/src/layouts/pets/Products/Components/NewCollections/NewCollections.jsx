@@ -6,7 +6,6 @@ import Navbar from "../Navbar/Navbar";
 import all_product from "../Assets/all_product";
 
 const NewCollections = () => {
-  alert("new collections");
   return (
     <div className="new-collections">
       <h1>NEW COLLECTIONS</h1>
