@@ -32,7 +32,6 @@ const Product = () => {
 
   // Access the product details only when loading is completed
   const product = !loading && data.find((e) => e.index === Number(productId));
-  console.log(product);
   return (
     <div>
       {loading && <p>Loading...</p>}

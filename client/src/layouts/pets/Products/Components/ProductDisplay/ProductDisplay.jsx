@@ -32,6 +32,17 @@ const ProductDisplay = (props) => {
       dispatch(addItemToCart(id, token));
     }
   };
+  const productImage = all_product.map((item, index) => {
+    const filteredProduct = all_product.find(
+      (product) => product.productDetails.name === item.product.name
+    );
+
+    if (filteredProduct) {
+      return filteredProduct.productDetails.src;
+    }
+
+    return null;
+  });
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
@@ -66,14 +77,7 @@ const ProductDisplay = (props) => {
           />
         </div>
         <div className="productdisplay-img">
-          <img
-            className="productdisplay-main-img"
-            src={`/src/layouts/pets/Products/images/${product.src.replace(
-              "../../img/images",
-              ""
-            )}`}
-            alt=""
-          />
+          <img className="productdisplay-main-img" src={productImage} alt="" />
         </div>
       </div>
       <div className="productdisplay-right">
