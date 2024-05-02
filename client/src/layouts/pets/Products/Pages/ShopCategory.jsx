@@ -5,6 +5,7 @@ import Item from "../Components/Item/Item";
 import Offers from "../Components/Offers/Offers";
 import Navbar from "../Components/Navbar/Navbar";
 import { baseURL } from "../../../../api/api";
+import all_product from "../Assets/all_product";
 
 const ShopCategory = (props) => {
   const [data, setData] = useState([]);
@@ -19,7 +20,6 @@ const ShopCategory = (props) => {
     };
     fetchFoodDetails();
   }, []);
-  alert("In shop category");
   console.log(data);
   return (
     <div className="shop-category">

@@ -10,6 +10,7 @@ const Item = (props) => {
   //     ""
   //   )}`;
   // }
+
   return (
     <div className="item">
       <Link to={`/pets/product/${props.id}`}>
