@@ -37,7 +37,7 @@ const ProductDisplay = (props) => {
       (product) => product.productDetails.name === item.product.name
     );
 
-    console.log(filteredProduct);
+    console.log("filteredProduct", filteredProduct);
 
     if (filteredProduct) {
       return filteredProduct.productDetails.src;
