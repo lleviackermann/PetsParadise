@@ -46,6 +46,7 @@ const ProductDisplay = (props) => {
 
     return null;
   };
+  const img = productImage();
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
@@ -80,7 +81,7 @@ const ProductDisplay = (props) => {
           />
         </div>
         <div className="productdisplay-img">
-          <img className="productdisplay-main-img" src={productImage} alt="" />
+          <img className="productdisplay-main-img" src={img} alt="" />
         </div>
       </div>
       <div className="productdisplay-right">
