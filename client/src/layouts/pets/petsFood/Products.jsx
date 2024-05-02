@@ -118,7 +118,7 @@ function Products() {
               <img
                 className={classes.imgsrc}
                 src={
-                  "/src/layouts/pets/petsFood" +
+                  // "/src/layouts/pets/petsFood" +
                   item.src.substring(
                     item.src.indexOf("../../img") + "../../img".length
                   )
