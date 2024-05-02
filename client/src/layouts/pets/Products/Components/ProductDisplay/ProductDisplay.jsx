@@ -35,7 +35,7 @@ const ProductDisplay = (props) => {
   console.log("all product", product);
   const productImage = () => {
     const filteredProduct = all_product.find((prod) => {
-      console.log(prod.index, product.name);
+      console.log(prod.index, product.index);
       return prod.index === product.index;
     });
 
