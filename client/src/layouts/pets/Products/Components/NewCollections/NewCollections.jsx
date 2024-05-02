@@ -16,8 +16,8 @@ const NewCollections = () => {
         {new_collection.map((item, i) => {
           const productImage = () => {
             const filteredProduct = all_product.find((prod) => {
-              console.log(prod.index, product.index, prod.index === i);
-              return prod.index === product.index;
+              console.log(prod.index, i, prod.index === i);
+              return prod.index === i;
             });
 
             if (filteredProduct) {
