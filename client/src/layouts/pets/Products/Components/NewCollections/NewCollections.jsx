@@ -12,12 +12,29 @@ const NewCollections = () => {
       <Navbar />
       <div className="collections">
         {new_collection.map((item, i) => {
+          const productImage = () => {
+            const filteredProduct = all_product.find((prod) => {
+              console.log(prod.index, product.index, prod.index === i);
+              return prod.index === product.index;
+            });
+
+            if (filteredProduct) {
+              console.log("returning", filteredProduct);
+              return filteredProduct.productDetails.src;
+            }
+
+            return null;
+          };
+
+          let img = productImage();
+          console.log(img);
+
           return (
             <Item
               key={i}
               id={item.id}
               name={item.name}
-              image={item.image}
+              image={img}
               new_price={item.new_price}
               old_price={item.old_price}
             />
