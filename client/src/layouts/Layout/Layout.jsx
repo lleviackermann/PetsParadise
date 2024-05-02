@@ -25,6 +25,10 @@ function Layout(props) {
   const hideCartHandler = () => {
     setShowCart(false);
   };
+  const bodyStyle = {
+    paddingTop: userRole !== "Admin" ? "5rem" : 0,
+  };
+
   return (
     <>
       {showCart && <Cart onClose={hideCartHandler} />}
@@ -37,7 +41,8 @@ function Layout(props) {
       )}
       {userRole === "User" && <NavBar showCart={showCartHandler} />}
       {/* <NavBar showCart={showCartHandler} /> */}
-      <main>{props.children}</main>
+
+      <main style={bodyStyle}>{props.children}</main>
       {/* <Footer /> */}
     </>
   );
