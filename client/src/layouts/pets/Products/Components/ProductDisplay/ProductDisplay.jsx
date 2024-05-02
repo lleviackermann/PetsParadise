@@ -32,6 +32,7 @@ const ProductDisplay = (props) => {
       dispatch(addItemToCart(id, token));
     }
   };
+  console.log(all_product);
   const productImage = () => {
     const filteredProduct = all_product.find(
       (prod) => prod.productDetails.name === product.name
