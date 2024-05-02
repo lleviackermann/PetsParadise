@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 const Item = (props) => {
   let imgSrc = props.image;
-  if (!props.image.includes("/src/layouts/pets/Products")) {
-    imgSrc = `/src/layouts/pets/Products/images/${props.image.replace(
-      "../../img/images",
-      ""
-    )}`;
-  }
+  // if (!props.image.includes("/src/layouts/pets/Products")) {
+  //   imgSrc = `/src/layouts/pets/Products/images/${props.image.replace(
+  //     "../../img/images",
+  //     ""
+  //   )}`;
+  // }
   return (
     <div className="item">
       <Link to={`/pets/product/${props.id}`}>
