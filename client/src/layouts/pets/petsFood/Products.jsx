@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../../../store/cart-actions";
 import { uiActions } from "../../../store/ui-slice";
 import { baseURL } from "../../../api/api";
+import foodDetails from "./foodImages";
 
 function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -112,15 +113,20 @@ function Products() {
         }`}
       >
         {filteredProducts.map((item, index) => {
+          const productImage = foodDetails.find(
+            (detail) => detail.productDetails.Name === item.name
+          ).productDetails.src;
+
           return (
             <div key={index} className={`${item.petType} ${classes.items}`}>
               <img
                 className={classes.imgsrc}
                 src={
-                  // "/src/layouts/pets/petsFood"
-                  item.src.substring(
-                    item.src.indexOf("../../img") + "../../img".length
-                  )
+                  // "/src/layouts/pets/petsFood" +
+                  // item.src.substring(
+                  //   item.src.indexOf("../../img") + "../../img".length
+                  // )
+                  productImage
                 }
                 alt={item.name}
                 style={{ width: "190px", height: "250px" }}
