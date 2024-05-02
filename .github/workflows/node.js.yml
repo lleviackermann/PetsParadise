@@ -3,7 +3,7 @@ name: Node.JS CI/CD
 on:
   push:
     paths:
-    - 'Server/**'
+    - 'server/**'
     branches: ["master"]
 
 jobs:
@@ -26,7 +26,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies and run tests
+      env:
+        MONGO_URL: ${{ secrets.MONGO_URL }}
+        PORT: ${{ secrets.PORT }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: |
+        npm install pm2 -g
         npm install
+        pm2 start index.js
+        sleep 20
         npm test
-      working-directory: Server
+        pm2 stop index
+      
+      working-directory: server

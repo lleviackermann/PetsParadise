@@ -54,7 +54,10 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://pets-paradise.vercel.app/"
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
@@ -82,11 +85,6 @@ app.use("/profile/admin", verifyToken, adminRoutes);
 app.post("/sendFeedback", sendFeedback);
 
 
-app.get("/", async (req, res) => {
-  console.log("Home request");
-  res.render("index.ejs");
-});
-
 const check = async () => {
   const products = await Product.find();
   const productType = new Set();
@@ -97,11 +95,9 @@ const check = async () => {
     petType.add(product.petType);
     breed_group.add(product.breed_group);
   });
-  console.log(productType);
-  console.log(petType);
-  console.log(breed_group);
 };
 
+const PORT = process.env.PORT || 6001;
 app.get("/updatecount", async (req, res) => {
   const count = await Count.findOne({ countId: "100" });
   console.log(count);
@@ -112,7 +108,6 @@ app.get("/updatecount", async (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 6001;
 
 const options = {
   swaggerDefinition: {
@@ -141,16 +136,14 @@ const options = {
   apis: ["./routes/*.js"],
 };
 
+const MONGO_URL = process.env.MONGO_URL;
+
 const specs = swaggerJSDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(errorHandler);
-
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGO_URL)
   .then(async () => {
     app.listen(PORT, () => {
       console.log(`Server Started Successfully on port ${PORT}`);

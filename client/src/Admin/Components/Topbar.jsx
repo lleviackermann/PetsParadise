@@ -13,7 +13,8 @@ const Topbar = ({ title, message }) => {
     const history = useHistory();
     const logOut = () => {
         dispatch(authActions.logout());
-        history.go("/");
+        console.log("logging out");
+        history.push("/");
     }
 
     return (
