@@ -32,7 +32,7 @@ const ProductDisplay = (props) => {
       dispatch(addItemToCart(id, token));
     }
   };
-  console.log("all product", all_product);
+  console.log("all product", product);
   const productImage = () => {
     const filteredProduct = all_product.filter((prod) => {
       console.log(prod.productDetails.name, product.name);
