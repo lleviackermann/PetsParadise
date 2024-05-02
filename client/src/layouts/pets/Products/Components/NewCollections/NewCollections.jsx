@@ -5,6 +5,7 @@ import Item from "../Item/Item";
 import Navbar from "../Navbar/Navbar";
 
 const NewCollections = () => {
+  alert("new collections");
   return (
     <div className="new-collections">
       <h1>NEW COLLECTIONS</h1>
