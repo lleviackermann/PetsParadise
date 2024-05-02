@@ -21,7 +21,6 @@ const ShopCategory = (props) => {
     };
     fetchFoodDetails();
   }, []);
-  console.log(data);
   return (
     <div className="shop-category">
       <Navbar />
