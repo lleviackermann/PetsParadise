@@ -3,6 +3,7 @@ import "./NewCollections.css";
 import new_collection from "../Assets/new_collections";
 import Item from "../Item/Item";
 import Navbar from "../Navbar/Navbar";
+import all_product from "../Assets/all_product";
 
 const NewCollections = () => {
   alert("new collections");
