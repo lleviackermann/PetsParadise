@@ -28,7 +28,7 @@ const NewCollections = () => {
           };
 
           let img = productImage();
-          console.log(img);
+          console.log("print", img);
 
           return (
             <Item
