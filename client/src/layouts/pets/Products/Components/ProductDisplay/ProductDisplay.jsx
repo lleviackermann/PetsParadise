@@ -32,9 +32,9 @@ const ProductDisplay = (props) => {
       dispatch(addItemToCart(id, token));
     }
   };
-  const productImage = all_product.map((item, index) => {
+  const productImage = () => {
     const filteredProduct = all_product.find(
-      (product) => product.productDetails.name === item.product.name
+      (prod) => prod.productDetails.name === product.name
     );
 
     console.log("filteredProduct", filteredProduct);
@@ -44,7 +44,7 @@ const ProductDisplay = (props) => {
     }
 
     return null;
-  });
+  };
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
