@@ -51,7 +51,7 @@ const ProductDisplay = (props) => {
     <div className="productdisplay">
       <div className="productdisplay-left">
         <div className="productdisplay-img-list">
-          <img
+          {/* <img
             src={`/src/layouts/pets/Products/images/${product.src.replace(
               "../../img/images",
               ""
@@ -78,7 +78,7 @@ const ProductDisplay = (props) => {
               ""
             )}`}
             alt=""
-          />
+          /> */}
         </div>
         <div className="productdisplay-img">
           <img className="productdisplay-main-img" src={img} alt="" />
