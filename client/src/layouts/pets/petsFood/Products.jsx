@@ -38,6 +38,7 @@ function Products() {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
+        alert("fetching data");
         const response = await fetch(`${baseURL}food`);
         const data = await response.json();
         setFilteredProducts(data);
