@@ -34,9 +34,10 @@ const ProductDisplay = (props) => {
   };
   console.log("all product", all_product);
   const productImage = () => {
-    const filteredProduct = all_product.find(
-      (prod) => prod.productDetails.name === product.name
-    );
+    const filteredProduct = all_product.find((prod) => {
+      console.log(prod.productDetails.name, product.name);
+      return prod.productDetails.name === product.name;
+    });
 
     console.log("filteredProduct", filteredProduct);
 
