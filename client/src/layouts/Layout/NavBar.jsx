@@ -29,7 +29,7 @@ function NavBar(props) {
   };
 
   const toggleNavBar = () => {
-    if (window.scrollY > 100) {
+    if (window.scrollY > 5) {
       setStickyNav(false);
     } else {
       setStickyNav(true);

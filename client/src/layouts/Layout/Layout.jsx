@@ -3,7 +3,6 @@ import { useState } from "react";
 import Cart from "./Cart";
 import Notification from "../Ui/Notification";
 import { useSelector } from "react-redux";
-import Footer from "./Footer";
 
 function Layout(props) {
   const userInfo = useSelector((state) => state.auth.userInfo);
