@@ -40,7 +40,7 @@ const ProductDisplay = (props) => {
     });
 
     if (filteredProduct) {
-      console.log("returning");
+      console.log("returning", filteredProduct);
       return filteredProduct.productDetails.src;
     }
 
