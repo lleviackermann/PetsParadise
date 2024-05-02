@@ -41,6 +41,7 @@ const ProductDisplay = (props) => {
     console.log("filteredProduct", filteredProduct);
 
     if (filteredProduct) {
+      console.log("returning");
       return filteredProduct.productDetails.src;
     }
 
