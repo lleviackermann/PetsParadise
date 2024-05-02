@@ -12,7 +12,8 @@ const ShopCategory = (props) => {
   useEffect(() => {
     const fetchFoodDetails = async () => {
       try {
-        const response = await fetch(`${baseURL}accessory`);
+        const response = await fetch(`${baseURL}acc
+        essory`);
         const data = await response.json();
         // setFilteredProducts(data);
         setData(data);
